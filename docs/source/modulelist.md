@@ -247,7 +247,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load intel_comp/2018 intel_mpi/2018 fftw/2.1.5</code></td></tr>
 </tbody></table>
 
-<p>58 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>58 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -261,7 +261,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td rowspan="1"><code>3.3.dev1</code></td><td><code>intel_comp/2024.2.0</code></td><td></td><td><code>module load intel_comp/2024.2.0 compiler-rt tbb compiler grackle-swift/3.3.dev1</code></td></tr>
 </tbody></table>
 
-<p>2 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>2 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -281,7 +281,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td rowspan="1"><code>1.8.20</code></td><td><code>intel_comp/2018</code></td><td></td><td><code>module load intel_comp/2018 hdf5/1.8.20</code></td></tr>
 </tbody></table>
 
-<p>19 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>19 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -298,7 +298,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td><code>gnu_comp/14.1.0</code></td><td>openmpi/5.0.3</td><td><code>module load gnu_comp/14.1.0 openmpi/5.0.3 hypre/2.25.0</code></td></tr>
 </tbody></table>
 
-<p>3 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>3 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -312,7 +312,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td rowspan="1"><code>1.9.0</code></td><td><code>intel_comp/2024.2.0</code></td><td></td><td><code>module load intel_comp/2024.2.0 compiler-rt tbb compiler imfit/1.9.0</code></td></tr>
 </tbody></table>
 
-<p>1 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>1 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -331,7 +331,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td><code>intel_comp/2018</code></td><td></td><td><code>module load intel_comp/2018 intel_mpi/2018</code></td></tr>
 </tbody></table>
 
-<p>6 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>6 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -347,7 +347,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td rowspan="1"><code>5.2.0</code></td><td><code>oneAPI_comp/2021.1.0</code></td><td></td><td><code>module load oneAPI_comp/2021.1.0 likwid/5.2.0</code></td></tr>
 </tbody></table>
 
-<p>2 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>2 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -374,7 +374,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td rowspan="1"><code>2.3.6</code></td><td><code>intel_comp/2021.1.0</code></td><td></td><td><code>module load intel_comp/2021.1.0 compiler-rt tbb compiler mvapich2_mpi/2.3.6</code></td></tr>
 </tbody></table>
 
-<p>6 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>6 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -391,7 +391,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td><code>intel_comp/2018</code></td><td></td><td><code>module load intel_comp/2018 netcdf/4.6.1</code></td></tr>
 </tbody></table>
 
-<p>1 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>1 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -418,7 +418,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td><code>intel_comp/2022.3.0</code></td><td></td><td><code>module load intel_comp/2022.3.0 compiler-rt tbb compiler nlopt/2.7.1</code></td></tr>
 </tbody></table>
 
-<p>1 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>1 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -435,7 +435,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td rowspan="1"><code>0.3.12</code></td><td><code>intel_comp/2020-update2</code></td><td></td><td><code>module load intel_comp/2020-update2 openblas/0.3.12</code></td></tr>
 </tbody></table>
 
-<p>4 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>4 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -460,7 +460,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td><code>intel_comp/2021.3.0</code></td><td></td><td><code>module load intel_comp/2021.3.0 compiler-rt tbb compiler openmpi/4.1.1</code></td></tr>
 </tbody></table>
 
-<p>19 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>19 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -483,7 +483,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td rowspan="1"><code>1.8.20</code></td><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load intel_comp/2018 intel_mpi/2018 parallel_hdf5/1.8.20</code></td></tr>
 </tbody></table>
 
-<p>21 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>21 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -542,7 +542,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td><code>gnu_comp/14.1.0</code></td><td>openmpi/5.0.3</td><td><code>module load gnu_comp/14.1.0 openmpi/5.0.3 parmetis/4.0.3</code></td></tr>
 </tbody></table>
 
-<p>70 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>70 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -556,7 +556,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td rowspan="1"><code>1.10.0</code></td><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load intel_comp/2018 intel_mpi/2018 pnetcdf/1.10.0</code></td></tr>
 </tbody></table>
 
-<p>1 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>1 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -573,7 +573,7 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2020-update2</td><td><code>module load intel_comp/2018 intel_mpi/2020-update2 scalasca/2.6.1</code></td></tr>
 </tbody></table>
 
-<p>5 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>5 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
@@ -590,13 +590,401 @@ Many libraries can only be loaded after a compiler, and some also need an MPI mo
 <tr><td><code>intel_comp/2020-update2</code></td><td>intel_mpi/2020-update2</td><td><code>module load intel_comp/2020-update2 intel_mpi/2020-update2 scorep/8.4</code></td></tr>
 </tbody></table>
 
-<p>4 older builds could not be loaded with the current modules, so they are not shown.</p>
+<p>4 other builds could not be loaded, so they are not shown.</p>
 
 </div>
 
 ## Older modules
 
-Retired modules can be used by first running `module load old-modules`, though they may not work.  This also adds older versions of the modules above, and these modules:
+COSMA used CentOS 7 until it was reinstalled with Rocky Linux 9 in July 2024 (see the [cluster upgrade](clusterupgrade.md)).  Modules built for CentOS 7 are still available, but are hidden until you load `old-modules`:
 
-`aocc`, `aocc_comp`, `apptainer`, `arctic`, `cmake`, `gdb`, `hpcx-mt`, `imagemagick`, `singularity`
+```
+module load old-modules
+module avail
+```
+
+Many of these programs no longer run, because they need system libraries that Rocky Linux 9 does not have.  Please use a current module if there is one, and test an old one before relying on it.  This table shows what was found when this page was generated:
+
+- 55 load, and no missing libraries were found.
+- 18 load, but their main program cannot run.
+- 20 load, but some of their programs are missing system libraries.  These may still work, if the programs you need are not affected.
+- 8 load, but their files are not installed.
+- 8 do not load.
+- 36 combinations of modules that need a compiler load: see [what to load first](#older-modules-that-need-a-compiler).
+
+Loading a module and finding no missing libraries does not guarantee that a program works.  The check only covers programs that the module adds to your PATH.
+
+| Module | Versions | Status | Current module |
+| ------ | -------- | ------ | -------------- |
+| `allinea` | ddt/22.0.2, ddt/22.0.2-aarch64 | Loads, and no missing libraries were found | `allinea/ddt/23.1.0` |
+| `allinea` | ddt/18.1.2, ddt/20.0.3, ddt/20.0.3-arm, ddt/20.2.1 | Loads, but its files are not installed |  |
+| `aocc` | 2.2.0, 3.0.0 | Loads, and no missing libraries were found |  |
+| `aocc` | 1.3.0 | `clang` and 77 other programs are missing system libraries, such as `libtinfo.so.5`, so it will not run |  |
+| `aocc` | 2.0.0 | `clang` and 79 other programs are missing system libraries, such as `libtinfo.so.5`, so it will not run |  |
+| `aocc_comp` | 3.1.0, 5.2.0 | Loads, and no missing libraries were found |  |
+| `aocc_comp` | 4.0.0 | 1 of 108 programs are missing system libraries, such as `libffi.so.6` |  |
+| `aocl` | 2.2, 3.0 | Needs a <a href="#dep-old-aocl">Compiler and MPI</a> | `aocl` |
+| `apptainer` | 1.3.0 | Loads, and no missing libraries were found |  |
+| `bbcp` | 20190508 | No programs can run: all are missing system libraries, such as `libcrypto.so.10`, `libnsl.so.1` | `bbcp` |
+| `boost` | 1_64_0, 1_67_0 | Needs a <a href="#dep-old-boost">Compiler</a> | `boost` |
+| `casa` | 4.7.0, 4.7.2, 5.1.1-5 | Loads, and no missing libraries were found | `casa` |
+| `casa` | 4.3.1 | Loads, but its files are not installed |  |
+| `cmake` | 3.11.4, 3.18.1, 3.25.1, 3.28.3 | No programs can run: all are missing system libraries, such as `libcrypto.so.10`, `libncurses.so.5`, `libssl.so.10` |  |
+| `cosma` | 2018 | 1 of 49 programs are missing system libraries, such as `libjasper.so.1` | `cosma/2024` |
+| `cuda` | 12.1, 12.3 | Loads, but its files are not installed | `cuda` |
+| `cuda` | 10.1 | 23 of 137 programs are missing system libraries, such as `libcublas.so.10`, `libglut.so.3`, `libncurses.so.5` |  |
+| `cuda` | 10.2 | 1 of 26 programs are missing system libraries, such as `libncurses.so.5` |  |
+| `cuda` | 11.2 | 1 of 32 programs are missing system libraries, such as `libncursesw.so.5`, `libtinfo.so.5` |  |
+| `cuda` | latest | 4 of 32 programs are missing system libraries, such as `libpython3.10.so.1.0`, `libpython3.11.so.1.0`, `libpython3.12.so.1.0` |  |
+| `esoreflex` | 2.11.0 | 25 of 44 programs are missing system libraries, such as `libcfitsio.so.8`, `libffi.so.6`, `libnsl.so.1` | `esoreflex` |
+| `ffmpeg` | 4.0.2, 6.0 | Loads, and no missing libraries were found | `ffmpeg` |
+| `gadgetviewer` | 1.1.2, 1.1.3 | No programs can run: all are missing system libraries, such as `libpng15.so.15` | `gadgetviewer` |
+| `gdb` | 10.2 | `gdb` is missing system libraries, such as `libncursesw.so.5`, `libtinfo.so.5`, so it will not run |  |
+| `git-lfs` | 20200330 | Loads, and no missing libraries were found | `git-lfs` |
+| `gnu_comp` | 7.3.0, 8.2.0, 9.1.0, 9.3.0, 10.2.0, 11.1.0 | Loads, and no missing libraries were found | `gnu_comp/14.1.0` |
+| `gnu_comp` | 13.1.0 | 2 of 24 programs are missing system libraries, such as `libgo.so.22` |  |
+| `go` | 1.11.14, 1.15.4, 1.17.5 | Loads, and no missing libraries were found | `go` |
+| `gsl` | 2.5 | Needs a <a href="#dep-old-gsl">Compiler</a> | `gsl/2.8` |
+| `hdf5` | 1.10.2, 1.10.3, 1.10.5, 1.12.0, 1.14.0, 1.14.2 | Needs a <a href="#dep-old-hdf5">Compiler</a> | `hdf5/1.14.4` |
+| `hdfview` | 2.14.0, 3.1.4 | Loads, and no missing libraries were found | `hdfview` |
+| `hpcx-mt` | 2.2 | Does not load |  |
+| `hwloc` | 1.11.11 | Needs a <a href="#dep-old-hwloc">Compiler and MPI</a> | `hwloc/2.8.0` |
+| `hypre` | 2.11.2 | Needs a <a href="#dep-old-hypre">Compiler and MPI</a> | `hypre` |
+| `imagemagick` | 7.0.8-9 | 13 of 16 programs are missing system libraries, such as `libpng15.so.15` |  |
+| `intel_comp` | 2019, 2019-update1, 2019-update2, 2019-update3, 2019-update4 | Loads, and no missing libraries were found | `intel_comp/2024.2.0` |
+| `intel_comp` | 2017 | 6 of 120 programs are missing system libraries, such as `libc-dynamic.so`, `libdl-dynamic.so`, `libipt.so` |  |
+| `intel_mpi` | 2017, 2019 | Needs a <a href="#dep-old-intel_mpi">Compiler</a> | `intel_mpi` |
+| `julia` | 1.5.3 | Loads, and no missing libraries were found | `julia` |
+| `lenstool` | 20180809-svn | No programs can run: all are missing system libraries, such as `libcrypto.so.10`, `libssl.so.10` | `lenstool/20250312` |
+| `lenstool` | 7.0 | Loads, and no missing libraries were found |  |
+| `likwid` | 5.0.1 | Needs a <a href="#dep-old-likwid">Compiler</a> | `likwid` |
+| `llvm` | 5.0.2 | `clang` and 60 other programs are missing system libraries, such as `libtinfo.so.5`, so it will not run | `llvm/18.1.8-lld` |
+| `llvm` | 7.0.0 | `clang` and 69 other programs are missing system libraries, such as `libtinfo.so.5`, so it will not run |  |
+| `llvm` | 10.0.1 | `clang` and 84 other programs are missing system libraries, such as `libtinfo.so.5`, so it will not run |  |
+| `llvm` | 11.0.0 | `clang` and 89 other programs are missing system libraries, such as `libtinfo.so.5`, so it will not run |  |
+| `llvm` | 13.0.0 | `clang` and 100 other programs are missing system libraries, such as `libtinfo.so.5`, so it will not run |  |
+| `llvm` | 17.0.6 | `clang` and 134 other programs are missing system libraries, such as `libtinfo.so.5`, so it will not run |  |
+| `maqao` | 2.14.0, 2.14.1, 2.17.0 | Loads, and no missing libraries were found | `maqao` |
+| `mplayer` | 1.3.0 | No programs can run: all are missing system libraries, such as `libgnutls.so.28`, `libmng.so.1`, `libncurses.so.5` | `mplayer` |
+| `muse` | 2.4.1 | 22 of 35 programs are missing system libraries, such as `libnsl.so.1` | `muse` |
+| `must` | 1.7.0/gnu_7.3.0_intel_mpi_2018, 1.7.0/gnu_7.3.0_intel_mpi_2018-dyninst, 1.7.0/gnu_7.3.0_intel_mpi_2020-update2, 1.7.0/gnu_7.3.0_intel_mpi_2020-update2-dyninst, 1.7.0/gnu_10.2.0_ompi_4.0.5, 1.7.0/gnu_10.2.0_ompi_4.0.5-dyninst | Does not load | `must` |
+| `nvhpc` | 23.11 | Loads, and no missing libraries were found | `nvhpc` |
+| `nvhpc` | 20.7 | 1 of 99 programs are missing system libraries, such as `libncurses.so.5` |  |
+| `nvhpc` | 21.5 | 1 of 100 programs are missing system libraries, such as `libncursesw.so.5`, `libtinfo.so.5` |  |
+| `nvhpc-byo-compiler` | 20.7 | Does not load | `nvhpc-byo-compiler` |
+| `nvhpc-nompi` | 20.7 | 1 of 64 programs are missing system libraries, such as `libncurses.so.5` | `nvhpc-nompi` |
+| `openblas` | 0.3.12cosma7 | Needs a <a href="#dep-old-openblas">Compiler</a> | `openblas` |
+| `openmpi` | 3.0.1, 4.0.1, 4.0.3, 4.0.5, 20190429 | Needs a <a href="#dep-old-openmpi">Compiler</a> | `openmpi/5.0.3` |
+| `parallel_hdf5` | 1.10.3, 1.12.0, 1.12.2, 1.14.0, 1.14.2, 1.14.3 | Needs a <a href="#dep-old-parallel_hdf5">Compiler and MPI</a> | `parallel_hdf5/1.14.4` |
+| `paraview` | 5.5.2, 5.8.1 | Loads, and no missing libraries were found | `paraview` |
+| `python` | 2.7.15, 3.6.5, 3.8.7-C8, 3.9.1-C6, 3.9.1-C7, 3.9.1-C8, 3.10.1, 3.10.7, 3.10.12, intelpython3 | Loads, and no missing libraries were found | `python/3.12.4` |
+| `python` | intelpython2 | 6 of 128 programs are missing system libraries, such as `libfabric.so.1`, `libmpi.so.12` |  |
+| `R` | 3.5.1 | Loads, and no missing libraries were found | `R` |
+| `R` | 3.6.3 | Loads, but its files are not installed |  |
+| `scalasca` | 2.4, 2.5, 2.6 | Needs a <a href="#dep-old-scalasca">Compiler and MPI</a> | `scalasca` |
+| `scorep` | 6.0, 7.0, 8.1 | Needs a <a href="#dep-old-scorep">Compiler and MPI</a> | `scorep/9.4` |
+| `singularity` | 3.9.2 | 8 of 72 programs are missing system libraries, such as `libreadline.so.6`, `libtinfo.so.5` |  |
+| `starlink` | 2018A | 16 of 310 programs are missing system libraries, such as `libncurses.so.5`, `libnsl.so.1`, `libpng15.so.15` | `starlink/2023A` |
+| `sundials` | 3.1.1, 5.1.0, 5.1.0_c7, 5.1.0_c7_single, 5.1.0_c8_single | Loads, but adds no programs to check | `sundials/5.8.0` |
+| `swig` | 3.0.12 | Loads, and no missing libraries were found | `swig` |
+| `uprof` | 3.4.502 | 26 of 55 programs are missing system libraries, such as `libAMDApplicationFramework.so`, `libAMDCpuCallstackSampling.so`, `libAMDCpuPerfEventUtils.so` | `uprof` |
+| `uprof` | 4.0.341 | 27 of 56 programs are missing system libraries, such as `libAMDApplicationFramework.so`, `libAMDBaseUtils.so`, `libAMDCountModeProfileAPI.so` |  |
+| `utils` | 201805 | 2 of 167 programs are missing system libraries, such as `libjasper.so.1`, `libpng15.so.15` | `utils` |
+| `valgrind` | 3.13.0, 202206 | Needs a <a href="#dep-old-valgrind">Compiler and MPI</a> | `valgrind` |
+| `visit` | 3.1.4 | Loads, and no missing libraries were found | `visit/3.4.1` |
+
+### Older modules that need a compiler
+
+These old modules can only be loaded after an old compiler, and some also need an MPI module.  Each command was tested when this page was generated.
+
+<div class="module-deps" id="dep-old-aocl">
+
+<h3><code>aocl</code></h3>
+
+<p>2 versions, 3 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="1"><code>3.0</code></td><td><code>aocc_comp/3.1.0</code></td><td>openmpi/4.0.5</td><td><code>module load old-modules aocc_comp/3.1.0 openmpi/4.0.5 aocl/3.0</code></td></tr>
+<tr><td rowspan="2"><code>2.2</code></td><td><code>gnu_comp/10.2.0</code></td><td>openmpi/4.0.5</td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/4.0.5 aocl/2.2</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td>intel_mpi/2020-update2</td><td><code>module load old-modules gnu_comp/10.2.0 intel_mpi/2020-update2 aocl/2.2</code></td></tr>
+</tbody></table>
+
+<p>2 other builds could not be loaded, so they are not shown.</p>
+
+</div>
+
+<div class="module-deps" id="dep-old-boost">
+
+<h3><code>boost</code></h3>
+
+<p>2 versions, 6 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="5"><code>1_67_0</code></td><td><code>intel_comp/2022.3.0</code></td><td></td><td><code>module load old-modules intel_comp/2022.3.0 compiler-rt tbb compiler boost/1_67_0</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td></td><td><code>module load old-modules intel_comp/2018 boost/1_67_0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/11.1.0 boost/1_67_0</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td></td><td><code>module load old-modules gnu_comp/10.2.0 boost/1_67_0</code></td></tr>
+<tr><td><code>gnu_comp/7.3.0</code></td><td></td><td><code>module load old-modules gnu_comp/7.3.0 boost/1_67_0</code></td></tr>
+<tr><td rowspan="1"><code>1_64_0</code></td><td><code>gnu_comp/7.3.0</code></td><td></td><td><code>module load old-modules gnu_comp/7.3.0 boost/1_64_0</code></td></tr>
+</tbody></table>
+
+</div>
+
+<div class="module-deps" id="dep-old-gsl">
+
+<h3><code>gsl</code></h3>
+
+<p>1 version, 1 combination.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="1"><code>2.5</code></td><td><code>intel_comp/2017</code></td><td></td><td><code>module load old-modules intel_comp/2017 gsl/2.5</code></td></tr>
+</tbody></table>
+
+</div>
+
+<div class="module-deps" id="dep-old-hdf5">
+
+<h3><code>hdf5</code></h3>
+
+<p>6 versions, 22 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="2"><code>1.14.2</code></td><td><code>intel_comp/2023.2.0</code></td><td></td><td><code>module load old-modules intel_comp/2023.2.0 compiler-rt tbb compiler hdf5/1.14.2</code></td></tr>
+<tr><td><code>gnu_comp/14.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/14.1.0 hdf5/1.14.2</code></td></tr>
+<tr><td rowspan="3"><code>1.14.0</code></td><td><code>intel_comp/2022.3.0</code></td><td></td><td><code>module load old-modules intel_comp/2022.3.0 compiler-rt tbb compiler hdf5/1.14.0</code></td></tr>
+<tr><td><code>gnu_comp/13.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/13.1.0 hdf5/1.14.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/11.1.0 hdf5/1.14.0</code></td></tr>
+<tr><td rowspan="7"><code>1.12.0</code></td><td><code>intel_comp/2022.1.2</code></td><td></td><td><code>module load old-modules intel_comp/2022.1.2 compiler-rt tbb compiler hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2021.3.0</code></td><td></td><td><code>module load old-modules intel_comp/2021.3.0 compiler-rt tbb compiler hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2021.1.0</code></td><td></td><td><code>module load old-modules intel_comp/2021.1.0 compiler-rt tbb compiler hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td></td><td><code>module load old-modules intel_comp/2018 hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/13.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/13.1.0 hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/11.1.0 hdf5/1.12.0</code></td></tr>
+<tr><td><code>aocc_comp/3.1.0</code></td><td></td><td><code>module load old-modules aocc_comp/3.1.0 hdf5/1.12.0</code></td></tr>
+<tr><td rowspan="2"><code>1.10.5</code></td><td><code>intel_comp/2020</code></td><td></td><td><code>module load old-modules intel_comp/2020 hdf5/1.10.5</code></td></tr>
+<tr><td><code>gnu_comp/13.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/13.1.0 hdf5/1.10.5</code></td></tr>
+<tr><td rowspan="5"><code>1.10.3</code></td><td><code>intel_comp/2019</code></td><td></td><td><code>module load old-modules intel_comp/2019 hdf5/1.10.3</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td></td><td><code>module load old-modules intel_comp/2018 hdf5/1.10.3</code></td></tr>
+<tr><td><code>intel_comp/2017</code></td><td></td><td><code>module load old-modules intel_comp/2017 hdf5/1.10.3</code></td></tr>
+<tr><td><code>gnu_comp/13.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/13.1.0 hdf5/1.10.3</code></td></tr>
+<tr><td><code>gnu_comp/7.3.0</code></td><td></td><td><code>module load old-modules gnu_comp/7.3.0 hdf5/1.10.3</code></td></tr>
+<tr><td rowspan="3"><code>1.10.2</code></td><td><code>intel_comp/2018</code></td><td></td><td><code>module load old-modules intel_comp/2018 hdf5/1.10.2</code></td></tr>
+<tr><td><code>intel_comp/2017</code></td><td></td><td><code>module load old-modules intel_comp/2017 hdf5/1.10.2</code></td></tr>
+<tr><td><code>gnu_comp/7.3.0</code></td><td></td><td><code>module load old-modules gnu_comp/7.3.0 hdf5/1.10.2</code></td></tr>
+</tbody></table>
+
+<p>1 other builds could not be loaded, so they are not shown.</p>
+
+</div>
+
+<div class="module-deps" id="dep-old-hwloc">
+
+<h3><code>hwloc</code></h3>
+
+<p>1 version, 3 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="3"><code>1.11.11</code></td><td><code>intel_comp/2018</code></td><td>openmpi/3.0.1</td><td><code>module load old-modules intel_comp/2018 openmpi/3.0.1 hwloc/1.11.11</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2018 hwloc/1.11.11</code></td></tr>
+<tr><td><code>gnu_comp/7.3.0</code></td><td>openmpi/3.0.1</td><td><code>module load old-modules gnu_comp/7.3.0 openmpi/3.0.1 hwloc/1.11.11</code></td></tr>
+</tbody></table>
+
+</div>
+
+<div class="module-deps" id="dep-old-hypre">
+
+<h3><code>hypre</code></h3>
+
+<p>1 version, 2 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="2"><code>2.11.2</code></td><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2018 hypre/2.11.2</code></td></tr>
+<tr><td><code>gnu_comp/7.3.0</code></td><td>openmpi/3.0.1</td><td><code>module load old-modules gnu_comp/7.3.0 openmpi/3.0.1 hypre/2.11.2</code></td></tr>
+</tbody></table>
+
+</div>
+
+<div class="module-deps" id="dep-old-intel_mpi">
+
+<h3><code>intel_mpi</code></h3>
+
+<p>2 versions, 2 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="1"><code>2019</code></td><td><code>intel_comp/2019</code></td><td></td><td><code>module load old-modules intel_comp/2019 intel_mpi/2019</code></td></tr>
+<tr><td rowspan="1"><code>2017</code></td><td><code>intel_comp/2017</code></td><td></td><td><code>module load old-modules intel_comp/2017 intel_mpi/2017</code></td></tr>
+</tbody></table>
+
+</div>
+
+<div class="module-deps" id="dep-old-likwid">
+
+<h3><code>likwid</code></h3>
+
+<p>1 version, 1 combination.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="1"><code>5.0.1</code></td><td><code>intel_comp/2020</code></td><td></td><td><code>module load old-modules intel_comp/2020 likwid/5.0.1</code></td></tr>
+</tbody></table>
+
+</div>
+
+<div class="module-deps" id="dep-old-openblas">
+
+<h3><code>openblas</code></h3>
+
+<p>1 version, 2 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="2"><code>0.3.12cosma7</code></td><td><code>intel_comp/2020-update2</code></td><td></td><td><code>module load old-modules intel_comp/2020-update2 openblas/0.3.12cosma7</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td></td><td><code>module load old-modules gnu_comp/10.2.0 openblas/0.3.12cosma7</code></td></tr>
+</tbody></table>
+
+<p>1 other builds could not be loaded, so they are not shown.</p>
+
+</div>
+
+<div class="module-deps" id="dep-old-openmpi">
+
+<h3><code>openmpi</code></h3>
+
+<p>5 versions, 11 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="1"><code>20190429</code></td><td><code>gnu_comp/7.3.0</code></td><td></td><td><code>module load old-modules gnu_comp/7.3.0 openmpi/20190429</code></td></tr>
+<tr><td rowspan="5"><code>4.0.5</code></td><td><code>intel_comp/2021.1.0</code></td><td></td><td><code>module load old-modules intel_comp/2021.1.0 compiler-rt tbb compiler openmpi/4.0.5</code></td></tr>
+<tr><td><code>intel_comp/2020-update2</code></td><td></td><td><code>module load old-modules intel_comp/2020-update2 openmpi/4.0.5</code></td></tr>
+<tr><td><code>gnu_comp/13.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/13.1.0 openmpi/4.0.5</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td></td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/4.0.5</code></td></tr>
+<tr><td><code>aocc_comp/3.1.0</code></td><td></td><td><code>module load old-modules aocc_comp/3.1.0 openmpi/4.0.5</code></td></tr>
+<tr><td rowspan="1"><code>4.0.3</code></td><td><code>gnu_comp/9.3.0</code></td><td></td><td><code>module load old-modules gnu_comp/9.3.0 openmpi/4.0.3</code></td></tr>
+<tr><td rowspan="1"><code>4.0.1</code></td><td><code>gnu_comp/9.1.0</code></td><td></td><td><code>module load old-modules gnu_comp/9.1.0 openmpi/4.0.1</code></td></tr>
+<tr><td rowspan="3"><code>3.0.1</code></td><td><code>intel_comp/2018</code></td><td></td><td><code>module load old-modules intel_comp/2018 openmpi/3.0.1</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td></td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/3.0.1</code></td></tr>
+<tr><td><code>gnu_comp/7.3.0</code></td><td></td><td><code>module load old-modules gnu_comp/7.3.0 openmpi/3.0.1</code></td></tr>
+</tbody></table>
+
+<p>4 other builds could not be loaded, so they are not shown.</p>
+
+</div>
+
+<div class="module-deps" id="dep-old-parallel_hdf5">
+
+<h3><code>parallel_hdf5</code></h3>
+
+<p>6 versions, 50 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="10"><code>1.14.3</code></td><td><code>intel_comp/2023.2.0</code></td><td>openmpi/4.1.5</td><td><code>module load old-modules intel_comp/2023.2.0 compiler-rt tbb compiler openmpi/4.1.5 parallel_hdf5/1.14.3</code></td></tr>
+<tr><td><code>intel_comp/2023.2.0</code></td><td>Intel MPI (<code>mpi</code>)</td><td><code>module load old-modules intel_comp/2023.2.0 compiler-rt tbb compiler mpi parallel_hdf5/1.14.3</code></td></tr>
+<tr><td><code>intel_comp/2022.1.2</code></td><td>openmpi/4.1.5</td><td><code>module load old-modules intel_comp/2022.1.2 compiler-rt tbb compiler openmpi/4.1.5 parallel_hdf5/1.14.3</code></td></tr>
+<tr><td><code>intel_comp/2022.1.2</code></td><td>Intel MPI (<code>mpi</code>)</td><td><code>module load old-modules intel_comp/2022.1.2 compiler-rt tbb compiler mpi parallel_hdf5/1.14.3</code></td></tr>
+<tr><td><code>intel_comp/2022.1.2</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2022.1.2 compiler-rt tbb compiler intel_mpi/2018 parallel_hdf5/1.14.3</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>openmpi/4.1.5</td><td><code>module load old-modules intel_comp/2018 openmpi/4.1.5 parallel_hdf5/1.14.3</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2018 parallel_hdf5/1.14.3</code></td></tr>
+<tr><td><code>gnu_comp/13.1.0</code></td><td>openmpi/4.1.5</td><td><code>module load old-modules gnu_comp/13.1.0 openmpi/4.1.5 parallel_hdf5/1.14.3</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>openmpi/4.1.5</td><td><code>module load old-modules gnu_comp/11.1.0 openmpi/4.1.5 parallel_hdf5/1.14.3</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>openmpi/4.1.1</td><td><code>module load old-modules gnu_comp/11.1.0 openmpi/4.1.1 parallel_hdf5/1.14.3</code></td></tr>
+<tr><td rowspan="2"><code>1.14.2</code></td><td><code>intel_comp/2023.2.0</code></td><td>Intel MPI (<code>mpi</code>)</td><td><code>module load old-modules intel_comp/2023.2.0 compiler-rt tbb compiler mpi parallel_hdf5/1.14.2</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>openmpi/4.1.1</td><td><code>module load old-modules gnu_comp/11.1.0 openmpi/4.1.1 parallel_hdf5/1.14.2</code></td></tr>
+<tr><td rowspan="4"><code>1.14.0</code></td><td><code>intel_comp/2022.3.0</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules intel_comp/2022.3.0 compiler-rt tbb compiler openmpi/4.1.4 parallel_hdf5/1.14.0</code></td></tr>
+<tr><td><code>intel_comp/2022.3.0</code></td><td>Intel MPI (<code>mpi</code>)</td><td><code>module load old-modules intel_comp/2022.3.0 compiler-rt tbb compiler mpi parallel_hdf5/1.14.0</code></td></tr>
+<tr><td><code>gnu_comp/13.1.0</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules gnu_comp/13.1.0 openmpi/4.1.4 parallel_hdf5/1.14.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>openmpi/4.1.4-romio-lustre</td><td><code>module load old-modules gnu_comp/11.1.0 openmpi/4.1.4-romio-lustre parallel_hdf5/1.14.0</code></td></tr>
+<tr><td rowspan="4"><code>1.12.2</code></td><td><code>intel_comp/2022.3.0</code></td><td>Intel MPI (<code>mpi</code>)</td><td><code>module load old-modules intel_comp/2022.3.0 compiler-rt tbb compiler mpi parallel_hdf5/1.12.2</code></td></tr>
+<tr><td><code>gnu_comp/13.1.0</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules gnu_comp/13.1.0 openmpi/4.1.4 parallel_hdf5/1.12.2</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>openmpi/4.1.4-romio-lustre</td><td><code>module load old-modules gnu_comp/11.1.0 openmpi/4.1.4-romio-lustre parallel_hdf5/1.12.2</code></td></tr>
+<tr><td><code>aocc_comp/4.0.0</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules aocc_comp/4.0.0 openmpi/4.1.4 parallel_hdf5/1.12.2</code></td></tr>
+<tr><td rowspan="23"><code>1.12.0</code></td><td><code>intel_comp/2022.1.2</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules intel_comp/2022.1.2 compiler-rt tbb compiler openmpi/4.1.4 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2022.1.2</code></td><td>openmpi/4.1.1</td><td><code>module load old-modules intel_comp/2022.1.2 compiler-rt tbb compiler openmpi/4.1.1 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2022.1.2</code></td><td>mvapich2_mpi/2.3.7-1</td><td><code>module load old-modules intel_comp/2022.1.2 compiler-rt tbb compiler mvapich2_mpi/2.3.7-1 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2022.1.2</code></td><td>Intel MPI (<code>mpi</code>)</td><td><code>module load old-modules intel_comp/2022.1.2 compiler-rt tbb compiler mpi parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2022.1.2</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2022.1.2 compiler-rt tbb compiler intel_mpi/2018 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2021.3.0</code></td><td>openmpi/4.1.1</td><td><code>module load old-modules intel_comp/2021.3.0 compiler-rt tbb compiler openmpi/4.1.1 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2021.3.0</code></td><td>Intel MPI (<code>mpi</code>)</td><td><code>module load old-modules intel_comp/2021.3.0 compiler-rt tbb compiler mpi parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2021.3.0</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2021.3.0 compiler-rt tbb compiler intel_mpi/2018 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2021.1.0</code></td><td>Intel MPI (<code>mpi</code>)</td><td><code>module load old-modules intel_comp/2021.1.0 compiler-rt tbb compiler mpi parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>intel_comp/2020-update2</code></td><td>intel_mpi/2020-update2</td><td><code>module load old-modules intel_comp/2020-update2 intel_mpi/2020-update2 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/13.1.0</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules gnu_comp/13.1.0 openmpi/4.1.4 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules gnu_comp/11.1.0 openmpi/4.1.4 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>openmpi/4.1.1.no-ucx</td><td><code>module load old-modules gnu_comp/11.1.0 openmpi/4.1.1.no-ucx parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>openmpi/4.1.1</td><td><code>module load old-modules gnu_comp/11.1.0 openmpi/4.1.1 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>mvapich2_mpi/2.3.7-1</td><td><code>module load old-modules gnu_comp/11.1.0 mvapich2_mpi/2.3.7-1 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>mvapich2_mpi/2.3.6</td><td><code>module load old-modules gnu_comp/11.1.0 mvapich2_mpi/2.3.6 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>intel_mpi/2020-update2</td><td><code>module load old-modules gnu_comp/11.1.0 intel_mpi/2020-update2 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>intel_mpi/2018</td><td><code>module load old-modules gnu_comp/11.1.0 intel_mpi/2018 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td>openmpi/4.1.1</td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/4.1.1 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/9.3.0</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules gnu_comp/9.3.0 openmpi/4.1.4 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/9.3.0</code></td><td>mvapich2_mpi/2.3.7-1</td><td><code>module load old-modules gnu_comp/9.3.0 mvapich2_mpi/2.3.7-1 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>gnu_comp/9.3.0</code></td><td>intel_mpi/2018</td><td><code>module load old-modules gnu_comp/9.3.0 intel_mpi/2018 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td><code>aocc_comp/3.1.0</code></td><td>openmpi/4.0.5</td><td><code>module load old-modules aocc_comp/3.1.0 openmpi/4.0.5 parallel_hdf5/1.12.0</code></td></tr>
+<tr><td rowspan="7"><code>1.10.3</code></td><td><code>intel_comp/2020</code></td><td>intel_mpi/2020</td><td><code>module load old-modules intel_comp/2020 intel_mpi/2020 parallel_hdf5/1.10.3</code></td></tr>
+<tr><td><code>intel_comp/2019</code></td><td>intel_mpi/2019</td><td><code>module load old-modules intel_comp/2019 intel_mpi/2019 parallel_hdf5/1.10.3</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>openmpi/3.0.1</td><td><code>module load old-modules intel_comp/2018 openmpi/3.0.1 parallel_hdf5/1.10.3</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2018 parallel_hdf5/1.10.3</code></td></tr>
+<tr><td><code>gnu_comp/9.1.0</code></td><td>intel_mpi/2018</td><td><code>module load old-modules gnu_comp/9.1.0 intel_mpi/2018 parallel_hdf5/1.10.3</code></td></tr>
+<tr><td><code>gnu_comp/7.3.0</code></td><td>openmpi/3.0.1</td><td><code>module load old-modules gnu_comp/7.3.0 openmpi/3.0.1 parallel_hdf5/1.10.3</code></td></tr>
+<tr><td><code>gnu_comp/7.3.0</code></td><td>intel_mpi/2018</td><td><code>module load old-modules gnu_comp/7.3.0 intel_mpi/2018 parallel_hdf5/1.10.3</code></td></tr>
+</tbody></table>
+
+<p>6 other builds could not be loaded, so they are not shown.</p>
+
+</div>
+
+<div class="module-deps" id="dep-old-scalasca">
+
+<h3><code>scalasca</code></h3>
+
+<p>3 versions, 7 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="3"><code>2.6</code></td><td><code>intel_comp/2020-update2</code></td><td>intel_mpi/2020-update2</td><td><code>module load old-modules intel_comp/2020-update2 intel_mpi/2020-update2 scalasca/2.6</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2018 scalasca/2.6</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td>openmpi/4.0.5</td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/4.0.5 scalasca/2.6</code></td></tr>
+<tr><td rowspan="3"><code>2.5</code></td><td><code>intel_comp/2020-update2</code></td><td>intel_mpi/2020-update2</td><td><code>module load old-modules intel_comp/2020-update2 intel_mpi/2020-update2 scalasca/2.5</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2018 scalasca/2.5</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td>openmpi/4.0.5</td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/4.0.5 scalasca/2.5</code></td></tr>
+<tr><td rowspan="1"><code>2.4</code></td><td><code>gnu_comp/7.3.0</code></td><td>openmpi/3.0.1</td><td><code>module load old-modules gnu_comp/7.3.0 openmpi/3.0.1 scalasca/2.4</code></td></tr>
+</tbody></table>
+
+</div>
+
+<div class="module-deps" id="dep-old-scorep">
+
+<h3><code>scorep</code></h3>
+
+<p>3 versions, 12 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="6"><code>8.1</code></td><td><code>intel_comp/2022.3.0</code></td><td>Intel MPI (<code>mpi</code>)</td><td><code>module load old-modules intel_comp/2022.3.0 compiler-rt tbb compiler mpi scorep/8.1</code></td></tr>
+<tr><td><code>intel_comp/2020-update2</code></td><td>intel_mpi/2020-update2</td><td><code>module load old-modules intel_comp/2020-update2 intel_mpi/2020-update2 scorep/8.1</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2020-update2</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2020-update2 scorep/8.1</code></td></tr>
+<tr><td><code>gnu_comp/11.1.0</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules gnu_comp/11.1.0 openmpi/4.1.4 scorep/8.1</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td>openmpi/4.1.1</td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/4.1.1 scorep/8.1</code></td></tr>
+<tr><td><code>aocc_comp/4.0.0</code></td><td>openmpi/4.1.4</td><td><code>module load old-modules aocc_comp/4.0.0 openmpi/4.1.4 scorep/8.1</code></td></tr>
+<tr><td rowspan="3"><code>7.0</code></td><td><code>intel_comp/2020-update2</code></td><td>intel_mpi/2020-update2</td><td><code>module load old-modules intel_comp/2020-update2 intel_mpi/2020-update2 scorep/7.0</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2018 scorep/7.0</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td>openmpi/4.0.5</td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/4.0.5 scorep/7.0</code></td></tr>
+<tr><td rowspan="3"><code>6.0</code></td><td><code>intel_comp/2020-update2</code></td><td>intel_mpi/2020-update2</td><td><code>module load old-modules intel_comp/2020-update2 intel_mpi/2020-update2 scorep/6.0</code></td></tr>
+<tr><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2018 scorep/6.0</code></td></tr>
+<tr><td><code>gnu_comp/10.2.0</code></td><td>openmpi/4.0.5</td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/4.0.5 scorep/6.0</code></td></tr>
+</tbody></table>
+
+<p>3 other builds could not be loaded, so they are not shown.</p>
+
+</div>
+
+<div class="module-deps" id="dep-old-valgrind">
+
+<h3><code>valgrind</code></h3>
+
+<p>2 versions, 3 combinations.</p>
+
+<table class="docutils"><thead><tr><th>Version</th><th>Compiler</th><th>MPI</th><th>Command</th></tr></thead><tbody>
+<tr><td rowspan="1"><code>202206</code></td><td><code>gnu_comp/10.2.0</code></td><td>openmpi/4.1.1</td><td><code>module load old-modules gnu_comp/10.2.0 openmpi/4.1.1 valgrind/202206</code></td></tr>
+<tr><td rowspan="2"><code>3.13.0</code></td><td><code>intel_comp/2018</code></td><td>intel_mpi/2018</td><td><code>module load old-modules intel_comp/2018 intel_mpi/2018 valgrind/3.13.0</code></td></tr>
+<tr><td><code>gnu_comp/7.3.0</code></td><td>openmpi/3.0.1</td><td><code>module load old-modules gnu_comp/7.3.0 openmpi/3.0.1 valgrind/3.13.0</code></td></tr>
+</tbody></table>
+
+</div>
 
