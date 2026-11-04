@@ -14,9 +14,17 @@ From 19:00 until 08:00 the following day (UK time), the nodes become part of eit
 
 This provides an opportunity to run uninterrupted production workloads or benchmarks on the lab hardware.
 
-hardwarelab-gpu contains: ga008, gn[004-005], mad06
+| Queue | Node | Hardware | Projects |
+| ----- | ---- | -------- | -------- |
+| `hardwarelab-gpu` | ga008 | 96 cores, 4x AMD MI300A | durham, do016, do017, do018 |
+| `hardwarelab-gpu` | gn004 | 64 cores (Intel), 1x NVIDIA H100 NVL | durham, do016, do017, do018 |
+| `hardwarelab-gpu` | gn005 | 256 cores (AMD Turin), 1x NVIDIA RTX PRO 6000 | durham, do016, do017, do018 |
+| `hardwarelab-gpu` | mad06 | 128 cores (AMD Milan-X), NVIDIA A100 | durham, do016, do017, do018 |
+| `hardwarelab-cpu` | gi001 | 112 cores (Intel Sapphire Rapids) | durham, do025 |
+| `hardwarelab-cpu` | mad11 | 256 cores (Intel Sierra Forest) | durham, do025 |
+| `hardwarelab-cpu` | mad12 | 256 cores (AMD Turin) | durham, do025 |
 
-hardwarelab-cpu contains: gi001, mad[11-12]
+During the day, these queues show as `down`, and the nodes as drained with the reason `interactive`.
 
 ### SLURM tips for the batch queue
 
@@ -25,24 +33,25 @@ Instead, use `--exclude` or `--nodelist` to explicitly define which node(s) to s
 
 Additionally, since the queue ends at 08:00 the following day, a submitted job must fit inside the remaining time window.  The maximum job time on these queues is 6 hours.
 
-An example slurm script targeting the RTX6000 might look like this:
+An example slurm script targeting the RTX6000 might look like this.  The `--gres` line reserves the GPU: see [GPU jobs](gpujobs.md).
 
 ```sh
 #!/bin/bash
 
-#SBATCH -j job_name
+#SBATCH -J job_name
 #SBATCH -o standard_out.%J.out
 #SBATCH -e standard_err.%J.err
 #SBATCH -p hardwarelab-gpu
 #SBATCH -A do016
 #SBATCH --nodelist=gn005
+#SBATCH --gres=gpu:1
 #SBATCH -t 6:00:00
 #SBATCH --mail-type=END
-#SBATCH --mail-user=<email address>
+#SBATCH --mail-user=you@durham.ac.uk
 
 module purge
 module load nvhpc
-...
+./myprogram
 
 ```
 

@@ -53,6 +53,7 @@ Contents
 
    account
    ssh
+   firstjob
    citizenship
 	     
 .. toctree::
@@ -77,8 +78,11 @@ Contents
    :caption: RUNNING JOBS
 
    slurm
+   sbatch
+   slurmtips
    queue
    system
+   jobproblems
 
 .. toctree::
    :maxdepth: 4
@@ -86,6 +90,7 @@ Contents
 
    hardwarelab  
    gpu
+   gpujobs
    rockportlab
    dine
    dine2

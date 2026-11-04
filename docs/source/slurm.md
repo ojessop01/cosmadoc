@@ -1,255 +1,296 @@
 # Slurm
 
-COSMA has a set of integrated batch queues that are managed by Slurm Workload Manager job scheduler. Jobs are ran by the scheduler after submission to the appropriate queue. Which queue to submit your jobs to depends on the projects you are working on, if in doubt about this ask your project lead, supervisor, co-workers or email cosma-support@durham.ac.uk.  For a more indepth discussion of job priorities and how Slurm is configured, please see [here](slurmdetail.md)
+COSMA's batch queues are managed by the Slurm job scheduler.  You describe the work in a job script, submit it to a queue, and Slurm runs it on compute nodes when they are free.
 
-Common commands:
+Which queue to use depends on your project: see [queues](queue.md).  If in doubt, ask your project lead or supervisor, or email cosma-support@durham.ac.uk.
 
-* ```sbatch my_scriptc.sh```: submits my_scripts.sh to the queue. Job configuration can be done by command-line flags
-* ```scancel 12345678```: cancels job number 12345678
-* ```squeue -u $USER```: displays currently running jobs submitted by $USER
-* ```squeue -p $QUEUE```: displays jobs currently running in $QUEUE
-* ```sinfo -s```: displays summary of queues
-* ```srun```: start a terminal on a single node
-* ```salloc```: starts a new environment which can be used to launch mpi jobs
-* ```showq [-q cosma7] [-f] [-h]```: displays additional information about queues
-* ```sshare```: show the share/priorities of the queue
-* ```slurmnodeprop```: summarise the properties of nodes or queues (use -h for more details)
-* ```sreport```: report on usage
-* ```sprio```: Show priority calculations
-* ```mybalance```: show your projects' usage of their allocations (see the [FAQ](faq.md#how-do-i-check-my-project-s-allocation))
-* ```c8backfill```: show which nodes are free now, and for how long (see the [FAQ](faq.md#what-is-backfill-how-do-i-exploit-this) for other queues)
+New to Slurm?  These pages cover the basics:
 
-Example submission script examples can be found in the ```/cosma/home/sample-user``` directory.
+- [Your first job](firstjob.md): submit and check a simple job
+- [sbatch options](sbatch.md): what each `#SBATCH` line does
+- [Useful Slurm features](slurmtips.md): job arrays, dependencies, saving work before the time limit
+- [When a job goes wrong](jobproblems.md): why a job failed, or has not started
+- [Scheduling and fairshare](slurmdetail.md): how Slurm decides which jobs run first
 
-Read more:
+## Common commands
 
-* ```man srun```, ```man sbatch```, etc. [online version](https://slurm.schedmd.com/man_index.html).
-* [cheatsheet](https://slurm.schedmd.com/pdfs/summary.pdf)
-* [Rosetta stone of batch systems](https://slurm.schedmd.com/rosetta.pdf) (for users coming from other systems, such as LSF)
+| Command | What it does |
+| ------- | ------------ |
+| `sbatch myjob.sh` | Submit a job script |
+| `squeue --me` | List your pending and running jobs |
+| `squeue -p cosma8` | List the jobs in a queue |
+| `scancel JOBID` | Cancel a job |
+| `sacct -j JOBID` | Show how a finished job went |
+| `scontrol show job JOBID` | Show everything about a job |
+| `sinfo -s` | Summarise the queues |
+| `srun --pty /bin/bash` | Start an interactive shell on a compute node (add `-p`, `-A` and `-t`) |
+| `salloc` | Allocate nodes, then run commands on them from your shell |
+| `showq -q cosma7` | Show the jobs in a queue, with their sizes |
+| `sprio -j JOBID` | Show how a pending job's priority is calculated |
+| `sshare` | Show your fairshare, which affects priority |
+| `slurmnodeprop` | Summarise the properties of nodes or queues (use `-h` for details) |
+| `mybalance` | Show your projects' usage of their allocations (see the [FAQ](faq.md#how-do-i-check-my-project-s-allocation)) |
+| `c8backfill` | Show which nodes are free now, and for how long (see the [FAQ](faq.md#what-is-backfill-how-do-i-exploit-this) for other queues) |
+| `c8jobload JOBID` | Show how a running COSMA8 job is using its nodes (`c7jobload` for COSMA7) |
 
-Jobs, except for those in the *-princes family of queues are limited to a maximum runtime of 72 hours. If your job will take significantly less than this, then it is recommended to insert the expected runtime, as this may enable the job to be scheduled earlier.
+Example job scripts are also in `/cosma/home/sample-user`.
 
-Some hints and tips for using SLURM can be found [here](slurm.md#slurm-hints-and-tips).
+For more detail, see `man sbatch`, `man srun` and so on, the [online manual pages](https://slurm.schedmd.com/man_index.html), the [Slurm cheatsheet](https://slurm.schedmd.com/pdfs/summary.pdf), or the [Rosetta stone of batch systems](https://slurm.schedmd.com/rosetta.pdf) if you have used another scheduler, such as LSF or PBS.
 
-## X11 forwarding for debugging
+## Time limits
 
-If is possible to forward a display for debugging and profiling purposes (e.g. to use a graphical profiler). For example:
+Every job must have a time limit, set with `-t`.  Most queues allow up to 3 days.  The `-prince` queues allow 30 days, and the `-pauper` queues allow less: see [queue variants](queue.md#queue-variants).
 
-`srun -p cosma7 -A dp004 -t 0:02:00 --x11 --pty /bin/bash`
+Ask for a realistic time.  Shorter jobs can often start sooner, because Slurm can fit them into gaps between larger jobs (see [backfill](faq.md#what-is-backfill-how-do-i-exploit-this)).  A job is stopped as soon as it reaches its limit, so allow some extra time.
 
-Once you get a prompt on the node you run standard X11 applications.
+## Interactive jobs
+
+To get a shell on a compute node, for example to test or debug:
+
+```
+srun -p cosma8-serial -A PROJECT -c 4 --mem=8G -t 01:00:00 --pty /bin/bash
+```
+
+When the shell starts, you are on the compute node.  Please exit as soon as you have finished, because the job uses its resources until you do.
+
+Use a queue that shares nodes, such as `cosma8-serial` or `cosma5`, unless you need whole nodes.  On `cosma7` and `cosma8`, even a short interactive job is charged for whole nodes.
+
+### X11 forwarding
+
+To use graphical programs, such as a graphical debugger or profiler, log in with `ssh -X` or `ssh -Y`, then add `--x11`:
+
+```
+srun -p cosma8-serial -A PROJECT -c 1 --mem=4G -t 00:30:00 --x11 --pty /bin/bash
+```
+
+`--x11` works with `srun`, but not with `sbatch`.
 
 ## Direct compute node access
 
-For direct compute access, you can use srun, e.g.:
+[Performance co-pilot](system.md#performance-co-pilot) lets you analyse running jobs, and `c8jobload` shows how a job is using its nodes.  If you need to ssh to a node that is running your jobs, please contact cosma-support.
 
-`srun -p cosma7 -A dpXXX -n 1 -t 1:00:00 --pty /bin/bash`
+## Example job scripts
 
-[Performance co-pilot](system.md#performance-co-pilot) will also allow you to analyse running jobs.
+Replace `PROJECT` with your project, and the queue with one that your project can use.  Each script loads modules that were tested together.  For other combinations, see the [list of modules](modulelist.md#what-to-load-first).
 
-Should you need direct ssh access to a node running your jobs, this may be possible - please contact cosma-support.
+### MPI job over many nodes
 
-## Reservations
+This runs 512 MPI tasks, which is 4 COSMA8 nodes:
 
-It is possible to request a SLURM reservation for jobs that will require around 40% or more of the cluster simultaneously.  A reservation sets aside the requested number of nodes for a set period of time for exclusive use, allowing large jobs to restart efficiently, without having to join the back of a queue and wait for a large number of nodes to drain.  This improves cluster efficiency.
+```
+#!/bin/bash -l
+#SBATCH --ntasks=512
+#SBATCH -J myjob
+#SBATCH -o myjob.%j.out
+#SBATCH -e myjob.%j.err
+#SBATCH -p cosma8
+#SBATCH -A PROJECT
+#SBATCH -t 72:00:00
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=you@durham.ac.uk
 
-A reservation request needs to be authorised by the Service Management Board, and 1 month notice should be given if possible.  The request should detail how many nodes are required (we will add a few more in case of node failures), for how long, a brief description of the science, and why the reservation is required.
+module purge
+module load gnu_comp/14.1.0 openmpi/5.0.3 parallel_hdf5
 
-It should be noted that your project will be charged for the entire reservation, not just for the time you use.  Therefore it is essential to make sure that you maintain a queue of jobs in the reservation queue.
+mpirun -np $SLURM_NTASKS ./myprogram myinputs
+```
 
-Once you have been given a reservation, you can use the `scontrol show reservation` command to view the reservation, and submit jobs to it using the `#SBATCH --reservation=RESERVATION NAME` flag in your submission script.
+To use the Intel compiler and Intel MPI instead, replace the `module load` line with:
 
-## HDF5 profiling
+```
+module load intel_comp compiler-rt tbb compiler mpi parallel_hdf5
+```
 
-The [SLURM HDF5 profiling plugin](https://slurm.schedmd.com/hdf5_profile_user_guide.html) is enabled, allowing profiling information from a given job to be captured in a HDF5 file.  Results are stored within `/cosma/apps/slurm/profile_data/USERNAME`.  To enable this, you should specify the `#SBATCH --profile=<all|none|energy|task|filesystem|network>` options within your batch script.  The node-step files are merged into one HDF5 file per job.
+Start Open MPI programs with `mpirun`, not `srun`.  When started with `srun`, each copy of the program runs on its own, so a 4-task job runs four separate 1-task programs.
 
-After the job has finished, you can run `sh5util -j JOBID` to concatenate all the files created by the job (one per node) into a single file in the current directory.  You can then use the `h5ls` command (part of the hdf5 module) to view the contents of the file on the command-line.
+`cosma8` and `cosma7` always give a job whole nodes, so `--exclusive` is not needed.
 
-## Example scripts and command usage
+### Many similar jobs
 
-### Large job over many nodes
+A job array runs the same script several times.  This runs 28 copies of a 128-task job, at most 4 at a time:
 
-    #!/bin/bash -l
+```
+#!/bin/bash -l
+#SBATCH --ntasks=128
+#SBATCH -J myarray
+#SBATCH --array=1-28%4
+#SBATCH -o myarray.%A.%a.out
+#SBATCH -e myarray.%A.%a.err
+#SBATCH -p cosma8
+#SBATCH -A PROJECT
+#SBATCH -t 24:00:00
 
-    #SBATCH --ntasks 512 # The number of cores you need...
-    #SBATCH -J job_name #Give it something meaningful.
-    #SBATCH -o standard_output_file.%J.out
-    #SBATCH -e standard_error_file.%J.err
-    #SBATCH -p cosma7 #or some other partition, e.g. cosma, cosma8, etc.
-    #SBATCH -A project #e.g. dp004
-    #SBATCH --exclusive
-    #SBATCH -t 72:00:00
-    #SBATCH --mail-type=END # notifications for job done &
-    fail
-    #SBATCH --mail-user=<email address> #PLEASE PUT YOUR EMAIL ADDRESS HERE (without the <>)
+module purge
+module load gnu_comp/14.1.0 openmpi/5.0.3 parallel_hdf5
 
-    module purge
-    #load the modules used to build your program.
-    module load intel_comp
-    module load intel_mpi
-    module load hdf5
+# SLURM_ARRAY_TASK_ID is set to the copy's number, from 1 to 28.
+mpirun -np $SLURM_NTASKS ./myprogram input_${SLURM_ARRAY_TASK_ID}
+```
 
+See [job arrays](slurmtips.md#job-arrays) for more.
 
-    #Run the program
-    mpirun -np $SLURM_NTASKS your_program your_inputs
+### MPI with OpenMP threads
 
-### Many similar jobs simultaneously
+This runs 2 MPI tasks on each of 4 nodes, each with its own set of cores for OpenMP threads:
 
-    #!/bin/bash -l
+```
+#!/bin/bash -l
+#SBATCH --nodes=4
+#SBATCH --ntasks-per-node=2
+#SBATCH --cpus-per-task=64
+#SBATCH -J hybrid
+#SBATCH -o hybrid.%j.out
+#SBATCH -p cosma8
+#SBATCH -A PROJECT
+#SBATCH -t 12:00:00
 
-    #SBATCH --ntasks 512
-    #SBATCH -J job_name
-    #SBATCH --array=1-28 #Run 28 copies of the code
-    #SBATCH -o standard_output_file.%A.%a.out
-    #SBATCH -e standard_error_file.%A.%a.err
-    #SBATCH -p cosma7
-    #SBATCH -A project
-    #SBATCH --exclusive
-    #SBATCH -t 72:00:00
-    #SBATCH --mail-type=END # notifications for job done & fail
-    #SBATCH --mail-user=<email address>
+module purge
+module load gnu_comp/14.1.0 openmpi/5.0.3
 
-    module purge
-    #load the modules used to build your program.
-    module load intel_comp
-    module load intel_mpi
-    module load hdf5
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+mpirun -np $SLURM_NTASKS --map-by ppr:$SLURM_NTASKS_PER_NODE:node:PE=$SLURM_CPUS_PER_TASK ./myprogram
+```
 
-    #Run the program, note $SLURM_ARRAY_TASK_ID is set to the array number.
+The `--map-by` option gives each task its own block of cores.  Set `--cpus-per-task` to the cores per node divided by the tasks per node:
 
-    mpirun -np $SLURM_NTASKS your_program your_inputs $SLURM_ARRAY_TASK_ID
+| Queue | Cores per node | `--cpus-per-task` for 2 tasks per node |
+| ----- | -------------- | -------------------------------------- |
+| `cosma8` | 128 | 64 |
+| `cosma7`, `cosma7-rp` | 28 | 14 |
+| `cosma5` | 256 | 128 |
 
-### Many single core jobs on a single node
+Each core has two hardware threads, so a program that counts the available CPUs itself will see twice as many.  Setting `OMP_NUM_THREADS` avoids this.  See [threads and CPUs](sbatch.md#threads-and-cpus), and [MPI hints](mpi.md) for more on pinning.
 
-See the example in `/cosma/home/sample-user/parallel_tasks/`
+To use only some of the cores on each node, for example to give each task more memory, use fewer tasks per node.  For example, for 8 tasks with 2 cores each on 32 COSMA7 nodes:
 
-(copy this to your own directory, compile the c code (`make`), and edit the `slurm_batch.sh` file.
+```
+#SBATCH --nodes=32
+#SBATCH --ntasks-per-node=8
+#SBATCH --cpus-per-task=2
+```
 
-### Many nodes with 2 jobs per node (which can then make use of the additional cores using threading/OPENMP)
+### Many single-core tasks
 
-Specify the total number of MPI tasks (e.g. to run on 4 nodes):
+For many independent single-core tasks, use a [job array](slurmtips.md#job-arrays) on a queue that shares nodes, such as `cosma8-serial` or `cosma5`.
 
-    #SBATCH --ntasks=8
+To run many tasks inside one job on a whole node, see the example in `/cosma/home/sample-user/parallel_tasks/`.  Copy it to your own directory, compile the C code with `make`, and edit `slurm_batch.sh`.
 
-And specify the number of cores per task:
+### Heterogeneous jobs
 
-For COSMA7 (28 cores per node):
+Slurm can give one job several groups of nodes, each with different resources:
 
-    #SBATCH --cpus-per-task=14
+```
+#SBATCH -A PROJECT
+#SBATCH --time=72:00:00
 
-For COSMA5 (16 cores per node):
+#SBATCH -p cosma8
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
 
-    #SBATCH --cpus-per-task=8
+#SBATCH hetjob
 
-    export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+#SBATCH -p cosma8
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=8
+```
 
-### Using non-uniform resources per node in a single job (heterogeneous jobs)
+This requests one node with one task, and two more nodes with 16 tasks between them.  `mpirun` does not understand this kind of allocation, so MPI programs should be started with `srun` instead, for example:
 
-Slurm allows requesting multiple node configurations in one batch submission:
+```
+salloc -A PROJECT --time=72:00:00 -p cosma8 --nodes=3
+srun --nodes=1 --ntasks-per-node=1 ./server : --nodes=2 --ntasks-per-node=8 ./client
+```
 
-    #SBATCH -A project
-    #SBATCH --time=72:00:00
-    
-    #SBATCH -p cosma8
-    #SBATCH --nodes=1
-    #SBATCH --tasks-per-node=1
+This starts a server task alone on the first node, and 16 client tasks on the other two nodes.  All of the tasks are in the same `MPI_COMM_WORLD`.
 
-    #SBATCH hetjob
+Another example:
 
-    #SBATCH -p cosma8
-    #SBATCH --nodes=2
-    #SBATCH --tasks-per-node=8
+```
+#SBATCH -A PROJECT
+#SBATCH --time=12:00:00
 
-This example requests one node where one task will run and two additional nodes where a total of 16 tasks will run. Using `sbatch` is often impractical for a heterogeneous job, however, because `mpirun` does not understand this kind of resource allocation. MPI jobs can instead be started with `srun`, for example:
+#SBATCH -p cosma8
+#SBATCH --ntasks=64
+#SBATCH --ntasks-per-node=16
+#SBATCH --distribution=block:fcyclic:fcyclic,Pack
 
-    salloc -A project --time=72:00:00 -p cosma8 --nodes=3
-    srun --nodes=1 --tasks-per-node=1 ./server : --nodes=2 --tasks-per-node=8 ./client
+#SBATCH hetjob
 
-This example has the same distribution of tasks as the batch script just above. It starts a server task alone on the first node and then 16 client tasks on the other two nodes. All of the tasks will exist in the same `MPI_COMM_WORLD`.
+#SBATCH -p cosma8
+#SBATCH --ntasks=28
+#SBATCH --ntasks-per-node=1
+#SBATCH --distribution=cyclic
 
-#### Another example could use:
+mpirun -np 64 ./swift_mpi -v 1 --pin --threads=8 --cosmology --self-gravity params.yml : \
+-np 28 ./swift_mpi -v 1 --pin --threads=128 --cosmology --self-gravity params.yml
+```
 
-    #SBATCH -p cosma8
-    #SBATCH --ntasks=64
-    #SBATCH --tasks-per-node=16
-    #SBATCH --distribution=block:fcyclic:fcyclic,Pack
+You may need to change `--distribution`.  This example fills each node with tasks before moving to the next one (`block` and `Pack`), then hands out tasks within a node round-robin between the sockets and cores (`fcyclic`).  The Slurm documentation lists which options must be the same for all parts of the job, and which can differ.
 
-    #SBATCH hetjob
+Open MPI supports heterogeneous jobs, but only when it is built with a process management interface (PMI) library.  If it is not, a clear error message is shown.  Intel MPI seems to work to some extent if you set `export I_MPI_PMI_LIBRARY=/usr/lib64/libpmi.so`, but it may not fully support heterogeneous jobs.  For example, mixing nodes with exactly 1 task and nodes with more than 1 task can crash.  See the [Slurm heterogeneous jobs guide](https://slurm.schedmd.com/heterogeneous_jobs.html).
 
-    #SBATCH -p cosma8
-    #SBATCH --ntasks=28
-    #SBATCH --tasks-per-node=1
-    #SBATCH --distribution=cyclic
+### Using DDT
 
-    mpirun -np 64 ./swift_mpi -v 1 --pin --threads=8 --cosmology  --self-gravity params.yml : \
-    -np 28 ./swift_mpi -v 1 --pin --threads=128 --cosmology --self-gravity params.yml
+To use the DDT debugger with Slurm, follow [these instructions](https://gitlab.cosma.dur.ac.uk/swift/swiftsim/wikis/DDT-debugger-on-Cosma).  There is also an example Slurm script in `/cosma/home/sample-user/slurm_ddt_example.qtf`, which [DDT uses to generate a batch script](issues.md#ddt).
 
-Note, changes to the `--distribution` option may be required.  This example tries to fill each node with tasks before moving to the next one ("block" and "Pack"), and then hand out tasks within a node round-robin among the sockets and cores ("fcyclic").  The slurm documentation has a list of parameters that must be shared between all jobs, those that can be shared or specified individually, and those that must be specified for each job.
+## Priority
 
-#### Heterogeneous jobs
+The order in which pending jobs start depends mainly on how much your project has used recently (fairshare), and how long the job has been waiting: see [scheduling and fairshare](slurmdetail.md), and [how jobs are prioritised](queue.md#how-jobs-are-prioritised).
 
-OpenMPI supports heterogeneous jobs, but to use this the MPI installation must be linked against a process management interface (PMI) library. A clear error message seems to be produced when this is missing. Intel MPI implementations seem to work to some extent provided that the environment variable `export I_MPI_PMI_LIBRARY=/usr/lib64/libpmi.so` is set, but it's not clear that heterogeneous jobs are fully supported and there seems to be some limitations (such as mixing nodes with exactly 1 and >1 tasks causing a crash) in some cases. Further documentation and examples can be found at [https://slurm.schedmd.com/heterogeneous_jobs.html](https://slurm.schedmd.com/heterogeneous_jobs.html).
+To let other jobs go first, you can lower the priority of your own job:
 
-### Using DDT without direct compute node access
+```
+scontrol update JobId=JOBID Nice=100
+```
 
-To use DDT with slurm, the following instructions can be followed:
+A higher value means a lower priority.  Only staff can raise a job's priority.
 
-[https://gitlab.cosma.dur.ac.uk/swift/swiftsim/wikis/DDT-debugger-on-Cosma](https://gitlab.cosma.dur.ac.uk/swift/swiftsim/wikis/DDT-debugger-on-Cosma)
+## Monitoring jobs
 
-There is also an example Slurm submission script in /cosma/home/sample-user/slurm_ddt_example.qtf which [DDT uses to generate a batch script](issues.md#ddt).  
+The `showq` command shows the jobs in a queue (in addition to `squeue` and `sinfo`), for example:
 
-### SLURM hints and tips
+```
+showq -q cosma7 -l -f -o
+```
 
-To use fewer than all cores in a node, with a multiple node job, use something like:
-
-(e.g. for cosma6, requiring 256 MPI tasks (but 512 cores), on 32 nodes, so 8 MPI ranks per node - cosma6 has 16 cores per node)
-
-> #SBATCH --ntasks=256
-> #SBATCH --cpus-per-task=2
-
-
-#### Batch Queue priorities
-
-The priority of pending jobs in a queue is determined by a number of factors. These include:
-
-1. How successful the user has previously been at getting time (which is a factor that decays over time)
-
-2. Group fair-share: this can be raised for small groups/projects
-
-It is possible to change the priority of you jobs:
-
-scontrol update job JOBNUMBER nice=100 (which will lower its priority)
-
-#### Queue information
-
-The `showq` command can be used to obtain useful information about the queues (in addition to squeue and sinfo). For example:
-
-```showq -q cosma7 -l -f -o```
-
-The `c7jobload` command will give the load (i.e. CPU demand) of a job. Use -h to see options.  Likewise `c8jobload`, etc.  For example:
+The `c7jobload` and `c8jobload` commands show the load (CPU demand) of a running job.  Use `-h` to see the options.  For example:
 
 ```
 c8jobload -l JOBID
 ```
 
-
-`sinfo -s` will give a succinct overview of the partitions.
-
-The `sstat` (for running jobs) and `sacct` (for completed jobs) provide information about the jobs. For example, at the end of your batch script, if you use:
-
-```sstat --jobs=${SLURM_JOBID}.batch --format=jobid,maxrss,ntasks```
-
-it will print information about memory used.
-
-#### Accessing GPUs as trackable resources
-
-Some of the partitions have GPUs that are chargeable by the accounting system (e.g. the cosma8-draper and cosma8-mi300x queues).  In these cases, to be allocated GPUs, you will need to add `--gpus=N` (where N is the number of GPUs) to your Slurm batch script or command line.
-
-### Reporting using sreport
-
-e.g.
+`sstat` shows the resources used by a running job, and `sacct` by a finished one.  For example, to print the memory used so far at the end of your job script:
 
 ```
-sreport cluster AccountUtilizationByUser start=mmdd end=mmdd Account=dpXXX
+sstat --jobs=${SLURM_JOB_ID}.batch --format=jobid,maxrss,ntasks
 ```
 
+## GPUs
+
+To request GPUs, see [GPU jobs](gpujobs.md), and [GPUs](gpu.md) for the hardware.  Some GPU queues are charged by GPU, not CPU: the `cosma8-draper` queue (project dp266) and the `mi300x` queue (project do018).  On these, request GPUs with `--gpus=N`, where N is the number of GPUs.
+
+## Reservations
+
+It is possible to request a Slurm reservation for jobs that will need around 40% or more of the cluster at the same time.  A reservation sets aside the requested number of nodes for a set period of time, for exclusive use.  This lets large jobs restart efficiently, without having to wait for many nodes to become free, which improves cluster efficiency.
+
+A reservation needs to be authorised by the Service Management Board, and 1 month's notice should be given if possible.  The request should say how many nodes are needed (we will add a few more in case of node failures), for how long, a brief description of the science, and why the reservation is needed.
+
+Your project will be charged for the entire reservation, not just for the time you use, so it is essential to keep a queue of jobs ready to run in it.
+
+Once you have a reservation, use `scontrol show reservation` to view it, and submit jobs to it with `#SBATCH --reservation=RESERVATION_NAME` in your job script.
+
+## HDF5 profiling
+
+The [Slurm HDF5 profiling plugin](https://slurm.schedmd.com/hdf5_profile_user_guide.html) is enabled.  It can record profiling information from a job in an HDF5 file.  To use it, add `#SBATCH --profile=<all|none|energy|task|filesystem|network>` to your job script.  Results are stored in `/cosma/apps/slurm/profile_data/USERNAME`.
+
+After the job has finished, run `sh5util -j JOBID` to combine the files from each node into a single file in the current directory.  You can then view it with the `h5ls` command, from the hdf5 module.
+
+## Usage reports
+
+`sreport` reports on usage.  For example, for a project's usage in October 2026, by user, in CPU hours:
+
+```
+sreport cluster AccountUtilizationByUser start=2026-10-01 end=2026-11-01 Account=dpXXX -t hours
+```
+
+Without `-t hours`, the usage is reported in CPU minutes.

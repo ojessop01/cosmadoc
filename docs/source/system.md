@@ -1,6 +1,9 @@
 # System Usage
 
-## Nightly batch and disk use.
+This page explains how to see what the system, and your jobs, are using.  For
+the Slurm commands to check a job, see [monitoring jobs](slurmtips.md#monitoring-jobs).
+
+## Nightly batch and disk use
 
 Each night the batch queues and filesystems are processed to produce summary
 information about the usage of the various SLURM clusters and main storage
@@ -20,19 +23,20 @@ need your COSMA username and password.
 For simplicity some of this information can be viewed from the command line
 once logged in using the commands:
 
-    # diracusage
+    $ diracusage
 
 and
 
-    # diskusage
+    $ diskusage
 
 note you will need the cosma module loaded (this happens by default, unless
 you have changed this in your login scripts). They have many options, use the
-`--help` flag to see these.
+`--help` flag to see these.  `diracusage` is the same command as `mybalance`:
+see [how do I check my project's allocation?](faq.md#how-do-i-check-my-project-s-allocation)
 
-## Seeing the resources used by a running job.
+## Seeing the resources used by a running job
 
-To analyse usage of a node running a current job, you can use Performance Co-Pilot or the cjobload command.
+To analyse usage of a node running a current job, you can use Performance Co-Pilot or the cjobload command.  The example output on this page comes from older jobs, so the numbers will differ from yours.
 
 ## cjobload
 
@@ -56,13 +60,13 @@ have a couple of scripts that should show things that are useful when
 determining if a job is using the compute resources as expected. So they show
 the activity of the CPUs and memory use:
 
-    # pcpslurmnode
-    # pcpslurmjobs
+    $ pcpslurmnode
+    $ pcpslurmjobs
 
 See the `--help` output for more options, but for instance if you know the
 node `m8001` is running your job you can do:
 
-    # pcpslurmnode m8001
+    $ pcpslurmnode m8001
     #-  Node: m8001, Cpus: 256, Tasks: 3326 total, 129 running, 51 sleeping
     #-  Memory: 1006.92 total, 360.25 free,  Load averages: 128.67,128.58,128.49
     # JobID              CPUs   NodeCPU%        Mem   NodeMem%
@@ -77,7 +81,7 @@ usually indicate that too many processes or threads are being used.
 You can also give a range of nodes or more node names, but to see all the
 nodes for a job use:
 
-    # pcpslurmjobs 9175206
+    $ pcpslurmjobs 9175206
     # Node usage by jobs (for detailed usage use pcpslurmnode):
     # Node       JobID            CPUs        MEM
     # ----       -----            ----        ---
@@ -123,7 +127,7 @@ hopefully, useful commands.
 To get a more detailed overview of memory and cpu usage on a compute node, use
 the command pmstat with the -h option to query:
 
-    # pmstat -h m7014
+    $ pmstat -h m7014
     loadavg                         memory      swap       io    system         cpu
         1 min   swpd   free   buff  cache   pi   po   bi   bo   in   cs  us  sy  id
         27.00      0   478g 177040  2249m    0    0    0    0  29K 2924  47   1  52
@@ -132,12 +136,12 @@ the command pmstat with the -h option to query:
 This is updated every 5 seconds until interrupted. You can change the update
 interval to get a faster or slower rate using the -t flag:
 
-    # pmstat -h m7014 -t 1min
-    # pmstat -h m7014 -t .5sec
+    $ pmstat -h m7014 -t 1min
+    $ pmstat -h m7014 -t .5sec
 
 You can also query more than one node at a time:
 
-    # pmstat -h m7014 -h m7250
+    $ pmstat -h m7014 -h m7250
     node    loadavg               memory      swap        io    system         cpu
               1 min   swpd   buff  cache   pi   po   bi   bo   in   cs  us  sy  id
     m7014.p   27.00      0   478g  2249m    0    0    0    0  28K  742  47   1  52
@@ -147,7 +151,7 @@ You can also query more than one node at a time:
     m7014.p   27.00      0   478g  2249m    0    0    0    0  28K 1793  47   1  52
     m7250.p   28.00      0   442g 20604m    0    0    0   20  29K 1146  49   1  50
 
-but that seems to have bug (buff should obviously be free).
+In this output, the column headed buff shows the free memory.
 
 The pmstat man page describes the various fields, but loadavg is probably the
 first thing to look at, it is roughly the number of runnable processes (not
@@ -164,7 +168,7 @@ communication).
 
 You can get the 1min, 5min and 15min loads using the pcp dstat sub-commands:
 
-    # pcp -h m7001 dstat -l
+    $ pcp -h m7001 dstat -l
     ---load-avg---
     1m   5m  15m
     27.9 27.8 27.7
@@ -181,7 +185,7 @@ The memory profile of the whole machine is important when understanding if
 your code is making optimal use of the memory. There are various commands that
 report memory use, but a good one is:
 
-    # pmrep -h m7420 :sar-r
+    $ pmrep -h m7420 :sar-r
                 kbmemfree kbmemavai kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact   kbdirty
     17:44:30    337693080 386612632 190087944     36.02    128736  49919624 127783768     23.84 146485992  29643324       188
     17:44:31    337693080 386612632 190087944     36.02    128736  49919624 127783768     23.84 146485992  29643324       188
@@ -200,12 +204,15 @@ sockets of the machine. A classic issue is sharing a single core with more
 than one pinned thread, so checking that both the CPUs and cores are loaded as
 expected can be a good idea. The socket balance can be seen using:
 
-    # pmrep -h m7400 :numa-per-node-cpu
+    $ pmrep -h m7400 :numa-per-node-cpu
                 NUMA n      %usr     %nice      %sys   %iowait    %steal      %irq     %soft    %guest    %gnice     %idle
     17:47:09     node0     49.97      0.00      0.04      0.00      0.00      0.00      0.00      0.00      0.00     50.01
     17:47:09     node1     50.05      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00     50.01
     17:47:10     node0     50.00      0.00      0.07      0.00      0.00      0.00      0.00      0.00      0.00     49.92
     17:47:10     node1     49.92      0.00      0.14      0.00      0.00      0.00      0.00      0.00      0.00     50.00
+
+This report may show N/A for every value, because some metrics cannot be read
+remotely.  If so, use the per-core report below instead.
 
 In this case the balance is good, each NUMA node has the same work and all the
 cores are in use as 50% equals all the physical cores -- the other 50% would
@@ -216,7 +223,7 @@ how the memory is accessed.
 
 The activity per core can be seen using:
 
-    # pmrep -h m7400 :mpstat-P-ALL
+    $ pmrep -h m7400 :mpstat-P-ALL
 
 the output can be very long (256 lines for COSMA8), but looking closely you
 can see which CPUs are active. If you have pinning enabled these should remain
@@ -228,7 +235,7 @@ The only IO of interest on a typical node is how much traffic is being
 generated on the infiniband fabric, there are potentially a lot of metrics
 that can be reported about this, but the command:
 
-    # pmrep -h m7400 infiniband.port.total.bytes -t 3s -b MB
+    $ pmrep -h m7400 infiniband.port.total.bytes -t 3s -b MB
 
 will report the total megabytes per second averaged over 3 seconds.
 
@@ -236,13 +243,13 @@ will report the total megabytes per second averaged over 3 seconds.
 
 The metrics that can be reported from a node can be seen using the command:
 
-    # pminfo -h m7400
+    $ pminfo -h m7400
 
 each of these can be queried using the pmval or pmrep commands, they can also
 be visualized in a graph using the pmchart command. This is very flexible and
 can be used to see the metrics of more than one node at a time, as in:
 
-    # pmchart -h m7001 m7002 m7003
+    $ pmchart -h m7001 m7002 m7003
 
 you can then select the metrics of interest from the nodes for comparison and
 can also capture the information. There is fuller help at
