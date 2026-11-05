@@ -2,21 +2,20 @@
 
 This page gathers together various hints for using MPI on COSMA. See also the [Code-specific information](issues.md) page for code-specific hints.
 
-Standard module combinations are:
+These module combinations load together.  Each starts with a compiler, then an MPI:
 
-`intel_comp/2025.3.0` (or other latest version) and then (following the instructions printed out) `compiler-rt tbb umf compiler mpi`. 
+| Compiler and MPI | Command |
+| ---------------- | ------- |
+| GNU with Open MPI | `module load gnu_comp/14.1.0 openmpi/5.0.3` |
+| Intel with Intel MPI | `module load intel_comp/2025.3.0 compiler-rt tbb umf compiler mpi` |
+| Intel with Open MPI | `module load intel_comp/2024.2.0 compiler-rt tbb compiler openmpi/5.0.3` |
+| Intel 2018 with Intel MPI 2018 | `module load intel_comp/2018 intel_mpi/2018` |
 
-Alternatively the 2018 Intel compiler/MPI used a different backend, and have worked well for years:
+The newer `intel_comp` modules only add the compiler and MPI modules to the search path.  You then need to load `compiler-rt tbb compiler` for the compiler, and `mpi` for Intel MPI.  `umf` is needed with some versions, such as 2025.3.0.  `oneAPI` is another name for `intel_comp`.
 
-`intel_comp/2018 and intel_mpi/2018`
+The 2018 Intel compiler and MPI use a different backend, and have worked well for years.  For GNU, the best stability is usually achieved with the latest Open MPI and the matching latest compiler.  Run `module load openmpi`, and it will tell you which compiler modules need to be loaded first.
 
-Note, when using the newer intel_comp modules, you first load these, which put some more modules on the search path, allowing you to then "module load compiler mpi" to load the compiler and mpi (compiler-rt and tbb may also be needed, depending on version). 
-
-`oneAPI/* ` (which is an alias for intel_comp)
-
-The gcc collection is available via the gnu_comp module.  Generally best stability will be achieved using the latest openmpi version, and the corresponding latest compiler (i.e. try `module load openmpi/VERSION` and it will tell you which compiler modules need to be loaded first.
-
-`gnu_comp` and `openmpi` (various versions)
+Many libraries also need a particular compiler and MPI: see [what to load first](modulelist.md#what-to-load-first) in the list of modules.
 
 ## OneAPI / Intel 2024 Compiler
 
@@ -52,11 +51,9 @@ and load the other dependencies
 
 (note, there may be specific version of these that improve performance, check using the `module avail` command)
 
-The Intel modules seem to have a bug which prevents them from unloading properly. That's a problem because it means you can't use 'module purge' in scripts to get to a known state.
-
 ## mvapich
 
-This is not regularly tested.
+This is not regularly tested, and the recipe below no longer works.  There is no `mvapich2` module, and `mvapich2_mpi/2.3.7-1` does not load with `intel_comp/2018`.  Please contact cosma-support if you need it.
 
 ```
     module purge
@@ -100,12 +97,12 @@ export OMP_PROC_BIND=true
 For example, performance improvements have been achieved using:
 
 ```
-mpiexec --map-by ppr:${SLURM_NTASKS_PER_NODE}:node:pe=${SLURM_CPUS_PER_TASK} --bind-to-core <executable> <options>
+mpiexec --map-by ppr:${SLURM_NTASKS_PER_NODE}:node:pe=${SLURM_CPUS_PER_TASK} --bind-to core <executable> <options>
 ```
 
-with 32 MPI ranks and 4 threads per rank.
+with 32 MPI ranks and 4 threads per rank.  The `--map-by` option gives each rank its own block of cores, so `--bind-to core` is optional.  See the [hybrid example job](slurm.md#mpi-with-openmp-threads).
 
-The binding can be reported using --report-bindings.
+The binding can be reported using `--report-bindings`.
 
 ## Intel MPI
 

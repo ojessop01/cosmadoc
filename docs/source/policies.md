@@ -6,6 +6,7 @@ There are a number of policies that COSMA users should be aware of, including:
 - Account life cycle
 - Data life cycle
 - Fair usage
+- Acceptable usage
 - Security
 - Securty Incident Management
 - Emergency shutdown policy

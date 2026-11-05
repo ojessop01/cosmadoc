@@ -2,7 +2,7 @@
 
 COSMA is a large consumer of electricity. The UK national grid has not yet been decarbonised, and therefore COSMA is responsible for production of a large amount of CO2.
 
-We are taking some steps, within our control, to help mitigate this. You will find some of this information here.
+We are taking some steps, within our control, to help mitigate this, reducing and minimising carbon production. You will find some of this information here.
 
 - Quarterly energy reporting to users and project PIs: an email every quarter providing information about energy consumption by each user's jobs.
 - Low Power Utilisation Efficiency (PUE) data centre (<1.2) using free-air cooling most of the year

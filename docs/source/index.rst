@@ -11,11 +11,18 @@ includes:
 * The Institute for Computational Cosmology internal HPC service
   * COSMA5
 * The HPC Hardware Lab national facility
-  
+
+COSMA can also refer to the [Carbon Optimising System](environmental.md) for Modelling
+and Analysis.
+ 
 For generic information about COSMA please see :doc:`cosma` section
 which provides an *overview* of the COSMA HPC system.
 
 Check out the :doc:`account` section to get started!
+
+.. warning::
+
+   There is currently an issue with Globus
 
 .. note::
 
@@ -53,6 +60,7 @@ Contents
 
    account
    ssh
+   firstjob
    citizenship
 	     
 .. toctree::
@@ -77,8 +85,11 @@ Contents
    :caption: RUNNING JOBS
 
    slurm
+   sbatch
+   slurmtips
    queue
    system
+   jobproblems
 
 .. toctree::
    :maxdepth: 4
@@ -86,6 +97,7 @@ Contents
 
    hardwarelab  
    gpu
+   gpujobs
    rockportlab
    dine
    dine2
