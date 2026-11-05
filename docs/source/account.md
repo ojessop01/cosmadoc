@@ -15,6 +15,8 @@ Detailed instructions are available below.
 
 You will need a [ssh key](sshkey.md).
 
+Once you can log in, see [your first job](firstjob.md).
+
 
 ## Accessing Cosma
 

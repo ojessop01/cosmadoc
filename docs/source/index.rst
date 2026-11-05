@@ -11,11 +11,18 @@ includes:
 * The Institute for Computational Cosmology internal HPC service
   * COSMA5
 * The HPC Hardware Lab national facility
-  
+
+COSMA can also refer to the [Carbon Optimising System](environmental.md) for Modelling
+and Analysis.
+ 
 For generic information about COSMA please see :doc:`cosma` section
 which provides an *overview* of the COSMA HPC system.
 
 Check out the :doc:`account` section to get started!
+
+.. warning::
+
+   There is currently an issue with Globus
 
 .. note::
 
@@ -43,6 +50,7 @@ Contents
    cosma
    facilities
    dirac
+   essentials
    centreofexcellence
    excalibur
    cosma8
@@ -52,7 +60,10 @@ Contents
    :caption: GETTING STARTED
 
    account
+   project
+   sshkey
    ssh
+   firstjob
    citizenship
 	     
 .. toctree::
@@ -60,11 +71,11 @@ Contents
    :caption: SOFTWARE
 
    modules
-   data
    spack
    modulelist
    gitlab
    python
+   containers
    jupyter
    mpi
    lustre
@@ -77,15 +88,21 @@ Contents
    :caption: RUNNING JOBS
 
    slurm
+   sbatch
+   slurmtips
    queue
+   slurmdetail
    system
+   jobproblems
 
 .. toctree::
    :maxdepth: 4
    :caption: HARDWARE LAB
 
-   hardwarelab  
+   hardwarelab
+   hardwarelab-hybridnodes
    gpu
+   gpujobs
    rockportlab
    dine
    dine2
@@ -99,10 +116,12 @@ Contents
    
 .. toctree::
    :maxdepth: 4
-   :caption: DATA CURATION
+   :caption: STORAGE AND DATA
 	  
-   datacuration
+   storage
    data
+   archive
+   datacuration
    projectdata
 
 .. toctree::
@@ -122,8 +141,6 @@ Contents
    virgo
    issues
    presentations
-   storage
-   archive 
    policies
 
 .. toctree::
@@ -132,7 +149,6 @@ Contents
 
    news
    technotes
-   projectdata
    environmental
    links
    usefullinks

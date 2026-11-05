@@ -24,6 +24,7 @@ To interact with a cluster, you sould point your terminal to the downloaded conf
 
 ```bash
 export KUBECONFIG=~/.kube/ml-intro.yaml
+```
 
 You can check that access works:
 

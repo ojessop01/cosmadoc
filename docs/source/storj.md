@@ -100,8 +100,8 @@ Then shows the contents of the demo bucket.
 Available commands are get, set, rm and search.
 
 ```
-export STORJ_METASEARCH_SERVER=httpsL//etasearch,storj.cosma.dur.ac.uk
-export STORJ_METASEARCH_ACCESS="$(jq -r '/Accesses[.Default]' ~/.config/storj/uplink/access.json)"
+export STORJ_METASEARCH_SERVER=https://metasearch.storj.cosma.dur.ac.uk
+export STORJ_METASEARCH_ACCESS="$(jq -r '.accesses[.default]' ~/.config/storj/uplink/access.json)"
 ```
 
 Get metadata on a file:

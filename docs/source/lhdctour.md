@@ -8,7 +8,7 @@ LHDC includes two national DiRAC clusters (COSMA7 and COSMA8), a local Durham as
 
 ## 2) Cooling pipes
 
-Water enters the room at 18C and leaves at 22C, from where it heads to the roof. There the cooling mechanism chillers release the excess heat to the atmosphere, before returning the water to the room at 18C once again. When the pumps fail, the temperature rises by 1°C every 10 minutes, and then we have just 1.5 hours to switch off the machine before it starts to sustain damage!
+Water enters the room at 18C and leaves at 22C, from where it heads to the roof. There the cooling mechanism chillers release the excess heat to the atmosphere, before returning the water to the room at 18C once again. When the pumps fail, the temperature rises by 1Â°C every 10 minutes, and then we have just 1.5 hours to switch off the machine before it starts to sustain damage!
 
 ## 3) CDU (Cooling Distribution Unit)
 

@@ -37,12 +37,11 @@ You may need to specify your ssh key:
 
 where `USER` is your COSMA username. This will log you in via a secure
 shell to COSMA. You can login to different COSMAs by specifying a
-different login node: `login5.cosma.dur.ac.uk` for COSMA5
+different login node:
 
 - `login8.cosma.dur.ac.uk` for COSMA8
 - `login7.cosma.dur.ac.uk` for COSMA7
 - `login5.cosma.dur.ac.uk` for COSMA5
-- etc.
 
 The generic loginX given here will then randomly (round-robin) select
 a specific login node (e.g. login8 will put you on one of login8a,
@@ -53,7 +52,15 @@ the compilers, have access to modules, and the batch system. Unless
 otherwise specified, all of your interactive work should be done on
 the login nodes. For instructions on how to submit jobs to the batch
 queues, see [slurm](/slurm.md). You can submit jobs to any batch queue
-from any login node, and access all the storage from any login node.
+from any login node.
+
+All login nodes can access /cosma5, /cosma7 and /cosma8. /snap7 is only
+available on the COSMA7 login nodes, and /snap8 on the COSMA8 login nodes.
+
+Login nodes are not the same as the compute nodes that run your jobs: they
+can have different CPUs, and a directory that you can see on a login node may
+not exist on the compute nodes. For example, see the differences between the
+[COSMA5 login node and compute nodes](facilities.md#the-cosma5-login-node-and-compute-nodes-are-different).
 
 You will then be asked to enter your ssh key passphrase (if you run a
 key manager, you'll only have to do this once per reboot), and after
@@ -197,13 +204,22 @@ more generous and is currently set by default to 10 TB.
 
 You also have 100GB at /cosma/apps/ which can be used for software
 installation, Python virtual environments, etc.  This is not backed
-up, but has hourly snapshots, which are kept for around a week.
+up, but has daily snapshots, which are kept for around 10 days.
 
 ## COSMA8 / COSMA7 / COSMA5 Differences
 
-Due to differences in CPU architecture between COSMA5, 7 and 8,
-code compiled with strong optimisation on the COSMA7 login nodes may
-not work on the COSMA5 or 8 compute nodes, throwing illegal
-instructions errors. Therefore, please try to use COSMA5 login
-nodes to compile code for these queues, or add a recompilation step to
-your submission script.
+The CPUs differ between COSMA5, 7 and 8, so code compiled with strong
+optimisation (e.g. `-march=native`) for one system may stop with an illegal
+instruction error on another. Compile on the login node for the queue that
+you plan to use, or add a recompilation step to your submission script:
+
+| Queue | CPU | AVX-512 | Compile on |
+| ----- | --- | ------- | ---------- |
+| cosma5 | AMD EPYC 9754 (Zen 4c) | Yes | login5 |
+| cosma7, cosma7-rp | Intel Xeon Gold 5120 | Yes | login7 |
+| cosma8-rome | AMD EPYC 7H12 (Zen 2) | No | login8 |
+| cosma8-milan | AMD EPYC 7763 (Zen 3) | No | login8 |
+
+- Code compiled on login8 will run on both cosma8-rome and cosma8-milan.
+- Code that uses AVX-512 will not run on COSMA8.
+- COSMA5 supports newer AVX-512 instructions than COSMA7, so code compiled on login5 may not run on COSMA7.

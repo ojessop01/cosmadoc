@@ -30,3 +30,13 @@
 - If you see problems, please let us know
 
 There are some [policies](policies.md) which should be adhered to.
+
+```{note}
+Large numbers of queued jobs and frequent submissions can slow down the
+scheduler for everyone. Use job arrays for similar runs, and consider grouping
+very short tasks into fewer jobs. Avoid submitting jobs in a tight loop.
+
+Job-count limits can differ between users and accounts. Check your own limits
+before a large campaign; another user's limit may not apply to you. Contact
+COSMA support if you need to discuss a large submission.
+```

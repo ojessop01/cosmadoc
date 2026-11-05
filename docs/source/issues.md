@@ -2,7 +2,7 @@
 
 See the below for known hints and issues related to certain codes. These may give compilation hints, execution hints, etc.
 
-It should be noted that highly optimised code compiled on COSMA7 may not run on COSMA5 since these CPU architectures are older, and have a reduced instruction set, or on COSMA8, which does not support AVX512 instructions.. Therefore, if you need code to run on COSMA5, and are suffering from "illegal instructions", please try recompiling on COSMA5. Likewise, to run code on COSMA8, please compile on a COSMA8 login node.
+It should be noted that highly optimised code compiled on COSMA7 may not run on COSMA8, which does not support AVX-512 instructions. Therefore, if you need code to run on COSMA5, and are suffering from "illegal instructions", please try recompiling on COSMA5. Likewise, to run code on COSMA8, please compile on a COSMA8 login node.
 
 ## SWIFT
 
@@ -104,7 +104,8 @@ The following has been found to work with GIZMO (Romeel Dave), though is now lik
     module load ucx/1.10.1
     module load fftw/3.3.9epyc
     module load gsl
-    module load hdf5/1.12.0export HDF5_DISABLE_VERSION_CHECK=1
+    module load hdf5/1.12.0
+    export HDF5_DISABLE_VERSION_CHECK=1
 
 ### GIZMO on COSMA7
 
@@ -227,7 +228,7 @@ This is a cmake build process:
 
 If using the Intel compiler, the following options can be used:
 
-    cmake -DCMAKE_CXX_COMPILER:FILEPATH=icpc DCMAKE_CXX_FLAGS:STRING="-O3 -no-prec-sqrt -no-prec-div -fp-model fast=2 -xAVX" -DOpenMP_CXX_FLAGS:STRING="-qopenmp" -DCMAKE_C_COMPILER:FILEPATH=icc -DCMAKE_C_FLAGS:STRING="-O3 -no-prec-sqrt -no-prec-div -fp-model fast=2 -xAVX" -DOpenMP_C_FLAGS:STRING="-qopenmp" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCOUNTRY:STRING=UK -DUSE_OPENMP:BOOL=ON ../src/
+    cmake -DCMAKE_CXX_COMPILER:FILEPATH=icpc -DCMAKE_CXX_FLAGS:STRING="-O3 -no-prec-sqrt -no-prec-div -fp-model fast=2 -xAVX" -DOpenMP_CXX_FLAGS:STRING="-qopenmp" -DCMAKE_C_COMPILER:FILEPATH=icc -DCMAKE_C_FLAGS:STRING="-O3 -no-prec-sqrt -no-prec-div -fp-model fast=2 -xAVX" -DOpenMP_C_FLAGS:STRING="-qopenmp" -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCOUNTRY:STRING=UK -DUSE_OPENMP:BOOL=ON ../src/
 
 The regression test in tests/ will attempt to compile its own version of the code, e.g. when you run:
 
@@ -248,13 +249,14 @@ Batch script:
     #SBATCH -J covidsim
     #SBATCH -o slurmout%J.txt
     #SBATCH -e slurmerr%J.txt
-    #SBATCH -p cosma
+    #SBATCH -p cosma5
     #SBATCH -A durham
     #SBATCH --exclusive
     #SBATCH -t 1:00:00
     #SBATCH --mail-type=END
     #SBATCH --mail-user=your.email@here
-    module purge#load the modules used to build your program.
+    module purge
+    #load the modules used to build your program.
     module load intel_comp
     module load python/3.6.5
     module load cmake # not required after July 2024
@@ -305,9 +307,9 @@ To fix this, make sure you're using the latest gnu_comp or intel_comp compilers,
 
 
 To take advantage of Rockstar parallelisation features on the shared-memory queues cosma7-shm and cosma8-shm (or on a single cosma7/cosma8
-node) in your SBATCH script set —ntasks=1 and —cpus-per-task=<# of processes=NUM_BLOCKS+NUM_WRITERS>. 
+node) in your SBATCH script set `--ntasks=1` and `--cpus-per-task=<# of processes=NUM_BLOCKS+NUM_WRITERS>`. 
 
-The maximum number of CPUs that can be allocated depends on the specific queue used for your job (e.g. —cpus-per-task<=28 for cosma7). In your Rockstar configuration file set NUM_BLOCKS and NUM_WRITERS=FORK_PROCESSORS_PER_MACHINE to the desired values and run
+The maximum number of CPUs that can be allocated depends on the specific queue used for your job (e.g. `--cpus-per-task` can be at most 28 for cosma7). In your Rockstar configuration file set NUM_BLOCKS and NUM_WRITERS=FORK_PROCESSORS_PER_MACHINE to the desired values and run
 
 `./rockstar -c </path/to/configuration file> &`
 
@@ -367,7 +369,7 @@ export UCX_UD_MLX5_RX_QUEUE_LEN=16384
 
 ## Intel MPI and Lustre
 
-There are some flags that may help with performance on Lustre when using Intel MPI.  Namely `I_MPI_FILESYSTEM=yes` and `-I_MPI_FILESYSTEM_FORCE=lustre`
+There are some flags that may help with performance on Lustre when using Intel MPI.  Namely `I_MPI_FILESYSTEM=yes` and `I_MPI_FILESYSTEM_FORCE=lustre`
 
 ## Nbodykit
 

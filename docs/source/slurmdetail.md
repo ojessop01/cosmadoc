@@ -8,15 +8,21 @@ considered for scheduling. However, a job will only start when the resources
 it needs are actually available, so scheduling is not a simple first-in,
 first-out queue based on priority.
 
-A job's priority is determined using several factors, including:
+A job's priority is determined using several factors:
 
-    - The user's fairshare score.
-    - The total computing time the user has already consumed.
-    - The age of the job (how long it has been queued).
-    - The size of the job (cores, nodes).
+- The fairshare score, which falls as you and your project use the system.
+  Past usage counts for less over time, halving every 7 days.
+- The age of the job, which counts for up to 28 days of waiting.
+- The queue, so that jobs in the `-prince` queues come first.
+- The size of the job (cores, nodes).
 
-In the current configuration, all users are assigned equal fairshare, ensuring
-that everyone starts with the same likelihood of scheduling their jobs.
+See [how jobs are prioritised](queue.md#how-jobs-are-prioritised) for how much
+each factor counts, and run `sprio -j JOBID` to see them for one of your jobs.
+
+In the current configuration, all users within a project are assigned equal
+fairshare, ensuring that everyone starts with the same likelihood of
+scheduling their jobs.  Projects themselves have different shares, which you
+can see with `sshare`.
 
 Larger jobs are given preference. This reflects the cluster's primary goal of
 supporting large-scale computations. Prioritising large jobs also improves
@@ -30,17 +36,18 @@ the cluster.
 
 This approach offers several advantages:
 
-    - It is simple, transparent, and easy to maintain.
-    - It has proven effective over time.
-    - Equal fairness among users supports smaller projects and development
-      work, ensuring timely access to resources.
+- It is simple, transparent, and easy to maintain.
+- It has proven effective over time.
+- Equal fairness among users supports smaller projects and development
+  work, ensuring timely access to resources.
 
-# Pauper Queues
+## Pauper Queues
 
 To complement the main scheduling system, COSMA also includes pauper
-queues. These are lower-priority queues with shorter maximum
-runtimes. Projects that have exceeded their quarterly allocation are
-automatically directed to use these queues.
+queues. These are lower-priority queues, mostly with shorter maximum
+runtimes: see [queue variants](queue.md#queue-variants). Projects that have
+exceeded their quarterly allocation are automatically directed to use these
+queues.
 
 The purpose of the pauper queues is to allow continued access to the system
 while ensuring fair resource distribution. Jobs submitted to these queues will
@@ -57,8 +64,7 @@ abandonment). However, this access is not intended for starting new
 work. Philosophically it also reflects that working to artificial deadlines
 can be difficult.
 
-# Backfilling
-
+## Backfilling
 
 All COSMA queues support backfilling, a key feature for improving system
 efficiency. Backfilling allows smaller or shorter jobs to be run out of order
@@ -76,11 +82,12 @@ informed decisions, and the system would behave more like a simple priority
 queue, reducing overall efficiency.
 
 Backfilling is also an excellent tool for developers, as it allows short jobs
-to run quickly helping to speed up the development and testing cycle.
+to run quickly helping to speed up the development and testing cycle.  To see
+the gaps that are available now, see
+[backfill](faq.md#what-is-backfill-how-do-i-exploit-this).
 
 
-# Assumptions for Good Outcomes in This System
-
+## Assumptions for Good Outcomes in This System
 
 While assigning equal shares to all users may seem mismatched with the reality
 that projects have differing allocations, this approach has worked effectively

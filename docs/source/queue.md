@@ -1,184 +1,188 @@
 
 # COSMA job queues
 
-A list of available queues can be found using the `sinfo -a -s` command.  Partitions are summarised here:
+COSMA has many queues (also called partitions), for different hardware and projects.  This page explains which to use, and what each one offers.  For how to submit a job, see [your first job](firstjob.md) and [Slurm](slurm.md).
 
-| Partition | Nodes | Node details | GPU info | Network | Comments |
-| --------- | ----- | ------------ | -------- | ------- | -------- |
-| cosma8    | 528, m8001-m8528   | 128 cores, 1TB | No | HDR 200g | Variants: -rome, -milan, -prince, -pauper, -serial |
-| cosma7    | 220, m7229-m7448  | 28 cores, 512GB | No | EDR 100g | Variants: -prince, -pauper |
-| cosma7-rp | 222, m7001-m7222  | 28 cores, 512GB | No | Rockport 100g | Variants: -prince, -pauper |
-| cosma8-shm | 2, mad04,05 | 128 cores, 4TB | Up to 3x A100 | HDR 200g | Composible fabric |
-| cosma8-shm2 | 2, ga004,06 | 128,64 cores, 1TB | MI100, 2x MI210 | HDR 200g | AMD GPUs |
-| cosma8-shm3 | 2, mad08,09 | 192 cores, 768GB | No | HDR 200g | AMD Genoa |
-| cosma8-ska | 1, mad07 | 56 cores, 4TB | No | HDR 200g | NVDIMMs |
-| cosma8-ska2 | 4, mad01,03,04,05 | 56, 48, 128, 128 cores, 3, 6, 4, 4TB | 3x A100 | EDR/HDR | mad04,05 composible fabric |
-| cosma8-highram | See cosma8-shm |
-| cosma8-draper | 1, ga007 | 96 cores, 2TB| 8x MI300X | HDR200 | AMD GPU |
-| cosma8-dine2 | 8, gc001-gc008 | 64 cores, 2TB | A30, V100 | HDR200 | Composible fabric |
-| cosma7-mad | 1, mad01 | 56 cores, 3TB | No | EDR 100g |
-| cosma7-shm | 2, mad01,02 | 56, 112 cores, 3, 1.5TB | No | EDR 100g |
-| cosma7-shm2 | 1, mad03 | 48 cores, 6TB | No EDR 100g | NVDIMMs |
-| cosma5 | 8, m5001-m5008 | 256 cores, 1.5TB | No | EDR 100g | Replacement of original COSMA5 |
-| cosma-analyse | 3, mad01,02,03 | 56,112,48 cores, 3,1.5,6TB | No | EDR 100g |
-| bluefield1 | 18, b101-b124 with gaps | 32 cores, 512G | No | HDR200 | Including Bluefield2 DPUs |
-| dine | See bluefield1 |
-| dine2 | See cosma8-dine2 |
-| gracehopper | 1, gn003 | 72 cores, 512GB | H100 GPU | HDR200 | Arm CPU |
-| mi300x | See cosma8-draper |
+The details on this page come from the Slurm configuration in November 2026.  To see the current settings for a queue, run `scontrol show partition NAME`: see [checking a queue yourself](#checking-a-queue-yourself).
 
-Nodes available for direct SSH (from a login node), for prototyping etc:
-* gn002 - Grace Hopper, cf gracehopper parttion
-* mad06 - 128 cores, 1TB RAM, Milan-X (large cache), part of the cosma8-shm composible fabric with up to 3 A100 GPUs
-* ga008 - 96 cores, 500G, 4x AMD MI300A GPUs
+## Which queue should I use?
 
+| If you are | Use | Notes |
+| ---------- | --- | ----- |
+| On a DiRAC project with COSMA8 time | `cosma8` | Each job gets whole nodes of 128 cores |
+| On a DiRAC project with COSMA8 time, and need less than a node | `cosma8-serial` | Your job only reserves the cores that it asks for |
+| On a DiRAC project with COSMA7 time | `cosma7` or `cosma7-rp` | Each job gets whole nodes of 28 cores |
+| A Durham user | `cosma5` | Nodes are shared between jobs |
+| Needing a lot of memory on one node | One of the [large memory queues](#large-memory-queues) | |
+| Needing GPUs | One of the [GPU queues](#gpu-queues) | |
 
+Each queue only accepts some projects.  If you are not sure which you can use, run `groups` to see your projects, and see [checking a queue yourself](#checking-a-queue-yourself).  If a project uses up its DiRAC allocation, its jobs are moved to a lower priority `-pauper` queue automatically.
 
-## COSMA8 queues
+## Main queues
 
-There are a number of COSMA8 queues: cosma8, cosma8-prince, cosma8-pauper, cosma8-serial, cosma8-shm, cosma8-shm2, cosma8-shm3, cosma8-draper, cosma8-dine2, cosma8-milan, cosma8-rome, cosma8-highram  (and a few others)
+| Queue | Nodes | Cores per node | Memory per node | Maximum time | Shares nodes? |
+| ----- | ----- | -------------- | --------------- | ------------ | ------------- |
+| `cosma8` | 527 (m8001-m8527) | 128 | 1TB | 3 days | No |
+| `cosma8-serial` | The same 527 nodes | 128 | 1TB | 3 days | Yes |
+| `cosma8-rome` | 356 (m8001-m8356) | 128 | 1TB | 3 days | No |
+| `cosma8-milan` | 171 (m8357-m8527) | 128 | 1TB | 3 days | No |
+| `cosma7` | 220 (m7229-m7448) | 28 | 512GB | 3 days | No |
+| `cosma7-rp` | 222 (m7001-m7222) | 28 | 512GB | 3 days | No |
+| `cosma5` | 8 (m5001-m5008) | 256 | 1.5TB | 3 days | Yes |
 
-If you are unsure, submit to cosma8 (assuming yuo have access - [see below](#access-to-cosma8)).
+On queues that do not share nodes, a job that asks for 1 core is still charged for the whole node.  On queues that share nodes, please say how much memory you need with `--mem`, because the default depends on the queue:
 
-Because COSMA8 contains two generations of processors (Rome and Milan), if you want to only submit to one of those (there is a 10-20% performance difference between them), you can submit to the specific cosma8-milan or cosma8-rome partitions.
+| Queue | Default memory per core |
+| ----- | ----------------------- |
+| `cosma8-serial` | 8GB |
+| `cosma5` | 4GB, and Slurm adds cores to a job that asks for more than 6GB per core |
 
-If your job does not require a full node (of 128 cores), you can submit to the cosma8-serial queue.
+## Queue variants
 
-If you have a valid reason for a longer running time (than 3 days), or for higher priority, you can ask to be able to submit to the `-prince` queues.  The prince queues allow 30 day run times, and can be used by large jobs to avoid the need for reservations and increase system efficiency.
+The main queues have variants that use the same nodes, with different limits and priorities:
 
-The -pauper queues are for low priority jobs, primarily for projects who have used up their allocation (who will automatically be demoted to this queue).  They are limited to a 24 hour runtime.
+| Variant | For example | Maximum time | Priority | Who can use it |
+| ------- | ----------- | ------------ | -------- | -------------- |
+| Normal | `cosma8`, `cosma7` | 3 days | Normal | Projects with time on the system |
+| `-prince` | `cosma8-prince`, `cosma7-rp-prince` | 30 days | Highest | By request only |
+| `-pauper` | `cosma8-pauper`, `cosma7-pauper` | 1 day | Lowest | Projects with time on the system |
+| `-serial` | `cosma8-serial` | 3 days | Normal | As `cosma8`, sharing nodes |
+| `-rome`, `-milan` | `cosma8-rome-pauper` | 3 days | As above | As above, using one type of node |
+| `-test` | `cosma8-test` | 3 to 30 days | High | Restricted to the `dphsprog` group |
 
-Other COSMA8 queues are smaller specialised compute partitions, mentioned in more detail below.
+The `-prince` queues are for jobs with a good reason to run longer than 3 days, or with a higher priority.  They can be used by large jobs instead of a reservation, which improves the efficiency of the system.  To use them, please ask cosma-support.
 
-### Access to COSMA8
+The `-pauper` queues are for low priority jobs, mostly from projects that have used up their allocation, which are moved there automatically.  Their jobs can still run when nodes would otherwise be idle.  `cosma8-rome-pauper` and `cosma8-milan-pauper` allow up to 3 days, unlike the other `-pauper` queues.
 
-You can use the `scontrol show partition=PARTITION` to show details about each queue, and work out which groups/projects you would need to be in to submit jobs to them.
+Jobs in a higher priority queue always start before jobs in a lower one when both are waiting for the same nodes.  However, a lower priority job can start first if it fits into a gap before the higher priority job could start: see [backfill](faq.md#what-is-backfill-how-do-i-exploit-this).  Setting a realistic time limit makes this more likely.
 
-Access to the DiRAC COSMA8 system is only for DiRAC projects with a time allocation on this system. Each COSMA8 compute node has 128 cores and 1TB RAM. If you request fewer than 128 cores for a job using the cosma8-serial queue, you will not be granted exclusive access to a node, and therefore may share a node with other jobs. Unless you specify a memory in your SLURM script (e.g. ```bash #SBATCH --mem=800G```), then you will be given a fraction of 1TB equal to the number of cores you request/128. If you do not wish to share a node, use the "#SBATCH --exclusive" flag (or don't submit to the cosma8-serial queue). The cosma8-shm queue provides access to two large 4TB nodes, each with 128 cores.
+## COSMA8
 
+COSMA8 is the DiRAC-3 system, with two generations of AMD processor:
 
-## cosma8-shm, cosma8-shm2, cosma8-shm3
+| Nodes | Processor | Queue to use only these nodes |
+| ----- | --------- | ----------------------------- |
+| m8001-m8356 | 2x AMD EPYC 7H12 (Rome) | `cosma8-rome` |
+| m8357-m8527 | 2x AMD EPYC 7763 (Milan) | `cosma8-milan` |
 
-The cosma8-shm and cosma8-shm2 queues are small queues with non-standard hardware.
+There is a 10-20% difference in performance between them.  `cosma8` uses either.
 
-### cosma8-shm contains:
+Access to COSMA8 is only for DiRAC projects with a time allocation on it.  If your job does not need a whole node, use `cosma8-serial`.  Your job may then share a node with other jobs.  Unless you request memory, for example with `#SBATCH --mem=800G`, it gets 8GB for each core that it asks for.  To have a node to yourself, use `cosma8` instead.
 
-* mad04: 128 cores, 4TB RAM, 0-3 NVIDIA A100 GPUs, AMD Rome processors
-* mad05: 128 cores, 4TB RAM, 0-3 NVIDIA A100 GPUs, AMD Rome processors
+## COSMA7
 
-If also used to include mad06: Milan-X architecture, 128 cores, 1TB RAM, large (768MB) L3 cache, with 0-3 NVIDIA A100 GPUs, though this is now a more general purpose node for direct ssh from a login node.
+COSMA7 has two halves, with 220 and 222 nodes.  Each node has 28 cores (2x Intel Xeon Gold 5120) and 512GB of memory.
 
-The A100 GPUs are "composable", that is, they can be allocated to different servers upon demand using a Liqid fabric. By default, mad04 and mad05 contain one GPU each (as does login8b). However, should more than 1 GPU be required for a particular workload this can be arranged (at the expense of moving them from the other nodes)
+| Queue | Nodes | Network |
+| ----- | ----- | ------- |
+| `cosma7` | m7229-m7448 | 100Gbit/s InfiniBand |
+| `cosma7-rp` | m7001-m7222 | 100Gbit/s Rockport Ethernet (6D torus) |
 
-### cosma8-shm2 contains:
+A single job can only use one half.
 
-* ga004: 128 cores, 1TB RAM, AMD MI100 GPU, AMD Rome processors
-* ga005: 64 cores, 1TB RAM, 2x AMD MI200 GPU, AMD Rome processors
-* ga006: 64 cores, 1TB RAM, 2x AMD MI200 GPU, AMD Rome processors
+Every job gets whole nodes, so a job that needs a single core is still charged for 28.  If your work uses less than a node, combine several tasks in one job, for example with [many single-core tasks](slurm.md#many-single-core-tasks).  There is no COSMA7 queue for jobs that need less than a node: see [what if my job does not need a whole node?](faq.md#what-if-my-job-does-not-need-a-whole-node)
 
-Should you wish to submit to a particular node, or exclude a particular node (e.g. to ensure that you have access to a particular type of GPU), you can use the ```bash #SBATCH --exclude=ga004``` directive within your batch script (which in this case would exclude ga004, thus ensuring you have access to a node with 2x AMD MI200 GPUs. Or #SBATCH --nodelist=ga004 (which in this case would submit to only the ga004 node).
+## COSMA5
 
-### cosma8-shm3 contains:
+COSMA5 is a Durham system for ICC users and collaborators, and is not part of DiRAC.  The `cosma5` queue has 8 nodes, each with 256 cores (2x AMD EPYC 9754) and 1.5TB of memory.  The old COSMA5 nodes, which started service in 2012 with 16 cores per node, were retired in 2025.
 
-* mad08: 192 cores, 768GB RAM, Genoa processors
-* mad09: 192 cores, 768GB RAM, Genoa processors
+The queue shares nodes between jobs.  The `--exclusive` flag is ignored, so to have a node to yourself, request all 256 cores.  Please request the memory that your job needs, otherwise it gets 4GB per core.
 
-### cosma8-highram
+These compute nodes are different from the COSMA5 login node, in both hardware and the file systems available: see [COSMA5](facilities.md#cosma5) and [mounted file systems](storage.md#mounted-filesystems).
 
-The cosma8-highram queue uses the same nodes as the cosma8-shm queue, but is for DiRAC projects.
+COSMA5 does not appear in the [COSMA usage pages](https://virgodb.cosma.dur.ac.uk/usage/login.php), because DiRAC does not award allocations on it.
 
-## COSMA7 queues: cosma7, cosma7-rp, -pauper and -prince
+## Large memory queues
 
-Access to the DiRAC COSMA7 machine is provided using the two queues cosma7 and cosma7-rp (and their increased or reduced priority versions, cosma7-pauper, cosma7-prince, cosma7-rp-pauper and cosma7-rp-prince). These two queues provide access to half of COSMA7, with 224 nodes in each.  cosma7 uses a 100Gbit/s InfiniBand fabric, while cosma7-rp uses a 100Gbit/s Rockport Ethernet fabric (6D torus topology).
+These queues have a few nodes with much more memory per core than the main queues.  They all share nodes, and allow up to 3 days unless noted.
 
-All the queues are configured so that job exclusive access to nodes is enforced. This means that no jobs share a compute node. Therefore, if you only need a single core, your project allocation will still be charged for using 28 cores.
-
-The main use of these queues is for DiRAC projects that have been assigned time at Durham and the mix of jobs expected to match its capabilities are MPI/OpenMP/Hybrid jobs using up to 28 cores per node with a maximum memory of 512GB per node. If any jobs can run using fewer resources than a single node then they should be packaged into a batch job with appropriate internal process control to scale up to this level.
-
-In addition to the hardware limits the queues have the following limits and priorities:
-
-
-| Name             | Priority          | Maximum run time	   | Maximum cores    |  
-| ---------------- | ----------------- | ----------------------| ---------------- | 
-| cosma7 and cosma7-rp           | Normal            | 72 hours              | unlimited        | 
-| -pauper	   | Low               | 24 hours              | unlimited        | 
-| -prince    | Highest           | 30 days               | 4096             | 
-
-The pauper and prince variations of the queues share the same resources so the order that jobs run are decided on a number of factors. Higher priority jobs will run first, and in fact jobs in higher priority queues will always run before lower priority jobs, however, it may not superficially seem like that as jobs from lower priority queues may run as back-fills (this is allowed when a lower priority job will complete before the resources needed for a higher one will become available, so setting a run-time limit for your job may get it completed more quickly). See the [FAQ](faq) for how to make use of back-filling.
-
-## COSMA6 queues: cosma6, cosma6-pauper and cosma6-prince
-
-COSMA6 was retired in April 2023 after 11 years of service.
-
-## COSMA5 queues: cosma5, cosma-test
-
-Access to the Durham COSMA5 machine is provided using the cosma5 queue. This queue is comprised of the new (2024, 2025) COSMA5 nodes, a total of 8 nodes each with 256 cores and 1.5TB RAM.  This partition is non-exclusive, i.e. jobs will share a node with other jobs unless exclusive access is explicitly requested.  You are therefore advised to explicitly request the amount of RAM your job will use, otherwise a default of around 6GB per core will be allocated.
-
-The old COSMA5 nodes were retired in 2025, originally starting service in 2012 (16 cores per node, 128GB RAM).  There were originally 420 nodes, 6720 cores.
-
-The main use of this queue is for Durham projects that have been assigned time at Durham and the mix of jobs expected to match its capabilities are MPI/OpenMP/Hybrid jobs using up to 256 cores per node with a maximum memory of 1.5TB per node.
-
-In addition to the hardware limits the queues have the following limits and priorities:
-
-| Name             | Priority          | Maximum run time        | Maximum cores    | Cores per node | nodes | RAM per node |
-| ---------------- | ----------------- | ------------------------| ---------------- | ---------------| ------| -------------|
-| cosma5           | Normal            | 72 hours                | unlimited        | 256            | 8     | 1.5TB        |
-
-The cosma5-test queue is for testing purposes only.
-
-Higher priority jobs will run first, though lower priority jobs with shorter runtimes may run as back-fill jobs, making use of available nodes before a larger job is due to start.  Setting a run-time limit for your job may get it completed more quickly. See the [FAQ](faq) descriptions for how to make use of back-filling.
-
-The quarterly allocation can be found by running `mybalance` on a login node (see the [FAQ](faq.md#how-do-i-check-my-project-s-allocation)) or in the [COSMA usage pages](https://virgodb.cosma.dur.ac.uk/usage/login.php), for which you'll need your
-COSMA username and password.  However, COSMA5 is no longer listed here as no DiRAC allocations are awarded on it.
-
-Jobs within the same queue are scheduled using a fairshare arrangement so each user initially has the same priority. This is then weighted using a resources used formula.
-
-Note that the order of running can again be affected by back-filling (but that will only work if a job is given a run time) and using fewer resources than other jobs.
-
-## cosma8-ska, cosma8-ska2 queues
-
-The cosma8-ska and cosma8-ska2 queues are for SKA projects.
-
-cosma8-ska is a single node (mad07) with 4TB RAM and 128 cores.
-
-cosma8-ska2 has 4 high RAM nodes (mad01, mad03, mad04, mad05), with 3, 6, 4 and 4TB RAM respectively, and between 56-128 cores.
-
-## cosma8-draper and mi300x queues
-
-The cosma8-draper and mi300x queues both contain the same single node, an 8-GPU system containing 8x MI300X GPUs.
-
-Direct access to an MI300A system (4x GPUs) is available via direct ssh to ga008 from a login node.
-
-The cosma8-draper queue is named in honour of Peter Draper, who retired from COSMA technical support after many years in 2026.
-
-## cosma8-dine2, dine2
-
-The cosma8-dine2 and dine2 partitions contain 8 nodes each with 2TB RAM and 64 cores (Intel Sapphire Rapids).  Each node also contains between 0-12 GPUs: This is a composible system where GPUs can be allocated to nodes upon request.  There are a total of 8x A30 GPUs and 4x V100 gPUs.
-
-## cosma7-mad
-
-A single node, mad01, with 56 cores and 3TB RAM
-
-## cosma7-shm
-
-Two nodes, mad01, mad02, with 56 and 3TB RAM and 112 cores and 1.5TB RAM respectively.
-
-## cosma7-shm2
-
-A single node, mad03, with 48 cores and 6TB RAM
-
-## cosma-analyse
-
-A partition for analysis of cosmological datasets, including mad01 (56 cores, 3TB), mad02 (112 cores, 1.5TB), mad03 (48 cores, 6TB).
-
-## bluefield1, dine
-
-Both are 18 node (was 24) partitions with each node having 32 cores and 512GB RAM.  This includes gitlab-runners, and so can be used for CI/CD.  The nodes are b[101-105,107-115, 116-119]
-
-## gracehopper
-
-A single Grace-Hopper node, gn003.  The gn002 node is also Grace-Hopper, available for direct ssh from a login node for code testing, development, etc.
+| Queue | Nodes | Cores | Memory | Default memory per core | Notes |
+| ----- | ----- | ----- | ------ | ----------------------- | ----- |
+| `cosma7-shm` | mad01 | 56 | 3TB | 13.6GB | |
+| `cosma7-shm` | mad02 | 112 | 1.5TB | 13.6GB | |
+| `cosma7-shm2` | mad03 | 48 | 6TB | 46GB | durham and do025 only |
+| `cosma7-mad` | mad01 | 56 | 3TB | 27GB | Project `mad` only |
+| `cosma8-shm` | mad04, mad05 | 128 | 4TB | 32GB | NVIDIA A100 GPUs |
+| `cosma8-highram` | mad04, mad05 | 128 | 4TB | 32GB | The same nodes as `cosma8-shm`, for some DiRAC projects |
+| `cosma8-shm3` | mad08, mad09 | 192 | 768GB | 4GB | AMD Genoa |
+| `cosma8-ska` | mad07 | 56 | 4TB | 50GB | durham and do011 (SKA) |
+| `cosma8-ska2` | mad01, mad03, mad04, mad05 | 48-128 | 3-6TB | 13GB | durham and do011 (SKA) |
+| `cosma-analyse` | mad01, mad02, mad03 | 48-112 | 1.5-6TB | 13GB | For analysing cosmological data.  1 node and 1 day per job |
+
+See also [what are the shm queues?](faq.md#what-are-the-shm-queues)
+
+The A100 GPUs in mad04 and mad05 are composable: they can be moved between servers using a Liqid fabric.  By default, mad04 and mad05 have one GPU each.  If you need more than one, please ask cosma-support.
+
+## GPU queues
+
+| Queue | Nodes | GPUs | Maximum time | Projects |
+| ----- | ----- | ---- | ------------ | -------- |
+| `cosma8-shm` | mad04, mad05 | NVIDIA A100, 1 per node by default | 3 days | Most DiRAC projects, and durham |
+| `cosma8-shm2` | ga004 | 1x AMD MI100 | 3 days | Most DiRAC projects, and durham |
+| `cosma8-shm2` | ga006 | 2x AMD MI210 | 3 days | Most DiRAC projects, and durham |
+| `dine2` | gc001-gc008 | NVIDIA A30 and V100, attached on request | 3 days | durham, do011, do015, do020 |
+| `cosma8-dine2` | gc001-gc008 | As `dine2` | 3 days | dp276, dp440 |
+| `gracehopper` | gn003 | 1x NVIDIA GH200 (ARM processor) | 6 hours | durham, do016 |
+| `mi300x` | ga007 | 8x AMD MI300X | 1 day | do018 |
+| `cosma8-draper` | ga007 | 8x AMD MI300X, whole node | 1 day | dp266 |
+| `mi300a` | ga008 | 4x AMD MI300A | 2 hours | durham, do018 |
+| `hardwarelab-gpu` | ga008, gn004, gn005, mad06 | Various | 6 hours, overnight only | durham, do016, do017, do018 |
+
+How to request a GPU differs between queues: see [GPU jobs](gpujobs.md).  The `cosma8-draper` and `mi300x` queues are charged by GPU, not CPU, so request GPUs there with `--gpus=N`.  The `cosma8-draper` queue is named in honour of Peter Draper, who retired from COSMA technical support in 2026.
+
+The ga008, gn004, gn005 and mad06 nodes can be used directly with ssh during the day, and are in the `hardwarelab-gpu` queue overnight: see [hybrid nodes](hardwarelab-hybridnodes.md).  The CPU nodes gi001, mad11 and mad12 work in the same way, with the `hardwarelab-cpu` queue.
 
 ## Other queues
 
-There are a number of other queues which may be of relevance.  If in doubt, please ask.
+| Queue | Nodes | Cores | Memory | Maximum time | Notes |
+| ----- | ----- | ----- | ------ | ------------ | ----- |
+| `bluefield1` | 18 (b101-b119, without b115) | 32 | 512GB | 3 days | With BlueField-2 DPUs.  durham, do008, do009 |
+| `dine` | The same nodes as `bluefield1` | 32 | 512GB | 3 days | dp128 |
+| `hardwarelab-cpu` | gi001, mad11, mad12 | 112-256 | 512GB-1.5TB | 6 hours, overnight only | durham, do025 |
+
+The bluefield1 nodes include GitLab runners, so they can be used for CI/CD.  See [DINE](dine.md) for the BlueField hardware.
+
+Some queues are only open to particular projects, or are used for training, such as `ciuk-dine` and `devhub`.  If in doubt, please ask.
+
+## Nodes for direct ssh
+
+Some nodes can be used directly with ssh from a login node, for testing and development.  They are shared, so please do not run large or long jobs on them.
+
+| Node | Hardware |
+| ---- | -------- |
+| gn002 | NVIDIA Grace Hopper (ARM), like the `gracehopper` node |
+| mad06 | 128 cores, 1TB, AMD Milan-X with a large (768MB) L3 cache, and an A100 GPU.  Overnight, it is in the `hardwarelab-gpu` queue |
+| ga008 | 96 cores, 512GB, 4x AMD MI300A.  Overnight, it is in the `hardwarelab-gpu` queue |
+
+See [GPUs](gpu.md) and the [CPU compute lab](cpucomputelab.md) for more.
+
+## How jobs are prioritised
+
+When jobs are waiting for the same nodes, Slurm starts the one with the highest priority.  A job's priority combines these factors, most important first:
+
+| Factor | Effect |
+| ------ | ------ |
+| Fairshare | Projects and users that have used less recently get a higher priority.  Past usage counts for less over time, halving every 7 days |
+| Age | Priority rises the longer a job waits, for up to 28 days |
+| Queue | Jobs in higher priority queues, such as `-prince`, come first |
+| Job size | Larger jobs get a small boost |
+
+To see the factors for a pending job, run `sprio -j JOBID`.  To see your fairshare, run `sshare`.  For more, see [scheduling and fairshare](slurmdetail.md).
+
+Each project also has a quarterly allocation.  To check it, run `mybalance` (see the [FAQ](faq.md#how-do-i-check-my-project-s-allocation)), or see the [COSMA usage pages](https://virgodb.cosma.dur.ac.uk/usage/login.php), for which you'll need your COSMA username and password.
+
+## Checking a queue yourself
+
+| Task | Command |
+| ---- | ------- |
+| List all queues | `sinfo -a -s` |
+| See a queue's limits and who can use it | `scontrol show partition NAME` |
+| See the nodes in a queue, with their cores and memory | `sinfo -p NAME -N -o "%N %c %m %f %G"` |
+| Summarise node properties | `slurmnodeprop NAME` |
+| See which projects you belong to | `groups` |
+
+In `scontrol show partition`, `AllowAccounts` lists the projects that can submit to the queue.  `MaxTime` is the longest time allowed, `OverSubscribe=EXCLUSIVE` means each job gets whole nodes, and `DefMemPerCPU` is the default memory per core, in megabytes.
+
+## COSMA6
+
+COSMA6 was retired in April 2023, after 11 years of service.

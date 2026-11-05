@@ -2,7 +2,7 @@
 
 COSMA is a large consumer of electricity. The UK national grid has not yet been decarbonised, and therefore COSMA is responsible for production of a large amount of CO2.
 
-We are taking some steps, within our control, to help mitigate this. You will find some of this information here.
+We are taking some steps, within our control, to help mitigate this, reducing and minimising carbon production. You will find some of this information here.
 
 - Quarterly energy reporting to users and project PIs: an email every quarter providing information about energy consumption by each user's jobs.
 - Low Power Utilisation Efficiency (PUE) data centre (<1.2) using free-air cooling most of the year
@@ -10,7 +10,7 @@ We are taking some steps, within our control, to help mitigate this. You will fi
   - [UKRI Net Zero Digital Research Infrastructure Scoping Project](https://net-zero-dri.ceda.ac.uk/overview/)
   - [HPCJeep](https://net-zero-dri.ceda.ac.uk/hpc-jeep)
   - [IRISCAST](https://net-zero-dri.ceda.ac.uk/iriscast)
-  - [NetDrive](https://eng.ox.ac.uk/netdrive/about-netdrive)
+  - NetDrive
 - Using SLURM to power off unwanted compute nodes: currently DINE and COSMA5. Other systems see close to 100% use, so would have minimal benefit.
 - BIOS configurations to reduce node idle power while not affecting job runtimes.
 - Working with suppliers to reduce packaging and embedded CO2.

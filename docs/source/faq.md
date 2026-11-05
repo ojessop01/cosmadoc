@@ -178,9 +178,13 @@ See [here](slurm.md)
 
 ## How do I make sure my job runs on full nodes?
 
-Nodes on all the main queues are exclusive - you will not share nodes with
-other users. However, this does mean you should make good use of all the
+Nodes on the cosma7 and cosma8 queues are exclusive - you will not share nodes
+with other users. However, this does mean you should make good use of all the
 available cores.
+
+The cosma5 queue is not exclusive: your job will share nodes with other jobs.
+To have a node to yourself, request all 256 of its cores.  The `--exclusive`
+flag is ignored on this queue.
 
 If you are using a single core job, consider running multiple of these at the
 same time, using SLURM arrays, or a parallel MPI launch. COSMA8 has a serial
@@ -188,7 +192,7 @@ queue "cosma8-serial" for smaller jobs if really needed.
 
 ## How many cores can I reasonably request?
 
-COSMA5 has about 5000 cores
+COSMA5 has about 2000 cores
 
 COSMA7 has ~12,500 cores.
 
@@ -212,13 +216,17 @@ system (i.e. individual disk failures do not lead to data loss), and is
 archived periodically.
 
 Each storage location is optimally connected to that system. e.g. if you store
-data in /cosma7/ please access it from the cosma7 queue. It will not be
-available to cosma5 or cosma8 compute nodes.
+data in /cosma7/ please access it from the cosma7 queue.
+
+Not every file system is available on every compute node, even if you can see
+it on a login node. For example, /cosma8 is not available on the cosma5 or
+cosma7 compute nodes, and /cosma7 is read-only on the cosma5 and cosma8 compute
+nodes. See the [table of mounted file systems](storage.md#mounted-filesystems).
 
 ## Do I need to worry about where the initial conditions are stored?
 
 Yes. These should be stored on the data storage connected to the compute nodes
-you are using. e.g. for cosma6, use /cosma8/data/
+you are using. e.g. for the cosma8 queues, use /cosma8/data/
 
 If initial conditions are small and only used by a small number of nodes at a
 time, they may be better stored in your home space, but running from the home
@@ -354,9 +362,9 @@ cosma7-shm2 is only available to the durham and do025 groups.  See the
 
 ## I want to analyse a simulation, but need a lot of memory: how do I do this?
 
-COSMA5 login nodes have 512GB, while COSMA7 login nodes have 1.5TB
-memory. COSMA8 login nodes have 2TB RAM. This is shared between other logged
-in users, so please check for a quiet node first.
+The COSMA5 login node has 768GB. The COSMA7 login nodes login7a and login7b
+have 1.5TB, and login7c has 768GB. The COSMA8 login nodes have 2TB RAM. This is
+shared between other logged in users, so please check for a quiet node first.
 
 The mad01 system has 3TB memory.
 
@@ -404,10 +412,10 @@ The srun command will allow you to do this.
 To compile in parallel, use the -j NNN argument when you type make (e.g. make
 -j 4 to use 4 threads during compilation).
 
-Code compiled on COSMA8 will run on COSMA5 and COSMA7. Heavily optimised code
-compiled on COSMA7 may not run on COSMA5 or COSMA8, as these have a slightly
-reduced instruction set.. In general it is best to compile on the login nodes
-associated with the compute cluster you intend to use.
+Heavily optimised code compiled on COSMA5 or COSMA7 may not run on COSMA8, which
+does not support AVX-512. It is best to compile on the login nodes associated
+with the compute cluster you intend to use. See
+[the differences between systems](ssh.md#cosma8-cosma7-cosma5-differences).
 
 Note that a full compilation environment is not installed on the compute
 nodes, you are expected to compile on the logins.

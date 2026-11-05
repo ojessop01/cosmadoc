@@ -16,7 +16,32 @@ First, test the HPC connection from a normal terminal:
 ssh -i /path/to/ssh/key username@loginX.cosma.dur.ac.uk
 ```
 
-Replace the hostname and username with those relevant for you.  It would also be worth setting up [SSH multiplexing](ssh.html#Reusing-SSH-connections) to ensure that you only need to authenticate once per session.
+Replace the hostname and username with those relevant for you.  You will be asked for your ssh key passphrase, then your COSMA password.
+
+## Add COSMA to your SSH config
+
+VS Code uses your normal SSH settings, so add an entry for COSMA.  On your local computer, create the folder for shared connections:
+
+```
+mkdir -p ~/.ssh/controlmasters
+```
+
+Then add this to `~/.ssh/config`, changing USERNAME, the key and the login node to suit you:
+
+```
+Host cosma8
+    HostName login8.cosma.dur.ac.uk
+    User USERNAME
+    IdentityFile ~/.ssh/id_ed25519
+    IdentitiesOnly yes
+    ControlPath ~/.ssh/controlmasters/%r@%h:%p
+    ControlMaster auto
+    ControlPersist 8h
+```
+
+Test it from a normal terminal with `ssh cosma8`.  The ControlMaster lines share [one connection](ssh.md#reusing-ssh-connections) between your terminals and VS Code, so that you only need to authenticate once per session.  They are not supported by the SSH client included with Windows, so leave them out if you are using Windows, and expect to enter your password more often.  Take care, because too many failed logins will get you banned.
+
+`login8` picks one of the two COSMA8 login nodes.  To always use the same one, use `login8a` or `login8b` for the HostName.
 
 ## Configure VS Code
 
@@ -25,11 +50,13 @@ In VS Code:
 - Install Remote-SSH.
 - Open the Command Palette with Ctrl+Shift+P (Cmd+Shift+P on macOS).
 - Select Remote-SSH: Connect to Host...
-- Enter the COSMA login node and your ssh key
+- Select `cosma8`, the host that you added to your SSH config
 
 VS Code will establish an SSH connection and install its remote components on the HPC system.  Using your /cosma/apps space is good for this.
 
 A new VS Code window will open. The bottom-left corner should indicate that you are connected to the remote machine.
+
+You will need to enter your passphrase and password.  If you do not see a prompt for them, turn on `remote.SSH.showLoginTerminal` in your local VS Code settings, so that the login appears in a terminal.
 
 If you get your VS Code setup wrong, it will repeatedly try to access COSMA, fail, and you will quickly be banned after a few failed attempts.  This ban is initially temporary (10-15 minutes), but if you are repeatedly banned, you will then automatically be placed under a permanent ban.  If this is the case, fix your setup, and then contact cosma-support to get yourself unbanned.
 
@@ -67,6 +94,37 @@ Modules also work:
 module load python
 python my_script.py
 ```
+
+## Set up Python
+
+Without any setup, Python on COSMA is the system version (3.9), which has few packages.  Instead, use a [virtual environment](python.md#installing-python-libraries) and tell VS Code about it.
+
+1. In the VS Code terminal, create a virtual environment in your app space:
+
+    ```
+    module load python/3.12.4
+    python -m venv /cosma/apps/PROJECT/USERNAME/venvs/myenv
+    source /cosma/apps/PROJECT/USERNAME/venvs/myenv/bin/activate
+    pip install numpy
+    ```
+
+    Replace `numpy` with the packages that you need.  Add `ipykernel` if you want to use notebooks.
+
+2. In the Extensions panel, install the Python extension, using the button that installs it on the remote host.
+3. Open the Command Palette and select Python: Select Interpreter.
+4. Select Enter interpreter path, and enter `/cosma/apps/PROJECT/USERNAME/venvs/myenv/bin/python`.
+
+To check that it worked, open a new terminal and run `which python`.  It should print the path to your virtual environment.  If it does not, run the `source` command above.
+
+You do not need to load the Python module again to use the environment.  You may still need other modules, such as MPI or HDF5, if your packages were compiled against them.
+
+The gn002 and gn003 nodes use ARM processors, so they need their own virtual environment.
+
+### Notebooks
+
+To use notebooks, also install the Jupyter extension on the remote host and `ipykernel` in your virtual environment.  Open a notebook, click Select Kernel, and select your virtual environment.
+
+Anything that you run with the Run button or in a notebook runs on the login node, so please keep it short and small.  For anything larger, submit a [Slurm job](slurm.md), or [launch Jupyter on a compute node](jupyter.md#launching-jupyter-lab-on-a-compute-node).
 
 ## Don't normally run heavy jobs on the login node
 
@@ -108,7 +166,7 @@ VS Code can be especially useful for debugging Python or other languages remotel
 
 A typical workflow is:
 
-Local computer -> SSH -> Login node -> Jub submission -> Compute node -> Your job
+Local computer -> SSH -> Login node -> Job submission -> Compute node -> Your job
 
 For straightforward development, you can edit the code through VS Code and use the terminal to submit jobs.
 
@@ -288,6 +346,19 @@ Many extensions don't actually need to run on the remote host at all - VS Code l
 
 # Tips with Extensions
 
+## Recommended extensions
+
+Every extension adds some load, so please only install what you need:
+
+| Extension | Install on | Use it for |
+| --------- | ---------- | ----------- |
+| Remote - SSH | Your local computer | Connecting to COSMA |
+| Python | COSMA | Choosing an interpreter, and debugging |
+| Jupyter | COSMA | Notebooks |
+| C/C++ or clangd | COSMA | Writing C and C++ |
+
+When connected to COSMA, the Extensions panel shows which extensions are installed locally and which are installed on COSMA.
+
 ## C/C++
 
 The C/C++ extension (`ms-vscode.cpptools`) or `clangd` will index your codebase on open. On large repositories - especially ones with big third-party header trees - this is one of the heaviest things VS Code can do on a login node, both in CPU and in filesystem metadata traffic.
@@ -308,7 +379,7 @@ Setting intelliSenseEngine and autocomplete to disabled assumes you're using cla
 
 ## Python
 
-Point the Python extension to the correct Python interpretor (i.e. from the system Python module you wish to use or your virtual environment).
+Point the Python extension to the correct Python interpreter, as described in [Set up Python](#set-up-python).
 
 The `pylance` extension indexes your workspace, so exclude this behaviour similarly to the C/C++ section.
 
