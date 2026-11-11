@@ -21,118 +21,538 @@ cosma-support.
 ## What agents are good for on COSMA
 
 Much of the time spent on HPC work is not science.  It goes on finding the
-right modules, reading error messages, writing job scripts, checking why a job
-failed, moving data between systems, and fixing small problems in code
-written by someone else.  These tasks are slow mainly because each needs a lot
-of small steps, and each step needs looking something up.  Agents are very
-good at exactly this: they can run a command, read the output, look at the
-relevant file, and try the next step, many times a minute, and explain what
-they found.
+right modules, reading error messages, writing job scripts, working out why a
+job failed, moving data between systems, timing things fairly, and fixing small
+problems in code written by someone else.  These tasks are slow mainly because
+each one needs many small steps, and each step needs something looking up.
 
-Used well, an agent turns jobs that used to take an afternoon of trial and
-error into a few minutes of checking its work.  The examples below are the
-kinds of task where agents help most on COSMA.
+Agents are very good at exactly this.  An agent can run a command, read the
+output, open the relevant file, and try the next step, many times a minute,
+while keeping a record of what it found.  Tasks that used to take an afternoon
+of trial and error, or that were so tedious they never got done, become a few
+minutes of reading the agent's results and checking them.
+
+The rest of this section describes the kinds of work COSMA users already do
+with agents every day.  Each example shows the sort of request that works
+well, what the agent does, and what you should check yourself.  In every case
+the [COSMA rules](#the-cosma-rules-for-agents) still apply: the agent prepares
+the work, and you approve anything that submits jobs, deletes files or
+touches shared data.
+
+### Why it saves so much time
+
+- **It reads everything.**  An agent will read a 2,000-line build log, a
+  whole Slurm output file or every function in a module, where a person would
+  skim.  It often finds the real cause of a problem in a line you would have
+  scrolled past.
+- **It does the boring checks.**  Comparing two hundred files, timing a run
+  three times, or checking every dataset in a snapshot is tedious for a
+  person and easy for an agent.  Checks that used to be skipped get done.
+- **It keeps going.**  An agent can try a fix, rebuild, rerun the test and try
+  again while you work on something else, and only come back to you with a
+  result, or with a question it cannot answer.
+- **It knows the tools.**  Agents know the options of `rsync`, `sacct`,
+  `git bisect`, `lfs`, `perf` and most compilers, and how to read their
+  output, so you do not have to look them up.
+- **It writes things down.**  An agent can produce the table, the plot, the
+  summary or the bug report at the end, in a form you can share.
+
+### Planning before it starts
+
+For anything bigger than a small fix, ask the agent for a plan before it
+changes anything.  A good plan lists the steps, the files it will change, how
+it will test each step, what could go wrong, and anything it needs you to
+decide.  Reading a plan takes a few minutes; undoing a day of work in the
+wrong direction takes much longer.
+
+- Many agents have a planning mode, in which they read and investigate but do
+  not change files or run anything that alters the system.  Use it for the
+  first look at a new task.
+- Ask the agent to write the plan to a file in the project, so you can edit
+  it, and so a later session can pick it up.
+- Ask it to mark the steps that need your approval, such as submitting jobs,
+  deleting files or changing shared data.
+- When the plan is agreed, ask it to follow the plan and report against it,
+  step by step, and to stop and ask if something does not match the plan.
+
+For example:
+
+```
+Before changing anything, write a plan in docs/plan-io.md for making the
+snapshot reader faster: what you will measure, what you will change, how you
+will check the results are unchanged, and which steps need me to submit jobs.
+```
+
+### Critiques and reviews
+
+Agents are good reviewers, of your work and of their own.  A review asked for
+explicitly is usually far more thorough than the checking an agent does by
+default.
+
+- **Your code.**  Ask for a detailed review of a script, a module or a pull
+  request: bugs, edge cases, unit errors, race conditions, parts that will be
+  slow at full size, and missing tests.
+- **Your writing.**  Ask for a critique of a draft paper section, a proposal or
+  documentation: unclear explanations, claims without support, inconsistent
+  notation, and mistakes in the method.
+- **Its own work.**  Before you accept a result, ask the agent to review what
+  it has just done as if someone else had done it: what it did not test, what
+  assumptions it made, and what would make the result wrong.
+- **A fresh reviewer.**  An agent reviewing its own work tends to agree with
+  itself.  For an important change, start a new session (or a separate review
+  agent, if your tool has them), give it the change and the goal but not the
+  original reasoning, and ask it to find problems.
+- **Checking the review.**  Reviews can contain false alarms.  Ask the agent to
+  check each point it raises against the code or data, and to mark which ones
+  it confirmed.
+
+For example:
+
+```
+Review the changes on this branch as a strict reviewer would.  Look for
+bugs, wrong units, cases that are not handled, and anything that would be
+slow on the full snapshot.  For each problem, give the file and line and say
+how sure you are.  Then check each one and tell me which are real.
+```
+
+### Technical documents for you to review
+
+Agents can write documents that are tedious to write but useful to have, as a
+draft for you to correct:
+
+- a **design document** for a change, explaining the options, the one chosen,
+  and why;
+- a **method note** describing exactly what a piece of analysis does, with the
+  equations and the code it corresponds to;
+- a **report** on an investigation, such as a performance study or a bug hunt,
+  with the measurements, the commands used, and what is still unknown;
+- **documentation** for a code: how to install it, how to run it on COSMA,
+  and what each option does;
+- a **comparison** of two methods, two codes or two runs, with tables and
+  plots.
+
+Ask for the facts to come with their source (the command, the file and line,
+the job ID), and for anything unchecked to be marked as unchecked.  Treat the
+document as a draft: you are responsible for what it says.
+
+### Pages you can open in a browser
+
+Some agents can produce a formatted page, with tables, plots and diagrams,
+that you open in a web browser instead of reading text in a terminal.  Claude
+calls these *artifacts*, and other tools have similar features.  They are
+useful for:
+
+- reports and comparisons that are easier to read with tables and plots;
+- a review of changes, with additions and deletions highlighted;
+- a dashboard of results from many jobs;
+- a document you want to share with a supervisor or collaborators.
+
+Pages like this are usually stored by the company that runs the agent, not on
+COSMA.  They are normally private until you share them, but the same care
+applies as for anything else you show an agent (see
+[data, privacy and accounts](#data-privacy-and-accounts)).  If the content
+must stay on COSMA, ask the agent to write an HTML file in your project
+instead, and copy it to your own computer to view it.
 
 ### Moving and checking data
 
 Copying data between file systems, or between COSMA and another HPC system,
 is simple in principle but fiddly in practice: choosing what to copy,
 excluding temporary files, keeping permissions, resuming after a dropped
-connection, and checking that everything arrived intact.
+connection, and checking that everything arrived intact.  Agents make
+careful transfers, with checks that are often skipped by hand, the normal way
+of working.
 
 An agent can:
 
-- work out what needs to be copied, and how big it is, before anything moves;
+- work out what needs to be copied, how many files and how much data, before
+  anything moves;
 - write an `rsync` command with the right options, run a dry run
-  (`rsync -n`) first so you can see what will happen, and then run it;
-- check the copy afterwards by comparing checksums (`md5sum` or `sha256sum`)
-  on both sides, and copy again only the files that differ;
-- split a large transfer into parts that can be resumed, and keep a log of
-  what has been done;
-- tidy a messy folder into a sensible layout, showing you the plan before it
-  moves anything.
+  (`rsync -n`) so you can see exactly what will happen, and then run it;
+- check the copy afterwards by computing checksums (`sha256sum` or
+  `md5sum`) on both sides, comparing the lists, and copying again only the
+  files that differ;
+- split a very large transfer into parts that can each be resumed, and keep
+  a log of which parts are done, so that a dropped connection costs minutes,
+  not hours;
+- copy files onto Lustre with the right [striping](lustre.md) for large files,
+  so that later parallel reads are fast;
+- tidy a messy folder into a sensible layout, showing you the plan as a list
+  of moves before anything happens.
 
 For example:
 
 ```
 Copy /cosma8/data/PROJECT/USER/run42/snapshots to OTHER-SYSTEM:/scratch/USER/run42.
-Show me the size and a dry run first.  Afterwards, check every file with sha256sum
-on both sides and list any that differ.
+Show me the number of files and total size, then a dry run.  After the copy,
+compute sha256sum of every file on both sides and list any that differ.
 ```
 
-See [data transfer](data.md) for the tools.  Remember that a transfer
-connection still needs you to log in, so start the connection yourself and
-let the agent reuse it.
+**Check:** the dry run before the real copy, and the final list of
+mismatches (it should be empty).  A transfer to another system still needs
+you to log in, so start that connection yourself and let the agent reuse it
+(see [SSH, passwords and logins](#ssh-passwords-and-logins)).
 
 ### Building and installing software
 
 Getting a code to build on a new system usually means trying modules and
-options until the errors stop.  An agent can:
+options until the errors stop.  An agent can work through this quickly:
 
-- read a code's build instructions and find which COSMA modules provide what
-  it needs (`module avail`, and the [list of modules](modulelist.md));
-- fix the order of `module load` lines, missing compilers, and library paths;
-- read long compiler and linker errors, find the first real error, and fix
-  its cause;
-- build the same code with different compilers or MPI libraries, to compare
+- read the code's build instructions and find which COSMA modules provide what
+  it needs, using `module avail` and the [list of modules](modulelist.md);
+- put the `module load` lines in the right order, with the compiler first and
+  the libraries that need it afterwards;
+- read long compiler and linker errors, find the *first* real error rather
+  than the hundreds that follow from it, and fix its cause;
+- find out why a library is not found at run time (`ldd`, `LD_LIBRARY_PATH`,
+  `rpath`);
+- build the same code with different compilers or MPI libraries and compare
   them;
-- write a short script that rebuilds the code the same way next time.
+- write a short build script, so the same build can be repeated exactly next
+  time.
+
+#### Building for different nodes
+
+COSMA's nodes have [different CPUs](facilities.md#compiling-for-each-system),
+and some have GPUs.  A program built for one may not run on another.  Agents
+are good at managing several builds of the same code:
+
+- recognising that `Illegal instruction` means the program was built for a
+  CPU with instructions (such as AVX-512) that the current node does not have,
+  rather than a bug in the code;
+- making separate builds for AVX2 and AVX-512 nodes, and checking that they
+  give identical results;
+- building for a GPU node, which usually means finding the right CUDA or other
+  GPU modules and compiling where they are available;
+- choosing the right build at run time, for example by checking for
+  `avx512f` in `/proc/cpuinfo` in the job script.
+
+For example:
+
+```
+This program crashes with "Illegal instruction" on cosma8 but works on login5c.
+Find out why, and make a build that runs on both.  Check that both builds give
+the same output on the small test case.
+```
 
 ### Writing and checking job scripts
 
-An agent can write a [Slurm](slurm.md) script from a plain description
-("4 nodes of cosma8 for 12 hours, 128 MPI ranks per node"), choose a
-suitable queue, check it with `sbatch --test-only`, and explain each line.
-After a job has run, it can read the output and error files and `sacct`, and
-tell you:
+An agent can write a [Slurm](slurm.md) script from a plain description, such
+as "4 nodes of cosma8 for 12 hours, 128 MPI ranks per node, output in my run
+folder".  It chooses a suitable queue, checks the script with
+`sbatch --test-only`, and explains each line.
 
-- why a job failed, was cancelled, or ran out of time or memory;
+After a job has run, it can read the output and error files, `sacct` and
+`seff`-style summaries, and tell you:
+
+- why a job failed, was cancelled, or ran out of time or memory, with the
+  lines from the log that show it;
 - how much of the CPU time and memory you asked for was actually used, so
-  that you can ask for less next time;
-- why a job is still waiting in the queue.
+  that you can ask for less next time and wait less in the queue;
+- why a job is still waiting (`squeue --me -o "%i %r"`), and what would get
+  it started sooner;
+- which jobs in a large set failed, and what the failures have in common.
 
-You still submit and cancel the jobs yourself, as the COSMA rules require.
+#### Campaigns of many jobs
 
-### Finding problems in code and results
+For work split into many similar jobs, such as rendering hundreds of frames,
+analysing every snapshot of a simulation or running a parameter scan, an agent
+can:
 
-- **Crashes and hangs:** read a traceback, a core dump summary or an MPI error
-  and find the line that caused it.
-- **Wrong results:** compare two runs, two versions of a code, or a result
-  against a published value, and find where they first differ.
-- **Regressions:** use `git bisect` to find which commit made a code slower or
-  changed its output.
-- **Performance:** run a profiler on a small test case and explain where the
-  time goes.
+- turn a loop of separate jobs into one [job array](sbatch.md);
+- write the job so that each task skips work that is already done, so a
+  failed array can be resubmitted without repeating finished tasks;
+- check a few tasks first, then the rest;
+- watch the array, collect the tasks that failed, find the cause, and prepare
+  a resubmission of only those tasks;
+- check that the outputs are all present and complete at the end.
+
+Under the COSMA rules, you approve each submission, and the agent does not
+resubmit failed jobs on its own.
+
+### Timing and benchmarking
+
+Fair timing on a shared system is hard: other people's work affects your
+timings, the first run is often slower than the rest, and it is easy to
+compare runs made in different conditions.  Agents are good at the careful,
+repetitive parts:
+
+- **Choosing a fair place to run.**  Checking how busy a node is
+  (`cat /proc/loadavg`, `ps`) before timing on it, and using a batch job when
+  the timings need to be reliable.
+- **Never overlapping runs.**  Making sure two timing runs never share a
+  node at the same time, for example by making the second job wait for the
+  first with `--dependency=afterany:JOBID`.
+- **Comparing like with like.**  Running the "before" and "after" versions on
+  the same node, with the same input and the same number of threads, and
+  repeating each run so that one slow run does not mislead.  A common way is to
+  build the old version in a separate `git worktree`, so both versions exist at
+  once.
+- **Warming up first.**  Noticing that the first run includes one-off costs,
+  such as compiling (Numba, JIT), planning (FFTW) or filling the file system
+  cache, and leaving those runs out of the comparison.
+- **Checking surprises before reporting them.**  If a new version looks
+  slower, checking whether the node was busy at the time before calling it a
+  regression.
+- **Writing it up.**  Producing a table of the results, with the node, the
+  commit and the settings for each number.
+
+For example:
+
+```
+Compare the current branch with main on the standard test input, on one
+node, using 32 threads.  Run each version three times, in a batch job so
+nothing else runs on the node, and give me a table of the times and the
+speed-up.  Say which node and which commits were used.
+```
+
+### Optimising code on COSMA
+
+Performance work is one of the areas where agents help most, because it is
+mostly careful measurement, and measurement is tedious.  Their most useful
+contribution is often telling you what is **not** worth doing.
+
+#### The tools to ask for
+
+COSMA has a good set of performance tools, but people rarely use most of them
+because each takes time to learn.  An agent already knows how to run them and
+read their output, so ask for them by name.  See also
+[code performance](codeperformance.md).
+
+| Tool | How to get it | What to ask the agent to use it for |
+| ---- | ------------- | ----------------------------------- |
+| `perf` | installed | `perf stat` for instructions per cycle and cache misses, and `perf record` and `perf report` to find the hottest functions in compiled code. |
+| `py-spy` | installed | Sampling profiles of Python programs, including a flame graph (`py-spy record -o profile.svg -- python script.py`), without changing the code. |
+| `cProfile` | part of Python | Which Python functions take the time, and how often they are called. |
+| `gprof` | installed | Function-level profiles of compiled code built with `-pg`. |
+| LIKWID | `module load gnu_comp/14.1.0 likwid/5.5.1` | `likwid-topology` for a node's sockets, caches and NUMA layout, `likwid-perfctr` for memory bandwidth, floating-point rate and vectorisation, and `likwid-pin` to place threads. |
+| Intel VTune and Advisor | `vtune` and `advisor` modules, or newer versions after loading `intel_comp` | Hotspots, threading efficiency, memory access patterns, and which loops are or are not vectorised. |
+| Linaro Forge (MAP and DDT) | `linaro/forge/23.1.0` | MAP for profiling MPI programs across ranks, DDT for debugging them. |
+| Scalasca and PAPI | `scalasca` and `papi` modules | Communication and waiting time in large MPI runs, and hardware counters from inside your own code. |
+| Nsight Systems | `nsight-systems` module, with `cuda` or `nvhpc` | A timeline of GPU work: kernels, memory copies, and time the GPU spends idle. |
+| Valgrind | `valgrind/3.23.0` or installed | Cachegrind and Callgrind for cache behaviour and call counts on small cases, and Memcheck for memory errors. |
+| `numactl` | installed | Showing and controlling which sockets and memory a run uses. |
+| Compiler reports | your compiler | `-fopt-info-vec-missed` (GCC) or `-qopt-report` (Intel) to see which loops the compiler did not vectorise, and why. |
+
+Run profiles in a batch job, or on a node no one else is using.  Results on a
+busy login node are distorted by other people's work.
+
+#### A good order of work
+
+1. **Make a small, quick test case** that behaves like the real run, and a way
+   to check its results (see [checking that a new version gives the same
+   answer](#checking-that-a-new-version-gives-the-same-answer)).
+2. **Measure where the time goes**: time each stage, then profile the slowest
+   one.  Ask the agent to report the share of the run time in each stage.
+3. **Find out what limits it.**  Is the slow part limited by computation,
+   memory bandwidth, file I/O, communication between MPI ranks, or one thread
+   doing work the others wait for?  The tools above answer this, and the answer
+   decides what kind of change can help.
+4. **Estimate before changing.**  If a stage takes 8% of the run time, no
+   change to it can save more than 8%.  Ask the agent for the most that each
+   idea could save, and only do the ones that are worth it.
+5. **Change one thing at a time**, and check the results after each change.
+6. **Time it fairly** (see [timing and benchmarking](#timing-and-benchmarking)).
+7. **Check it on the real nodes and real sizes.**  A change that helps on a
+   small case on a login node may not help on 128 cores of a compute node, or
+   on a full-size problem.
+
+#### Things agents commonly find on COSMA
+
+- **Threads or ranks in the wrong place.**  Threads spread across sockets
+  without `OMP_PROC_BIND` and `OMP_PLACES`, MPI ranks all on one socket, or
+  more threads than cores.  `likwid-pin`, `numactl` and `--report-bindings`
+  (Open MPI) show where they really run.
+- **Memory on the wrong socket.**  Data created by one thread and used by
+  threads on another socket is slow to reach.  Creating it in parallel, by the
+  threads that use it, can help a lot on the two-socket nodes.
+- **Loops that are not vectorised**, or code built without the instructions
+  the CPU supports.  The compiler reports show which loops, and why.  Remember
+  that AVX-512 builds do not run on every node (see
+  [building for different nodes](#building-for-different-nodes)).
+- **Python loops doing numerical work** that NumPy, Numba or a compiled
+  extension could do far faster, or repeated work, such as recomputing
+  something in every iteration that could be computed once.
+- **Slow file I/O.**  Reading many small pieces of a file, reading the same
+  data repeatedly, or large files on Lustre that are not striped.  On
+  [Lustre](lustre.md), striping large files and reading in large blocks often
+  helps more than any change to the computation.
+- **Repeated set-up costs**, such as FFT plans or compiled kernels that are
+  made again in every run, which can be saved and reused.
+- **Load imbalance**, where most ranks or threads wait for the slowest one.
+  MAP, Scalasca and per-rank timings show this.
+- **Precision.**  Using double precision where single precision would be
+  accurate enough can halve memory use and speed up memory-bound code, but
+  the agent must check the effect on accuracy, not assume it.
+
+For example:
+
+```
+Profile the density calculation on the small test case with perf record on
+32 threads, in a batch job on cosma8.  Tell me which functions take the time,
+whether the main loops are vectorised (use the GCC vectorisation report), and
+whether it is limited by memory bandwidth (use likwid-perfctr with the
+memory group for this CPU; likwid-perfctr -a lists them).  For
+each idea, estimate the most it could save before changing anything.
+```
+
+### Checking that a new version gives the same answer
+
+Whenever code changes, especially to make it faster, the results must be
+checked.  This is tedious by hand, so it is often done loosely.  An agent can
+do it thoroughly:
+
+- **Byte-for-byte checks.**  For a change that should not alter the output at
+  all, such as a faster file reader, comparing every dataset with the old
+  version, for example by comparing checksums of each array.
+- **Comparison with a reference.**  For a change that is allowed to alter the
+  output slightly, such as a faster but approximate method, comparing against
+  an accurate reference calculation, and reporting the largest and typical
+  errors.
+- **Finding the first difference.**  When two runs disagree, finding the
+  first step, file or quantity where they differ, rather than only the final
+  result.
+- **Finding the commit that caused it.**  Using `git bisect` to find which
+  commit made the output or the speed change.
+
+For example:
+
+```
+The new reader should give exactly the same arrays as h5py.  Read every
+dataset in snapshots 0, 600 and 1200 with both, compare them byte for byte,
+and list any that differ.
+```
+
+### Working with simulation output
+
+Agents are useful for the many small steps around the analysis itself:
+
+- finding which snapshots, catalogues or fields exist, and which contain the
+  quantity you need, before writing any analysis code;
+- matching outputs between two runs or two codes, for example by redshift
+  rather than by snapshot number when the output times differ;
+- reading large [HDF5](https://www.hdfgroup.org) files in pieces rather than
+  all at once, so that analysis fits in memory;
+- comparing catalogues from two different tools, and explaining why their
+  numbers differ (different definitions, units or selections);
+- reproducing a number or a figure from a paper, and finding where your
+  calculation differs from the published method;
+- making a set of plots in the same style from many outputs.
+
+**Check:** that the agent used the quantity you meant (for example the
+right mass definition, or the right units and factors of the Hubble
+constant), not just one with a similar name.
+
+### Finding and fixing problems
+
+- **Crashes and hangs.**  Reading a traceback, a core dump summary or an MPI
+  error, and finding the line that caused it.  For hangs, finding which ranks
+  or threads are waiting and what for.
+- **Wrong results.**  Comparing two runs, two versions of a code, or a result
+  against a published value, and finding where they first differ.
+- **Errors after an update.**  Recognising when code relies on a private or
+  changed function in a library such as NumPy, and switching it to the
+  supported one.
+- **Notebooks that no longer run.**  Running a notebook from top to bottom,
+  fixing each cell that fails, and guarding against missing values (`NaN`)
+  that break later cells.
+- **Explaining the fix.**  Writing a short account of what was wrong, why, and
+  how it was fixed, which is useful for your own notes or for the code's
+  maintainers.
 
 ### Repetitive and bulk work
 
 Agents are well suited to work that is easy but tedious:
 
-- making the same change across many files or many simulation run folders;
-- turning a Jupyter notebook into a script that can run as a batch job;
-- writing tests for existing code, and running a test suite and fixing the
+- making the same change across many files, or many simulation run folders;
+- turning a Jupyter notebook into a script that can run as a batch job, with
+  its settings as command-line options;
+- writing tests for existing code, running the test suite, and fixing the
   failures;
+- running formatting and style checks (`ruff`, `black`, `clang-format`) and
+  fixing what they find;
 - reading a set of log files and collecting the numbers into one table;
-- making a set of plots from many outputs in the same style;
-- writing or updating documentation for your own code.
+- writing or updating documentation, README files and comments for your own
+  code;
+- tidying a git repository: finding merged branches and worktrees that are no
+  longer needed, for you to remove.
+
+### Writing for other people
+
+An agent can turn what it found into something you can send or publish:
+
+- a **bug report** for a code's maintainers, with the exact file and line, a
+  small example that shows the problem, and a suggested fix;
+- a **pull request description** that explains the change, how it was tested,
+  and what reviewers should look at;
+- a **summary for cosma-support** of a problem, with the time, the command,
+  the job ID and the relevant lines of the log, and nothing else;
+- a **summary of the day's work**, a results table, or notes for a meeting.
+
+**Check:** read everything before it is sent.  Agents should not send
+emails, post comments or open pull requests without you reading them first
+(see [data, privacy and accounts](#data-privacy-and-accounts)).
 
 ### Understanding a system or a codebase
 
-- Explain what an unfamiliar code does, where a given quantity is
+- Explaining what an unfamiliar code does, where a given quantity is
   calculated, or how a parameter file is used.
-- Find out how something on COSMA is set up, from its documentation and from
-  commands such as `scontrol show partition`, `findmnt` or `module show`.
-- Explain an error message from a tool you have not used before.
+- Finding out how something on COSMA is set up, from its documentation and
+  from read-only commands such as `scontrol show partition`, `sinfo`,
+  `findmnt`, `module show` or `lfs df`.
+- Explaining an error message from a tool you have not used before.
+- Summarising a paper or a method, and comparing it with what your code does.
+
+### Your own tools
+
+Many people collect small scripts over the years: shortcuts for checking jobs,
+SSH settings for several machines, scripts that check disk use or summarise
+the queue.  Agents are good at writing and maintaining these, and at fixing
+them when something on the system changes.  Keep such tools in your own
+directories, keep them in git, and remember that anything that runs
+automatically (a scheduled job, a script that watches something) must follow
+the same rules as the agent: no retry loops, no constant polling, and no
+logins.
+
+### An example from start to finish
+
+A typical task, and how an agent handles it:
+
+1. **The request.**  "The analysis step that reads the particle data takes
+   about 20 seconds per snapshot.  Find out why, and make it faster if it is
+   worth it."
+2. **Measuring.**  The agent times each part of the step on a small test case
+   and finds that most of the time is spent reading and decompressing data,
+   not computing.
+3. **Estimating.**  It works out that a faster reader could save most of the
+   time, while two other ideas could save at most a few percent, and says
+   which are worth doing.
+4. **Changing.**  It writes the faster reader in a separate branch.
+5. **Checking.**  It reads every dataset in several snapshots with both the old
+   and new reader and confirms they are identical, byte for byte.
+6. **Timing fairly.**  It prepares a batch job that times both versions on the
+   same node, three times each, after warming up, and asks you to submit it.
+7. **Reporting.**  It reports that reads now take 3 to 7 seconds instead of 16
+   to 25, with a table of the times, the node and the commits, and notes what
+   it did not test.
+
+Each step is small and checkable, which is what makes it reliable.
 
 ### What agents are less good at
 
-- **Anything that needs judgement about the science.**  An agent can make a
-  plot, but you decide whether it is right.
-- **Very long tasks without supervision.**  Over a long session, agents lose
-  track of details (see [agents forget](#agents-forget)).  Several short
-  tasks, each checked, work better than one long one.
-- **Anything that would be a disaster if it went wrong**, such as deleting or
-  overwriting irreplaceable data.  Do these steps yourself.
+- **Judging the science.**  An agent can make a plot or fit a curve, but you
+  decide whether the result makes sense.
+- **Long tasks without supervision.**  Over a long session, agents lose track
+  of details (see [agents forget](#agents-forget)).  Several short tasks, each
+  checked, work better than one long one.
+- **Knowing your conventions.**  Agents do not know your group's units,
+  definitions or naming unless you tell them, and they will guess.
+- **Steps where a mistake would be a disaster**, such as deleting or
+  overwriting irreplaceable data.  Do these yourself.
+- **Knowing when they are wrong.**  An agent may sort numbers as text, call a
+  function with the wrong arguments, or misread a log, and then report the
+  result confidently.  Good agents catch many of their own mistakes when asked
+  to check their work, but not all of them.
 
 ### Getting the most out of an agent
 
@@ -142,12 +562,17 @@ Agents are well suited to work that is easy but tedious:
 - **Ask for a plan first** for anything large, and agree it before the agent
   starts.
 - **Ask it to check its own work**: run the tests, compare checksums, show the
-  output.
+  output, and say what it did not check.
+- **Ask for numbers with their source**: which node, which commit, which
+  input, and the command that produced them.
 - **Give it the COSMA facts** in its instructions file (see
   [giving the agent the rules](#giving-the-agent-the-rules)), so it does not
   have to rediscover them in every session.
 - **Keep it on small test cases** while it develops something, and run the
   real thing in a batch job.
+- **Give it independent tasks in parallel** when you can, for example
+  building one thing while a job runs, but keep each one small enough to
+  check.
 
 ## The COSMA rules for agents
 
