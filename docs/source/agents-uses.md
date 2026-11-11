@@ -59,10 +59,10 @@ wrong direction takes much longer.
 
 For example:
 
-```
-Before changing anything, write a plan in docs/plan-io.md for making the
-snapshot reader faster: what you will measure, what you will change, how you
-will check the results are unchanged, and which steps need me to submit jobs.
+```{admonition} Example request
+:class: tip
+
+Before changing anything, write a plan in docs/plan-io.md for making the snapshot reader faster: what you will measure, what you will change, how you will check the results are unchanged, and which steps need me to submit jobs.
 ```
 
 ## Critiques and reviews
@@ -90,11 +90,10 @@ default.
 
 For example:
 
-```
-Review the changes on this branch as a strict reviewer would.  Look for
-bugs, wrong units, cases that are not handled, and anything that would be
-slow on the full snapshot.  For each problem, give the file and line and say
-how sure you are.  Then check each one and tell me which are real.
+```{admonition} Example request
+:class: tip
+
+Review the changes on this branch as a strict reviewer would.  Look for bugs, wrong units, cases that are not handled, and anything that would be slow on the full snapshot.  For each problem, give the file and line and say how sure you are.  Then check each one and tell me which are real.
 ```
 
 ## Technical documents for you to review
@@ -164,10 +163,10 @@ An agent can:
 
 For example:
 
-```
-Copy /cosma8/data/PROJECT/USER/run42/snapshots to OTHER-SYSTEM:/scratch/USER/run42.
-Show me the number of files and total size, then a dry run.  After the copy,
-compute sha256sum of every file on both sides and list any that differ.
+```{admonition} Example request
+:class: tip
+
+Copy /cosma8/data/PROJECT/USER/run42/snapshots to OTHER-SYSTEM:/scratch/USER/run42. Show me the number of files and total size, then a dry run.  After the copy, compute sha256sum of every file on both sides and list any that differ.
 ```
 
 **Check:** the dry run before the real copy, and the final list of

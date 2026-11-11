@@ -37,11 +37,10 @@ repetitive parts:
 
 For example:
 
-```
-Compare the current branch with main on the standard test input, on one
-node, using 32 threads.  Run each version three times, in a batch job so
-nothing else runs on the node, and give me a table of the times and the
-speed-up.  Say which node and which commits were used.
+```{admonition} Example request
+:class: tip
+
+Compare the current branch with main on the standard test input, on one node, using 32 threads.  Run each version three times, in a batch job so nothing else runs on the node, and give me a table of the times and the speed-up.  Say which node and which commits were used.
 ```
 
 ## Profiling tools on COSMA
@@ -305,13 +304,10 @@ calculation.
 
 For example:
 
-```
-Profile the density calculation on the small test case with perf record on
-32 threads, in a batch job on cosma8.  Tell me which functions take the time,
-whether the main loops are vectorised (use the GCC vectorisation report), and
-whether it is limited by memory bandwidth (use likwid-perfctr with the
-memory group for this CPU; likwid-perfctr -a lists them).  For
-each idea, estimate the most it could save before changing anything.
+```{admonition} Example request
+:class: tip
+
+Profile the density calculation on the small test case with perf record on 32 threads, in a batch job on cosma8.  Tell me which functions take the time, whether the main loops are vectorised (use the GCC vectorisation report), and whether it is limited by memory bandwidth (use likwid-perfctr with the memory group for this CPU; likwid-perfctr -a lists them).  For each idea, estimate the most it could save before changing anything.
 ```
 
 ## Checking that a new version gives the same answer
@@ -335,10 +331,10 @@ do it thoroughly:
 
 For example:
 
-```
-The new reader should give exactly the same arrays as h5py.  Read every
-dataset in snapshots 0, 600 and 1200 with both, compare them byte for byte,
-and list any that differ.
+```{admonition} Example request
+:class: tip
+
+The new reader should give exactly the same arrays as h5py.  Read every dataset in snapshots 0, 600 and 1200 with both, compare them byte for byte, and list any that differ.
 ```
 
 ## A worked example

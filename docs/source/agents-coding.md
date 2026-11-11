@@ -380,10 +380,10 @@ are good at managing several builds of the same code:
 
 For example:
 
-```
-This program crashes with "Illegal instruction" on cosma8 but works on login5c.
-Find out why, and make a build that runs on both.  Check that both builds give
-the same output on the small test case.
+```{admonition} Example request
+:class: tip
+
+This program crashes with "Illegal instruction" on cosma8 but works on login5c. Find out why, and make a build that runs on both.  Check that both builds give the same output on the small test case.
 ```
 
 ## Code that breaks on COSMA
