@@ -78,7 +78,6 @@ Contents
    acl
    x2go
    editors
-   agents
    
 .. toctree::
    :maxdepth: 4
@@ -91,6 +90,17 @@ Contents
    slurmdetail
    system
    jobproblems
+
+.. toctree::
+   :maxdepth: 3
+   :caption: AI CODING AGENTS
+
+   agents
+   agents-setup
+   agents-uses
+   agents-coding
+   agents-optimisation
+   agents-safe
 
 .. toctree::
    :maxdepth: 4
