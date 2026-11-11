@@ -18,6 +18,137 @@ full.  If you are unsure whether an agent should do something, stop it and ask
 cosma-support.
 ```
 
+## What agents are good for on COSMA
+
+Much of the time spent on HPC work is not science.  It goes on finding the
+right modules, reading error messages, writing job scripts, checking why a job
+failed, moving data between systems, and fixing small problems in code
+written by someone else.  These tasks are slow mainly because each needs a lot
+of small steps, and each step needs looking something up.  Agents are very
+good at exactly this: they can run a command, read the output, look at the
+relevant file, and try the next step, many times a minute, and explain what
+they found.
+
+Used well, an agent turns jobs that used to take an afternoon of trial and
+error into a few minutes of checking its work.  The examples below are the
+kinds of task where agents help most on COSMA.
+
+### Moving and checking data
+
+Copying data between file systems, or between COSMA and another HPC system,
+is simple in principle but fiddly in practice: choosing what to copy,
+excluding temporary files, keeping permissions, resuming after a dropped
+connection, and checking that everything arrived intact.
+
+An agent can:
+
+- work out what needs to be copied, and how big it is, before anything moves;
+- write an `rsync` command with the right options, run a dry run
+  (`rsync -n`) first so you can see what will happen, and then run it;
+- check the copy afterwards by comparing checksums (`md5sum` or `sha256sum`)
+  on both sides, and copy again only the files that differ;
+- split a large transfer into parts that can be resumed, and keep a log of
+  what has been done;
+- tidy a messy folder into a sensible layout, showing you the plan before it
+  moves anything.
+
+For example:
+
+```
+Copy /cosma8/data/PROJECT/USER/run42/snapshots to OTHER-SYSTEM:/scratch/USER/run42.
+Show me the size and a dry run first.  Afterwards, check every file with sha256sum
+on both sides and list any that differ.
+```
+
+See [data transfer](data.md) for the tools.  Remember that a transfer
+connection still needs you to log in, so start the connection yourself and
+let the agent reuse it.
+
+### Building and installing software
+
+Getting a code to build on a new system usually means trying modules and
+options until the errors stop.  An agent can:
+
+- read a code's build instructions and find which COSMA modules provide what
+  it needs (`module avail`, and the [list of modules](modulelist.md));
+- fix the order of `module load` lines, missing compilers, and library paths;
+- read long compiler and linker errors, find the first real error, and fix
+  its cause;
+- build the same code with different compilers or MPI libraries, to compare
+  them;
+- write a short script that rebuilds the code the same way next time.
+
+### Writing and checking job scripts
+
+An agent can write a [Slurm](slurm.md) script from a plain description
+("4 nodes of cosma8 for 12 hours, 128 MPI ranks per node"), choose a
+suitable queue, check it with `sbatch --test-only`, and explain each line.
+After a job has run, it can read the output and error files and `sacct`, and
+tell you:
+
+- why a job failed, was cancelled, or ran out of time or memory;
+- how much of the CPU time and memory you asked for was actually used, so
+  that you can ask for less next time;
+- why a job is still waiting in the queue.
+
+You still submit and cancel the jobs yourself, as the COSMA rules require.
+
+### Finding problems in code and results
+
+- **Crashes and hangs:** read a traceback, a core dump summary or an MPI error
+  and find the line that caused it.
+- **Wrong results:** compare two runs, two versions of a code, or a result
+  against a published value, and find where they first differ.
+- **Regressions:** use `git bisect` to find which commit made a code slower or
+  changed its output.
+- **Performance:** run a profiler on a small test case and explain where the
+  time goes.
+
+### Repetitive and bulk work
+
+Agents are well suited to work that is easy but tedious:
+
+- making the same change across many files or many simulation run folders;
+- turning a Jupyter notebook into a script that can run as a batch job;
+- writing tests for existing code, and running a test suite and fixing the
+  failures;
+- reading a set of log files and collecting the numbers into one table;
+- making a set of plots from many outputs in the same style;
+- writing or updating documentation for your own code.
+
+### Understanding a system or a codebase
+
+- Explain what an unfamiliar code does, where a given quantity is
+  calculated, or how a parameter file is used.
+- Find out how something on COSMA is set up, from its documentation and from
+  commands such as `scontrol show partition`, `findmnt` or `module show`.
+- Explain an error message from a tool you have not used before.
+
+### What agents are less good at
+
+- **Anything that needs judgement about the science.**  An agent can make a
+  plot, but you decide whether it is right.
+- **Very long tasks without supervision.**  Over a long session, agents lose
+  track of details (see [agents forget](#agents-forget)).  Several short
+  tasks, each checked, work better than one long one.
+- **Anything that would be a disaster if it went wrong**, such as deleting or
+  overwriting irreplaceable data.  Do these steps yourself.
+
+### Getting the most out of an agent
+
+- **Be specific.**  Give the paths, the queue, the module versions and what
+  "done" looks like.  "Make it faster" gets worse results than "the
+  `density` step takes 40 minutes on 32 cores; find out why".
+- **Ask for a plan first** for anything large, and agree it before the agent
+  starts.
+- **Ask it to check its own work**: run the tests, compare checksums, show the
+  output.
+- **Give it the COSMA facts** in its instructions file (see
+  [giving the agent the rules](#giving-the-agent-the-rules)), so it does not
+  have to rediscover them in every session.
+- **Keep it on small test cases** while it develops something, and run the
+  real thing in a batch job.
+
 ## The COSMA rules for agents
 
 COSMA staff have written a set of rules for AI agents, in
