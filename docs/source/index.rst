@@ -78,6 +78,7 @@ Contents
    acl
    x2go
    editors
+   agents
    
 .. toctree::
    :maxdepth: 4
