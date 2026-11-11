@@ -4,6 +4,10 @@ Performance work is one of the areas where agents help most, because it is mostl
 
 Two rules apply throughout: **measure before changing anything**, and **check the results after every change**.  A faster code that gives a different answer is not an improvement.
 
+For requests you can copy and adapt, see
+[optimising code on COSMA](agents-prompts.md#optimising-code-on-cosma) on the
+example requests page.
+
 ## Timing and benchmarking
 
 Fair timing on a shared system is hard: other people's work affects your
@@ -56,7 +60,7 @@ read their output, so ask for them by name.  See also
 | `gprof` | installed | Function-level profiles of compiled code built with `-pg`. |
 | LIKWID | `module load gnu_comp/14.1.0 likwid/5.5.1` | `likwid-topology` for a node's sockets, caches and NUMA layout, `likwid-perfctr` for memory bandwidth, floating-point rate and vectorisation, and `likwid-pin` to place threads. |
 | Intel VTune and Advisor | `vtune` and `advisor` modules, or newer versions after loading `intel_comp` | Hotspots, threading efficiency, memory access patterns, and which loops are or are not vectorised. |
-| Linaro Forge (MAP and DDT) | `linaro/forge/23.1.0` | MAP for profiling MPI programs across ranks, DDT for debugging them. |
+| Linaro Forge (MAP and DDT) | `allinea/ddt/25.1.1` (the `linaro/forge/23.1.0` module does not currently start) | MAP for profiling MPI programs across ranks, DDT for debugging them. |
 | Scalasca and PAPI | `scalasca` and `papi` modules | Communication and waiting time in large MPI runs, and hardware counters from inside your own code. |
 | Nsight Systems | `nsight-systems` module, with `cuda` or `nvhpc` | A timeline of GPU work: kernels, memory copies, and time the GPU spends idle. |
 | Valgrind | `valgrind/3.23.0` or installed | Cachegrind and Callgrind for cache behaviour and call counts on small cases, and Memcheck for memory errors. |

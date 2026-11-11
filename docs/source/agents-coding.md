@@ -2,6 +2,9 @@
 
 Agents can write, change and translate code far faster than by hand, but the code is only as good as the request and the checks.  This page describes how to get good code from an agent on COSMA: scripts, Python, job scripts, tests, documentation and porting, and the mistakes agents commonly make here.
 
+For requests you can copy and adapt, see the
+[example requests](agents-prompts.md) page.
+
 ## How to ask for code
 
 Agents write code quickly, but the result is only as good as the request, and

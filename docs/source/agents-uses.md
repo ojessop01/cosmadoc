@@ -19,6 +19,8 @@ the [COSMA rules](agents.md#the-cosma-rules-for-agents) still apply: the agent p
 the work, and you approve anything that submits jobs, deletes files or
 touches shared data.
 
+For many more examples, see the [example requests](agents-prompts.md) page.
+
 ## Why it saves so much time
 
 - **It reads everything.**  An agent will read a 2,000-line build log, a

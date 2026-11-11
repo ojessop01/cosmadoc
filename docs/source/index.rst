@@ -100,6 +100,7 @@ Contents
    agents-uses
    agents-coding
    agents-optimisation
+   agents-prompts
    agents-safe
 
 .. toctree::

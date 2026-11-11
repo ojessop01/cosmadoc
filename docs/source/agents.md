@@ -26,6 +26,7 @@ This section of the documentation has several pages:
 | [What agents are good for](agents-uses.md) | The kinds of work where agents save the most time on COSMA, with examples. |
 | [Writing code with agents](agents-coding.md) | Bash scripts, Python, job scripts, tests, documentation, porting code to another language, and code that breaks on COSMA. |
 | [Optimising code with agents](agents-optimisation.md) | Timing fairly, profiling tools on COSMA, compiled code, OpenMP, MPI, GPUs, Python and file I/O. |
+| [Example requests](agents-prompts.md) | Example requests to copy and adapt, with most on optimising code on COSMA, and what makes a request work well. |
 | [Using agents safely](agents-safe.md) | Temporary files, fair use of login nodes and file systems, Slurm, SSH, data, approvals, checking the agent's work, and troubleshooting. |
 
 ## The COSMA rules for agents
