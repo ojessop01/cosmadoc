@@ -4,9 +4,8 @@ Performance work is one of the areas where agents help most, because it is mostl
 
 Two rules apply throughout: **measure before changing anything**, and **check the results after every change**.  A faster code that gives a different answer is not an improvement.
 
-For requests you can copy and adapt, see
-[optimising code on COSMA](agents-prompts.md#optimising-code-on-cosma) on the
-example requests page.
+For how to phrase requests so that you get reliable results, see
+[writing good requests](agents-prompts.md).
 
 ## Timing and benchmarking
 
@@ -34,14 +33,6 @@ repetitive parts:
   regression.
 - **Writing it up.**  Producing a table of the results, with the node, the
   commit and the settings for each number.
-
-For example:
-
-```{admonition} Example request
-:class: tip
-
-Compare the current branch with main on the standard test input, on one node, using 32 threads.  Run each version three times, in a batch job so nothing else runs on the node, and give me a table of the times and the speed-up.  Say which node and which commits were used.
-```
 
 ## Profiling tools on COSMA
 
@@ -302,14 +293,6 @@ calculation.
   accurate enough can halve memory use and speed up memory-bound code, but
   the agent must check the effect on accuracy, not assume it.
 
-For example:
-
-```{admonition} Example request
-:class: tip
-
-Profile the density calculation on the small test case with perf record on 32 threads, in a batch job on cosma8.  Tell me which functions take the time, whether the main loops are vectorised (use the GCC vectorisation report), and whether it is limited by memory bandwidth (use likwid-perfctr with the memory group for this CPU; likwid-perfctr -a lists them).  For each idea, estimate the most it could save before changing anything.
-```
-
 ## Checking that a new version gives the same answer
 
 Whenever code changes, especially to make it faster, the results must be
@@ -328,14 +311,6 @@ do it thoroughly:
   result.
 - **Finding the commit that caused it.**  Using `git bisect` to find which
   commit made the output or the speed change.
-
-For example:
-
-```{admonition} Example request
-:class: tip
-
-The new reader should give exactly the same arrays as h5py.  Read every dataset in snapshots 0, 600 and 1200 with both, compare them byte for byte, and list any that differ.
-```
 
 ## A worked example
 

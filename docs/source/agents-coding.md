@@ -2,8 +2,8 @@
 
 Agents can write, change and translate code far faster than by hand, but the code is only as good as the request and the checks.  This page describes how to get good code from an agent on COSMA: scripts, Python, job scripts, tests, documentation and porting, and the mistakes agents commonly make here.
 
-For requests you can copy and adapt, see the
-[example requests](agents-prompts.md) page.
+For how to phrase requests so that you get reliable results, see
+[writing good requests](agents-prompts.md).
 
 ## How to ask for code
 
@@ -377,14 +377,6 @@ are good at managing several builds of the same code:
   GPU modules and compiling where they are available;
 - choosing the right build at run time, for example by checking for
   `avx512f` in `/proc/cpuinfo` in the job script.
-
-For example:
-
-```{admonition} Example request
-:class: tip
-
-This program crashes with "Illegal instruction" on cosma8 but works on login5c. Find out why, and make a build that runs on both.  Check that both builds give the same output on the small test case.
-```
 
 ## Code that breaks on COSMA
 
