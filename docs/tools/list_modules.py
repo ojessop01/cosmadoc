@@ -1,10 +1,17 @@
 #!/usr/bin/env python3
 """Generate the list of COSMA modules as a Markdown page.
 
-Run on a COSMA login node from a clean shell, and commit the result:
+To update the page automatically, run docs/tools/update_modulelist.sh, for
+example from cron.  To run this script by hand, use a COSMA login node and
+commit the result:
 
-    module purge
-    python3 docs/tools/list_modules.py > docs/source/modulelist.md
+    python3 docs/tools/list_modules.py --output docs/source/modulelist.md
+
+With --output, the file is only replaced once the whole run has finished and
+the results look sensible, so a failed run leaves the existing page alone.
+Without it, the page is printed to standard output.  Avoid redirecting that
+straight into the page with ">", because the shell empties the file before the
+script starts, so a failed run leaves an empty page.
 
 As well as listing the modules, the script finds which compiler and MPI
 modules each library can be used with.  It reads the build directories that
@@ -13,14 +20,19 @@ only combinations that load are shown.  It also checks each module in
 old-modules, and whether its programs are missing system libraries.  This
 takes about a minute.
 """
+import argparse
 import collections
 import concurrent.futures
+import contextlib
 import datetime
 import glob
 import html
+import io
 import os
 import re
 import subprocess
+import sys
+import tempfile
 
 MODULEFILES = "/cosma/local/Modules/modulefiles"
 SECTIONS = {
@@ -31,7 +43,11 @@ SECTIONS = {
     "MAD": "Large memory node tools",
 }
 # The second file sets the COSMA module path, in case this runs outside a login shell.
-INIT = ("source /etc/profile.d/modules.sh; "
+# Start each command from COSMA's own module setup, whatever the caller's
+# environment.  The setup only sets MODULEPATH if it is not already set, so
+# clear it first: otherwise a bare environment, such as cron, only sees the
+# system modules, and a user's own "module use" directories would be listed.
+INIT = ("unset MODULEPATH LOADEDMODULES _LMFILES_ MODULESHOME; "
         "source /etc/profile.d/cosma-local-modules.sh >/dev/null 2>&1; "
         "module purge >/dev/null 2>&1; ")
 TOKEN = re.compile(r"^(?P<name>[^\s(<]+)(?:\((?P<tags>[^)]*)\))?")
@@ -42,9 +58,22 @@ ONEAPI = ["compiler-rt", "tbb", "compiler"]
 OLD = "module load old-modules >/dev/null 2>&1; "
 
 
-def run(script, extra=""):
-    return subprocess.run(["bash", "-c", INIT + extra + script], capture_output=True,
-                          text=True, check=False)
+# Commands that could not be run at all, for example because a process could
+# not be started.  A few are tolerated; many mean the results are unreliable.
+ERRORS = []
+MAX_ERRORS = 20
+# The smallest results that look like a real run.
+MIN_MODULES = 100
+MIN_DEPENDENCY_TABLES = 5
+
+
+def run(script, extra="", timeout=300):
+    try:
+        return subprocess.run(["bash", "-c", INIT + extra + script], capture_output=True,
+                              text=True, check=False, timeout=timeout)
+    except (OSError, subprocess.SubprocessError) as err:
+        ERRORS.append(f"{script[:60]}: {err}")
+        return subprocess.CompletedProcess(args=script, returncode=1, stdout="", stderr="")
 
 
 def module_avail(extra=""):
@@ -286,10 +315,11 @@ def write_dependencies(deps, failed, prefix="dep", heading=True, old=False):
         print("</div>\n")
 
 
-def main():
+def generate():
+    """Write the page to standard output, and return a summary for checking."""
     today = datetime.date.today().strftime("%B %Y")
     data = module_avail()
-    old = module_avail("module load old-modules >/dev/null 2>&1; ")
+    old = module_avail(OLD)
     deps, failed, needs_mpi = find_dependencies(SECTIONS)
     total = sum(len(v[0]) or 1 for s in data.values() for v in s.values())
     print("# List of modules\n")
@@ -307,6 +337,7 @@ def main():
             write_table(data[key], deps, needs_mpi)
     write_dependencies(deps, failed)
     write_old(data, old)
+    return total, data, deps
 
 
 STATUS_TEXT = {
@@ -318,6 +349,38 @@ STATUS_TEXT = {
     "noload": "Does not load",
     "notinstalled": "Loads, but its files are not installed",
 }
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Generate the COSMA module list page.")
+    parser.add_argument("-o", "--output", help="write the page to this file, only if the run succeeds")
+    args = parser.parse_args()
+    page = io.StringIO()
+    with contextlib.redirect_stdout(page):
+        total, data, deps = generate()
+    problems = []
+    if total < MIN_MODULES:
+        problems.append(f"only {total} modules were found")
+    missing = [s for s in ("compilers", "mpi", "libraries", "tools") if s not in data]
+    if missing:
+        problems.append("no modules were found in " + ", ".join(missing))
+    if len(deps) < MIN_DEPENDENCY_TABLES:
+        problems.append(f"only {len(deps)} libraries had working compiler combinations")
+    if len(ERRORS) > MAX_ERRORS:
+        problems.append(f"{len(ERRORS)} commands could not be run, for example: {ERRORS[0]}")
+    if problems:
+        print("list_modules.py: not writing the page, because " + "; ".join(problems) + ".",
+              file=sys.stderr)
+        sys.exit(1)
+    if not args.output:
+        sys.stdout.write(page.getvalue())
+        return
+    folder = os.path.dirname(os.path.abspath(args.output))
+    with tempfile.NamedTemporaryFile("w", dir=folder, prefix=".modulelist-", suffix=".tmp",
+                                     delete=False, encoding="utf-8") as tmp:
+        tmp.write(page.getvalue())
+    os.chmod(tmp.name, 0o644)
+    os.replace(tmp.name, args.output)
 
 
 def write_old(data, old_all):
