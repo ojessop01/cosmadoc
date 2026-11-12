@@ -1,226 +1,255 @@
-# Jupyter Hub
+# Jupyter
 
-A Jupyter Hub is available on the `login5c`, `login7b` and `login8b` login nodes.  There is also a Jupyter Hub for GPU development on mad06 (A100 GPU).
+There are two ways to use Jupyter notebooks on COSMA:
 
-## Logging in to Jupyter Hub
+| | JupyterHub on a login node | Jupyter in a batch job |
+| - | -------------------------- | ---------------------- |
+| Best for | Editing, small analyses, plotting | Long or heavy calculations |
+| Resources | Shared with everyone on that login node | Your own cores and memory on a compute node |
+| Set-up | An SSH tunnel and a web browser | A job script, and an SSH tunnel to the job's node |
+| Time limit | None, but it stops if the node restarts | The job's time limit |
 
-Please use your COSMA login/password. If you do not know your password, please email cosma-support@durham.ac.uk for a reset.
+The login nodes are shared, so anything that runs for more than a few minutes
+or uses a lot of memory belongs in a batch job (see
+[good citizenship](citizenship.md)).
 
-## Recommended access
+## JupyterHub on the login nodes
 
-Run this command in the terminal of your local machine to set up a ssh tunnel to cosma, e.g.:
+JupyterHub runs on these nodes:
 
-    ssh -L localhost:8443:login7b:443 USER@login7b.cosma.dur.ac.uk
+| Node | Use |
+| ---- | --- |
+| `login5c` | COSMA5 |
+| `login7b` | COSMA7 |
+| `login8b` | COSMA8 |
+| `mad06` | GPU development, with an A100 GPU (see the [hardware lab](hardwarelab.md) for access) |
 
-or
+### Connecting
 
-    ssh -L localhost:8443:login8b:443 USER@login8b.cosma.dur.ac.uk
-
-or
-
-    ssh -L localhost:8443:login5c:443 USER@login5c.cosma.dur.ac.uk
-
-where `USER` is the username you use for SSH access. Then point your web browser to [https://localhost:8443](https://localhost:8443).  You may also wish to use the -N flag to send the prompt to the background, and/or the -i flag if you need to specify the location of your ssh key.
-
-## Adding a venv to Jupyter
-
-The simplest way is to use the makeJupyterVenv.sh script.  Note, this should be done on a node running Jupyter (login7b, login8b), or from within a terminal on the Jupyter Hub:
-
-```
-# Select the module you wish to use (probably 3.12.4).
-module load cosma python/X.Y.Z
-# cd to the directory where you want your venv.
-cd /cosma/apps/PROJECT/USER/
-# Run the script to create the venv.
-makeJupyterVenv.sh venvname
-```
-
-See below if you wish to take a more manual approach.
-
-Once you have created your venv and added to Jupyter, it should appear in the Jupyter dashboard after you stop and restart your server (File menu -> Hub control panel -> Stop my server).  You can then start adding packages to it, either from within Jupyter or on the command-line:
+JupyterHub is not open to the internet, so you reach it through an SSH
+tunnel.  On your own computer, run:
 
 ```
-source venvname/bin/activate
-pip install numpy
-pip install whatever
+ssh -N -L 8443:localhost:443 USER@login8b.cosma.dur.ac.uk
 ```
 
-If you are not sure whether you are in your venv or not, `which python` will show you the location of your python interpreter, which should be VENVNAME/bin/python.  You will need to source the venv whenever you start a new connection to COSMA.  If you always want this, you could add it to your .login file.
+(replace `login8b` with `login7b` or `login5c` for those nodes), leave it
+running, and open [https://localhost:8443](https://localhost:8443) in your web
+browser.  `-N` keeps the terminal free of a shell; stop the tunnel with
+`Ctrl-C` when you have finished.
 
-To exit a venv, use the `deactivate` command.
-
-You can even install a package from within a Jupyter notebook, e.g.:
+To avoid typing this each time, add a `LocalForward` line to your SSH
+configuration (see [forwarding ports](ssh.md#forwarding-ports)):
 
 ```
-# Install a pip package in the current Jupyter kernel
+Host cosma8-jupyter
+    HostName login8b.cosma.dur.ac.uk
+    User USER
+    LocalForward 8443 localhost:443
+```
+
+and run `ssh -N cosma8-jupyter`.
+
+Your browser will warn that the connection is not private, because
+JupyterHub's certificate is issued by COSMA itself, for the login node's name
+rather than `localhost`.  The connection to COSMA goes through your SSH
+tunnel, so it is safe to continue.
+
+### Logging in
+
+Log in with your COSMA username and password.  If you have forgotten your
+password, request a reset on SAFE (see
+[forgotten passphrase or password](ssh.md#forgotten-passphrase-or-password)).
+
+### Stopping your server
+
+Your Jupyter server keeps running after you close the browser.  When you have
+finished, stop it from File, Hub Control Panel, Stop My Server, so that it
+does not use memory on the shared login node.
+
+## Using your own Python environment
+
+JupyterHub starts with a standard Python.  To use your own packages, make a
+virtual environment and add it to Jupyter as a "kernel".  It then appears in
+the launcher, after you stop and restart your server.
+
+### The quick way
+
+`makeJupyterVenv.sh` makes a virtual environment and adds it to Jupyter in one
+step.  Run it on a login node that runs JupyterHub (`login5c`, `login7b` or
+`login8b`), or in a terminal inside JupyterHub:
+
+```
+module load cosma python/3.12.4
+cd /cosma/apps/PROJECT/USER
+makeJupyterVenv.sh myenv
+```
+
+Then install the packages you need into it:
+
+```
+source /cosma/apps/PROJECT/USER/myenv/bin/activate
+pip install numpy h5py matplotlib
+deactivate
+```
+
+Use a short, lower-case name.  `which python` shows which Python you are
+using: inside the environment it should be `.../myenv/bin/python`.  See
+[Python](python.md) for more about virtual environments.
+
+You can also install a package from inside a notebook, into the kernel that
+the notebook is using:
+
+```
 import sys
 !{sys.executable} -m pip install numpy
 ```
 
-For more information about virtual environments please see [here](python.md)
+### Adding an environment by hand
 
-### Manually adding a venv to Jupyter
-
-If you wish to have more control (rather than using the makeJupyterVenv.sh script), you can use the following recipe to add your own venv to your Jupyter session.  Note that the venv name should be lower case.
+For more control, you can do the same steps yourself:
 
 ```
-# cd to your apps directory - a good place for putting code/libraries/venvs
-cd /cosma/apps/PROJECT/USERNAME/
-# (where PROJECT is the same as used by your homespace - as seen by `realpath ~USERNAME`)
-
-# Create a venv (you may wish to module load python/X.Y.Z before this if you want a specific Python version)
-python -m venv jupytervenv
-
-# Activate the venv
-source jupytervenv/bin/activate
-# (or activate.csh if using a csh or tcsh shell)
-
-# Install ipykernel in the venv
+cd /cosma/apps/PROJECT/USER
+module load python/3.12.4              # the Python version you want
+python -m venv myenv
+source myenv/bin/activate
 pip install ipykernel
-
-# Do some jupyter magic
-python -m ipykernel install --name myjupytervenv --display-name myjupytervenv --prefix jupytervenv/
+python -m ipykernel install --name myenv --display-name myenv --prefix myenv/
 deactivate
 
-# Source the venv that Jupyter Hub uses (note, this must be done on one of the Jupyter login nodes - login7b or login8b
+# On login5c, login7b or login8b, register the kernel with JupyterHub
 source /opt/venv/jupyter/bin/activate
-# (or activate.csh if using a csh of tcsh shell)
-
-#This next command assumes you are in the directory from within which you created your venv (e.g. /cosma/apps/PROJECT/USER).  If not, use the full path to your venv.
-jupyter kernelspec install --user jupytervenv/share/jupyter/kernels/myjupytervenv
+jupyter kernelspec install --user /cosma/apps/PROJECT/USER/myenv/share/jupyter/kernels/myenv
 deactivate
-
-# And now start using your venv (either by sourcing it again, or within Jupyter)
 ```
 
-It should then appear in the Jupyter dashboard after you stop and restart your server (File menu -> Hub control panel -> Stop my server).
+Then stop and restart your server, and the kernel appears in the launcher.
 
-Note, the final source must be done on a node running jupyter (login7b or login8b), or from within a terminal on the Jupyter Hub.
+## Jupyter in a batch job
 
-## Launching Jupyter Lab on a compute node
+For long or heavy work, run Jupyter on a compute node.  You then have the
+node's cores and memory to yourself, and do not slow down the login node for
+others.
 
-This is advisable if you will be running some long calculations, which could otherwise interfere with other users on a login node. It also gives you a machine to use for yourself, so will probably allow your computations to complete in a shorter time.
+You need JupyterLab in your own virtual environment
+(`pip install jupyterlab`).
 
-Eventually, we will have a webpage and Jupyter Lab interface to do this. But for now:
+### Interactively
 
-### Interactively using srun
-
-```
-srun -A DIRAC_PROJECT -p PARTITION -t TIME --pty /bin/bash
-```
-    (e.g. `srun -A dp004 -p cosma7 -t 1:00:00 --pty /bin/bash`)
-
-Once you get a compute node, do:
+Ask Slurm for an interactive session.  Use a queue that shares nodes, such as
+`cosma5` or `cosma8-serial`, unless you need a whole node (see the
+[queue guide](queue.md)):
 
 ```
-    export XDG_RUNTIME_DIR=""
-
-    # Import your environment - you'll previously have done pip install jupyterlab here.
-    source /path/to/your/venv/bin/activate
-
-    jupyter lab --no-browser --ip=`ifconfig | awk '/172.17/ {print $2}'`
-
-    #(note, be careful with back-ticks and single quotes when copying the above command)
+srun -A ACCOUNT -p cosma5 -t 2:00:00 -c 8 --mem=32G --pty /bin/bash
 ```
 
-Then, on your desktop/laptop, set up a ssh tunnel, e.g.:
+When you get a shell on the compute node, start Jupyter:
 
 ```
-    ssh -N -L localhost:8888:NODE:8888 USER@login7.cosma.dur.ac.uk
+export XDG_RUNTIME_DIR=""
+source /cosma/apps/PROJECT/USER/myenv/bin/activate
+jupyter lab --no-browser --ip=$(ifconfig | awk '/172.17/ {print $2}')
 ```
 
-where NODE is the IP address of the node (which you can get using `ifconfig | grep 172.17` when on the node)
+Jupyter prints an address containing the node's IP address, a port (usually
+8888) and a token.  On your own computer, open a tunnel to that address,
+through a login node:
 
-And direct your web browser (on your desktop/laptop) to http://localhost:8888
+```
+ssh -N -L 8888:NODE_IP:8888 USER@login8b.cosma.dur.ac.uk
+```
 
-It will ask you to input a token: This should be copied from the command line where you ran the jupyter lab command.
+and open the `http://127.0.0.1:8888/lab?token=...` address that Jupyter
+printed.  When you have finished, press `Ctrl-C` twice in the Jupyter
+terminal, then `exit` to end the Slurm session.
 
-Once you have finished, Ctrl-C twice in the jupyter terminal will stop it, and an exit (or Ctrl-D) will then end your slurm session.
+### As a batch job
 
-### More automatically using sbatch
+To leave Jupyter running without keeping a terminal open, submit it as a
+job:
 
-Create an sbatch script with some of the following information, e.g.:
+```
+#!/bin/bash -l
+#SBATCH -J jupyter
+#SBATCH -A ACCOUNT
+#SBATCH -p cosma5
+#SBATCH -t 04:00:00
+#SBATCH -c 8
+#SBATCH --mem=32G
+#SBATCH -o jupyter.%j.out
+#SBATCH -e jupyter.%j.err
 
-    #!/bin/bash -l
-    #SBATCH --ntasks 1
-    #SBATCH -J jupyter
-    #SBATCH -o slurmjupyter%J.out
-    #SBATCH -e slurmjupyter%J.err
-    #SBATCH -p cosma5       #for example, could be cosma8, cosma7 etc
-    #SBATCH -A durham       #for example, could be dp004, or other projects
-    #SBATCH -t 01:00:00     #1 hour - use more if you need it
-    #SBATCH --mail-type=END # notifications
-    #SBATCH --mail-user=YOUR_EMAIL_ADDRESS
-    module purge
-    source /path/to/your/venv/bin/activate
-    #Your venv will need jupyter installed (pip install jupyterlab)
-    export XDG_RUNTIME_DIR=""
-    #Run Jupyter
-    jupyter lab --no-browser --ip=`ifconfig | awk '/172.17/ {print $2}'`
+module purge
+source /cosma/apps/PROJECT/USER/myenv/bin/activate
+export XDG_RUNTIME_DIR=""
+jupyter lab --no-browser --ip=$(ifconfig | awk '/172.17/ {print $2}')
+```
 
+Submit it with `sbatch jupyter.sh`.  When it is running (`squeue --me`),
+Jupyter's address and token appear in the `.err` file within a few seconds:
 
-Submit this script (sbatch SCRIPTNAME)
+```
+grep -m1 "http://172" jupyter.JOBID.err
+```
 
-Once the job is running (find this using `squeue -u USERNAME`), you need to `tail -f slurmjupyterJOBID.err` until a message about how to connect appears (this will take a few seconds)
+Open a tunnel to that address as above, and open it in your browser.  When
+you have finished, end the job with `scancel JOBID`, so it does not keep using
+your allocation.
 
-Then, on your desktop/laptop, set up a ssh tunnel (to the node given by `squeue -u USERNAME`), e.g.:
+## Troubleshooting
 
-    ssh -N -L localhost:8888:NODE:8888 USER@login7.cosma.dur.ac.uk
+**h5py fails inside a Slurm job with errors about MPI or Slurm.**  Some
+builds of `h5py` include MPI support, which tries to start MPI when it sees
+it is inside a Slurm job.  Use an `h5py` without MPI in your own environment
+(`pip install h5py`), or start Python with `SLURM_NODELIST` unset
+(`unset SLURM_NODELIST`).
 
-And direct your web browser (on your desktop/laptop) to http://localhost:8888
+**My kernel does not appear in the launcher.**  Stop and restart your server
+(File, Hub Control Panel).  Check that the kernel is registered with
+`jupyter kernelspec list`, run on a JupyterHub node after
+`source /opt/venv/jupyter/bin/activate`.
 
-It will ask you to input a token: This should be copied from the command line where you tailed the .err file.
+**The page does not load.**  Check that the SSH tunnel is still running, and
+that nothing else on your computer is using the same local port (8443 or
+8888).  Choose another port if it is.
 
-Once you have finished, you can use `scancel JOBID` to end the slurm session.
+**I would like an HTTPS connection to Jupyter in a batch job.**  The traffic
+between your computer and COSMA is already encrypted by the SSH tunnel.  For
+extra security, you can create a certificate and start Jupyter with
+`--certfile=mycert.pem --keyfile=mykey.key`.
 
-## FAQ
+## Other ways to reach JupyterHub
 
-Q: When plotting, I get a "JavaScript output is disabled in JupyterLab" message.
+### A web browser on the login node
 
-A: Select "Help -> Launch Classic Notebook". Then navigate to your notebook file, and run it.
+You can run Firefox on a login node and view JupyterHub through x2go or X11
+forwarding (see [graphical access](x2go.md)):
 
-Q: I would like my Jupyter webpage to be secure (using https, rather than http).
+```
+ssh -X USER@login8b.cosma.dur.ac.uk firefox https://localhost:443
+```
 
-A: As above, it is reasonably secure, since it is only accessible to people who already have access to COSMA (between your desktop and COSMA is protected by ssh). However, if you would like increased security, you can add a host server certificate when you start the jupyter lab. You will need to create the certificate key and public key, and then start jupyter lab with the `--certfile=mycert.pem`
+This is slow unless you have a fast connection.
 
-Q. Using `h5py` causes it to crash and gives errors about configuring SLURM.
+### A SOCKS proxy
 
-A. the `h5py` module has MPI support built in which it attempts to initiate when running under SLURM. The fix for this used to be doing:
+Instead of a tunnel to one port, you can send a browser's traffic through
+COSMA:
 
-    module purge
-    unset SLURM_NODELIST
-    module load python/3.6.5
+```
+ssh -N -D 1234 USER@login8b.cosma.dur.ac.uk
+```
 
-## Alternative access methods
+Then set your browser to use a SOCKS proxy at `localhost`, port `1234` (pick a
+higher number if 1234 is in use).  In Firefox, create a separate profile for
+this with `firefox -P`, then set Settings, Network Settings, Manual proxy
+configuration, SOCKS host `localhost`, port `1234`, and remove `localhost`
+from "No proxy for".  For Chromium:
 
-### Running Firefox on the COSMA login node
+```
+chromium-browser --proxy-server="socks5://localhost:1234" https://localhost:443
+```
 
-Run Firefox directly on a login node, either using x2go, or X11 forwarding. This is not the recommended way.
-
-For X11 forwarding, run this command in the terminal of your local machine:
-
-    ssh -X USER@login7b.cosma.dur.ac.uk firefox https://localhost:443
-
-This will launch a web browser on the login node, and so will require a fast Internet connection to be usable.
-
-### Forward COSMA traffic through a local proxy
-
-Run this command in the terminal of your local machine:
-
-    ssh -D 1234 USER@login7b.cosma.dur.ac.uk
-
-where `USER` is the username you use for SSH access, and `1234` is an example value for the port forwarding; if 1234 gives an error you can pick a higher value that works, just remember to update it in your browser settings (instructions below). 
-
-Then reconfigure your local web browser with a HTTP proxy. If you use Firefox, run:
-
-    firefox -P
-
-which will create a new profile. You can call it i.e. `cosma`. Then, go to Edit > Preferences > General > Network Settings, select “Manual proxy configuration” and set “SOCKS host” to localhost, port 1234 (or whatever port you specified in the `ssh` command). Then remove the localhost entry in the “No proxy for” box, and click “OK”. For the future runs, you will be able to select pre-configured `cosma` profile you have just created.
-
-If you use Chromium, run:
-
-    chromium-browser --proxy-server="socks5://localhost:1234" https://localhost:443
-
-updating the `1234` if necessary.
-
-Finally, open https://localhost:443 to login to the Jupyter Hub.
+Then open [https://localhost:443](https://localhost:443).
