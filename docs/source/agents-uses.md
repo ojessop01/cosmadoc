@@ -19,7 +19,8 @@ the [COSMA rules](agents.md#the-cosma-rules-for-agents) still apply: the agent p
 the work, and you approve anything that submits jobs, deletes files or
 touches shared data.
 
-For many more examples, see the [example requests](agents-prompts.md) page.
+For how to phrase requests so that you get reliable results, see
+[writing good requests](agents-prompts.md).
 
 ## Why it saves so much time
 
@@ -57,14 +58,6 @@ wrong direction takes much longer.
 - When the plan is agreed, ask it to follow the plan and report against it,
   step by step, and to stop and ask if something does not match the plan.
 
-For example:
-
-```{admonition} Example request
-:class: tip
-
-Before changing anything, write a plan in docs/plan-io.md for making the snapshot reader faster: what you will measure, what you will change, how you will check the results are unchanged, and which steps need me to submit jobs.
-```
-
 ## Critiques and reviews
 
 Agents are good reviewers, of your work and of their own.  A review asked for
@@ -87,14 +80,6 @@ default.
 - **Checking the review.**  Reviews can contain false alarms.  Ask the agent to
   check each point it raises against the code or data, and to mark which ones
   it confirmed.
-
-For example:
-
-```{admonition} Example request
-:class: tip
-
-Review the changes on this branch as a strict reviewer would.  Look for bugs, wrong units, cases that are not handled, and anything that would be slow on the full snapshot.  For each problem, give the file and line and say how sure you are.  Then check each one and tell me which are real.
-```
 
 ## Technical documents for you to review
 
@@ -160,14 +145,6 @@ An agent can:
   so that later parallel reads are fast;
 - tidy a messy folder into a sensible layout, showing you the plan as a list
   of moves before anything happens.
-
-For example:
-
-```{admonition} Example request
-:class: tip
-
-Copy /cosma8/data/PROJECT/USER/run42/snapshots to OTHER-SYSTEM:/scratch/USER/run42. Show me the number of files and total size, then a dry run.  After the copy, compute sha256sum of every file on both sides and list any that differ.
-```
 
 **Check:** the dry run before the real copy, and the final list of
 mismatches (it should be empty).  A transfer to another system still needs
