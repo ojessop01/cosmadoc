@@ -1,49 +1,28 @@
-# Data Links
+# Data links
 
-Permanent links hosting COSMA data or outputs include:
+COSMA hosts data from many simulation projects, available from these
+websites.  Some need a login: for access, contact the project concerned, or
+cosma-support.
 
-## Download Area
+## Downloads and archives
 
-[Downloads](https://virgodb.dur.ac.uk/downloads/)
+| Data | Address | Notes |
+| ---- | ------- | ----- |
+| Virgo download area | [virgodb.dur.ac.uk/downloads](https://virgodb.dur.ac.uk/downloads/) | Login required |
+| Virgo database portal | [virgodb.dur.ac.uk](https://virgodb.dur.ac.uk/) | |
+| Galaxy catalogues | [galaxy-catalogue.dur.ac.uk](https://galaxy-catalogue.dur.ac.uk/) | |
+| EAGLE snapshots | [dataweb.cosma.dur.ac.uk:8443/eagle-snapshots](https://dataweb.cosma.dur.ac.uk:8443/eagle-snapshots/) | Login required |
+| FLAMINGO HDF5 streaming service | [dataweb.cosma.dur.ac.uk:8443/hdfstream](https://dataweb.cosma.dur.ac.uk:8443/hdfstream/) | Streaming access to FLAMINGO HDF5 data |
+| Shell galaxies | [virgo.dur.ac.uk/shell-galaxies](https://virgo.dur.ac.uk/shell-galaxies/) | |
+| New HOD | [new_HOD.tar.gz](https://virgo.dur.ac.uk/public/bl267/new_HOD.tar.gz) | Download |
+| NUBG repository | [nubg_repository](https://virgodb.cosma.dur.ac.uk/public/dc-elbe1/nubg_repository/) | |
+| Bate web archive | [virgo.dur.ac.uk/bate](https://virgo.dur.ac.uk/bate/) | |
 
-## Shell Galaxies
+## Databases
 
-[Shell Galaxies](https://virgo.dur.ac.uk/shell-galaxies/)
+| Database | Address |
+| -------- | ------- |
+| EAGLE database | [virgodb.dur.ac.uk:8443/Eagle](http://virgodb.dur.ac.uk:8443/Eagle/), also at [virgodb.cosma.dur.ac.uk:8443/Eagle](http://virgodb.cosma.dur.ac.uk:8443/Eagle/) |
+| Millennium database | [virgodb.dur.ac.uk:8443/Millennium](https://virgodb.dur.ac.uk:8443/Millennium/), also at [virgodb.cosma.dur.ac.uk:8443/Millennium](https://virgodb.cosma.dur.ac.uk:8443/Millennium/) |
 
-## New HOD
-
-[New Hod](https://virgo.dur.ac.uk/public/bl267/new_HOD.tar.gz)
-
-## Eagle Snapshots
-
-[Eagle Snapshots](http://dataweb.cosma.dur.ac.uk:8443/eagle-snapshots/)
-
-## Eagle Database
-
-[Eagle Database](http://virgodb.dur.ac.uk:8443/Eagle/)
-
-[Eagle Database](http://virgodb.cosma.dur.ac.uk:8443/Eagle/)
-
-## Millennium Database
-
-[Millennium Database](https://virgodb.cosma.dur.ac.uk:8443/Millennium/)
-
-[Millennium Database](https://virgodb.dur.ac.uk:8443/Millennium/)
-
-## Galaxy Catalogues
-
-[Galaxy Catalogues](http://galaxy-catalogue.dur.ac.uk/)
-
-[Galaxy Catalogues](https://virgodb.dur.ac.uk/)
-
-## NUBG Repository
-
-[NUBG Repository](https://virgodb.cosma.dur.ac.uk/public/dc-elbe1/nubg_repository/)
-
-## Flamingo HDF5 streaming service
-
-[Flamingo HDF5 stream](https://dataweb.cosma.dur.ac.uk:8443/hdfstream/)
-
-## Bate web archive
-
-[Bate web archive](https://virgo.dur.ac.uk/bate)
+To share your own data from COSMA, see [data curation](datacuration.md).
