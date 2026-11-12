@@ -92,6 +92,18 @@ Contents
    jobproblems
 
 .. toctree::
+   :maxdepth: 3
+   :caption: AI CODING AGENTS
+
+   agents
+   agents-setup
+   agents-uses
+   agents-coding
+   agents-optimisation
+   agents-prompts
+   agents-safe
+
+.. toctree::
    :maxdepth: 4
    :caption: HARDWARE LAB
 
