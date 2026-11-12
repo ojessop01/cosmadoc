@@ -28,7 +28,7 @@ A list of presentations given about COSMA, when audiences have requested tht the
 
 [Theory Lunch talk: COSMA8 (25th January 2021)](presentations/Cosma8.pdf)
 
-[Theory Lunch talk: JULIA (29th March 2021)](https://slides.com/astrobyte/julia)
+Theory Lunch talk: JULIA (29th March 2021)
 
 [Theory Lunch talk: DiRAC-3 (26th April 2021)](presentations/ICCTalkApril2021Dirac-wilkinson.pdf)
 

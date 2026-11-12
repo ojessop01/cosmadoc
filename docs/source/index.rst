@@ -46,6 +46,7 @@ Contents
    cosma
    facilities
    dirac
+   essentials
    centreofexcellence
    excalibur
    cosma8
@@ -55,6 +56,8 @@ Contents
    :caption: GETTING STARTED
 
    account
+   project
+   sshkey
    ssh
    firstjob
    citizenship
@@ -64,11 +67,11 @@ Contents
    :caption: SOFTWARE
 
    modules
-   data
    spack
    modulelist
    gitlab
    python
+   containers
    jupyter
    mpi
    lustre
@@ -84,6 +87,7 @@ Contents
    sbatch
    slurmtips
    queue
+   slurmdetail
    system
    jobproblems
 
@@ -91,7 +95,8 @@ Contents
    :maxdepth: 4
    :caption: HARDWARE LAB
 
-   hardwarelab  
+   hardwarelab
+   hardwarelab-hybridnodes
    gpu
    gpujobs
    rockportlab
@@ -107,10 +112,12 @@ Contents
    
 .. toctree::
    :maxdepth: 4
-   :caption: DATA CURATION
+   :caption: STORAGE AND DATA
 	  
-   datacuration
+   storage
    data
+   archive
+   datacuration
    projectdata
 
 .. toctree::
@@ -130,8 +137,6 @@ Contents
    virgo
    issues
    presentations
-   storage
-   archive 
    policies
 
 .. toctree::
@@ -140,7 +145,6 @@ Contents
 
    news
    technotes
-   projectdata
    environmental
    links
    usefullinks

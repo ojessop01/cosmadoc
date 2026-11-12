@@ -15,7 +15,7 @@ module load ucx/1.17.0
 module load parallel_hdf5/1.14.4
 module load fftw/3.3.10
 module load parmetis/4.0.3-64bit
-module load gsl/2.5
+module load gsl
 ```
 
 or
@@ -26,7 +26,7 @@ module load ucx/1.17.0
 module load parallel_hdf5/1.14.4
 module load fftw/3.3.10
 module load parmetis/4.0.3-64bit
-module load gsl/2.5
+module load gsl
 ```
 
 

@@ -9,11 +9,11 @@ Last updated: 21/01/2026
 | A30 | 8x total | gc001-008 | Slurm | dine2 | do015 | CerIO (composable) | Draining |
 | A100 | 3x total | mad04-06 | Slurm / SSH | cosma8-shm | do016 | Liqid (composable) | ✓ |
 | GH200 | 2x | gn002-003 | Slurm / SSH | gracehopper | do016 | - | ✓ |
-| H100 NVL | 1x | gn004 | SSH | intelhopper (down) | do016 | - | ✓ (SSH only) |
+| H100 NVL | 1x | gn004 | SSH (day) / Slurm (night) | hardwarelab-gpu | do016 | - | ✓ |
 | MI100 | 1x | ga004 | Slurm | cosma8-shm2 | do018 | - | ✓ |
 | MI210 | 2x each | ga005-006 | Slurm | cosma8-shm2 | do018 | - | ga006 draining |
 | MI300X | 8x | ga007 | Slurm | mi300x | do018 | - | ✓ |
-| MI300A | 4x | ga008 | SSH | mi300a (down) | do018 | - | Down |
+| MI300A | 4x | ga008 | SSH (day) / Slurm (night) | mi300a, hardwarelab-gpu | do018 | - | ✓ |
 | PVC | 2x | gi001 | - | - | do017 | - | Dead |
 
 ## GPU Specifications (Theoretical)
@@ -39,7 +39,7 @@ Last updated: 21/01/2026
 
 | Node | GPUs | Host | Access | Account | Arch | Notes |
 |------|------|------|--------|---------|------|-------|
-| gn001 | 10x V100 (32GB) | 768GB, 2x Xeon Gold 5218 | SSH | do016? | sm_70 | |
+| gn001 | 6x V100 (32GB) | 768GB, 2x Xeon Gold 5218 | SSH | do016? | sm_70 | |
 | gc001-008 | 0-8x A30 (composable) | 2TB, 64 cores (Sapphire Rapids) | `dine2` | do015 | sm_80 | CerIO fabric; 8 GPUs total across 8 nodes |
 | mad04, mad05 | 0-3x A100 40GB (composable) | 4TB, 128 cores | `cosma8-shm` | do016? | sm_80 | Liqid fabric; default 1 GPU each |
 | mad06 | 0-3x A100 (composable) | 1TB, 128 cores (Milan-X, 768MB L3) | SSH | do016? | sm_80 | |

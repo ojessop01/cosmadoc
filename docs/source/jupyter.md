@@ -146,7 +146,7 @@ Create an sbatch script with some of the following information, e.g.:
     #SBATCH -J jupyter
     #SBATCH -o slurmjupyter%J.out
     #SBATCH -e slurmjupyter%J.err
-    #SBATCH -p cosma        #for example, could be cosma8, cosma7 etc
+    #SBATCH -p cosma5       #for example, could be cosma8, cosma7 etc
     #SBATCH -A durham       #for example, could be dp004, or other projects
     #SBATCH -t 01:00:00     #1 hour - use more if you need it
     #SBATCH --mail-type=END # notifications

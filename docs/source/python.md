@@ -27,6 +27,26 @@ If you wish to remove it permanently, you can `rm -r /path/to/myenv`
 
 You can have multiple virtual environments.  This allows you to install specific library versions according to your requirements.
 
+### Using conda
+
+Virtual environments, as above, are usually simpler.  If you need conda, load a conda module, then set it up for your shell.  This module cannot be loaded at the same time as a `python` module, so unload that first:
+
+```
+module unload python
+module load python/conda3-2025.12
+eval "$(/cosma/local/anaconda3/202512/bin/conda shell.bash hook)"
+```
+
+Conda environments are large, so do not keep them in your home directory.  Choose a location in your app space, and do the same for its package cache:
+
+```
+export CONDA_PKGS_DIRS=/cosma/apps/PROJECT/USERNAME/conda/pkgs
+conda create -p /cosma/apps/PROJECT/USERNAME/conda/myenv python=3.12 numpy
+conda activate /cosma/apps/PROJECT/USERNAME/conda/myenv
+```
+
+A small environment like this one, with its cache, takes around 1.5GB.  Create environments on a login node, because compute nodes cannot reach the internet.  Your job script then needs the `module load`, `eval` and `conda activate` lines.
+
 #### Pre-compiled python packages (wheels)
 
 There are some pre-compiled python packages (wheels) available for several modules which depend on C libraries and are not totally straightforward to install with pip.  This includes mpi4py, h5py with MPI support and nbodykit.

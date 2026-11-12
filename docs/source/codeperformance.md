@@ -28,36 +28,52 @@ Here is a summarized table for performance tools:
 | [Vampir](https://tu-dresden.de/zih/forschung/ressourcen/dateien/projekte/vampir/dateien/Vampir-User-Manual.pdf?lang=en) | Interactive trace-visualisation tool for exploring event traces at any level of detail. |
 | [Darshan](https://www.mcs.anl.gov/research/projects/darshan/docs/darshan3-runtime.html) | I/O characterisation tool that captures POSIX, MPI-IO and HDF5 I/O behaviours. |
 
-## Advisor
- 
-The Intel Advisor tool analyses vectorization.
+## Modules
 
-## Allinea
+| Tool | Module | Commands |
+| ---- | ------ | -------- |
+| Intel Advisor | `advisor/2019-update4` | `advixe-cl` |
+| Intel Inspector | `inspector/2019-update4` | `inspxe-cl` |
+| Intel VTune | `vtune/2019-update4` | `amplxe-cl` |
+| Linaro Forge | `linaro/forge/23.1.0` or `allinea/ddt/25.1.1` | `ddt`, `map` |
+| Darshan | `darshan-util/3.4.6` | `darshan-parser` |
+| gperftools | `gperftools/2.6.1` | `pprof` |
+| LIKWID | `likwid/5.5.1` | `likwid-topology`, `likwid-perfctr` |
+| OProfile | `oprofile/1.3.0` | `operf` |
+| AMD uProf | `uprof/4.1.424` | `AMDuProfCLI` |
+| Vampir | `vampir/9.10.0` | `vampir` |
 
-The Linaro (was Allinea, was ARM) FORGE and MAP tools. 
+`likwid` needs a compiler module to be loaded first.  Newer versions of `vtune` and `advisor` become available after loading `intel_comp`.  Score-P and MUST need matching compiler and MPI modules, so use `module avail scorep` and `module avail must` to see which.
 
-## Darshan
+`valgrind`, `gdb`, `perf`, `strace` and `gstack` are installed on the login nodes, with no module to load.
 
-## gperftools
+## Debugging a crash
 
-## Inspector
+Compile with `-g`, and without heavy optimisation, then run your program under `gdb`:
 
-The Intel Inspector tool.
+```
+gcc -g -O0 myprogram.c -o myprogram
+gdb --args ./myprogram myinput
+```
 
-## Likwid
+At the `(gdb)` prompt, type `run`.  When the program crashes, type `bt` to show where it stopped.
 
-## Must
+To find memory errors, such as writing past the end of an array:
 
-## Oprofile
+```
+valgrind --leak-check=full ./myprogram
+```
 
-## Scorep
+Core dumps are turned off by default, and are handled by the system when turned on, so running the program under `gdb` is usually easier.
 
-## Uprof
+## Measuring performance
 
-## Valgrind
+For a quick summary of a program's performance, use `perf`:
 
-## Vampir
+```
+perf stat ./myprogram
+```
 
-## Vtune
+For the layout of a node's sockets, caches and NUMA domains, use `likwid-topology`.  Run these in a job, because results on a login node will not match the compute nodes, which can have a [different CPU](ssh.md#cosma8-cosma7-cosma5-differences).
 
-The Intel Vtune tool
+See also [MPI hints](mpi.md) for pinning, and [`cjobload`](system.md#cjobload) for how a running job is using its nodes.

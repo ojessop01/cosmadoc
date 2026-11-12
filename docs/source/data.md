@@ -2,6 +2,40 @@
 
 Data transfer off-site can be done from one of the login nodes (10GBit/s connectivity or from dataweb.cosma.dur.ac.uk (20GBit/s bonded). Alternatively, a GLOBUS ONLINE account can be used (which is associated with dataweb). Various other fast copy tools are available, such as bbcp (module load bbcp).
 
+## Using rsync and scp
+
+For small amounts of data, use `rsync` or `scp` from your own computer.  `rsync` is usually better, because it only copies what has changed, and can carry on if it is interrupted:
+
+```
+rsync -avP myresults/ USERNAME@login8.cosma.dur.ac.uk:/cosma8/data/PROJECT/USERNAME/myresults/
+```
+
+To copy data from COSMA, swap the two locations:
+
+```
+rsync -avP USERNAME@login8.cosma.dur.ac.uk:/cosma8/data/PROJECT/USERNAME/myresults/ myresults/
+```
+
+| Option | Meaning |
+| ------ | ------- |
+| `-a` | Copy directories, and keep times and permissions |
+| `-v` | List the files |
+| `-P` | Show progress, and keep partly copied files so that you can carry on later |
+| `--dry-run` | Show what would be copied, without copying anything |
+| `-c` | Compare files by checksum, which is slow but thorough |
+
+A slash at the end of the source means the contents of that directory.  Without one, `rsync` makes a directory of that name inside the destination.
+
+`scp` is simpler, and works well for a few files:
+
+```
+scp myfile.dat USERNAME@login8.cosma.dur.ac.uk:/cosma8/data/PROJECT/USERNAME/
+```
+
+Copying many small files is slow, so use `tar` to combine them first.  To check a copy, compare the output of `sha256sum` on each side, or run `rsync -avc --dry-run`, which should list no files.
+
+Choose the login node for the file system that you are using.  If you are copying files over 1GB onto COSMA, see [rsync on Lustre](lustre.md#rsync).
+
 ## GLOBUS Online
 
 To use GLOBUS, you first need to visit [globus.org](https://globus.org) and sign in. Here, don't select the organisation, but use a Globus ID. If you don't have an account, create one. Then, select cosma#dataweb as an end point. From there, you will be able to transfer your files. If you do not know your COSMA password, please email cosma-support@durham.ac.uk, to have it reset.
