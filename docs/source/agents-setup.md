@@ -191,42 +191,145 @@ updates.
 
 ### A starting template
 
-Copy this into your instructions file and fill in the parts in capitals.  Each
-line answers a question that agents otherwise get wrong on COSMA.
+Copy this into your instructions file for all projects (for example
+`~/.claude/CLAUDE.md`), and replace the parts in capitals with your own
+details.  Delete any line that does not apply to you.  Each line answers a
+question that agents otherwise get wrong on COSMA.
 
 ```
 @/etc/claude-code/AGENTS.md
 
-# COSMA facts
-- Username: USER.  Project: PROJECT.  Slurm account: ACCOUNT.
-- My directories: /cosma/home/PROJECT/USER (small, 10GB),
-  /cosma/apps/PROJECT/USER (software, 100GB),
-  /cosmaN/data/PROJECT/USER (data, large).  Work only inside these.
-- Temporary files go in /cosma/apps/PROJECT/USER/tmp, never /tmp.
-- Use absolute paths.  The working directory can change between commands.
-- Modules are Environment Modules (Tmod 4), not Lmod: there is no
-  "module spider", use "module avail NAME".  If "module" is missing, run
-  "source /etc/profile.d/cosma-local-modules.sh" first.
-- Libraries need a compiler loaded first, e.g.
-  "module load gnu_comp/14.1.0 openmpi/5.0.3 hdf5".
-- Never pipe "module load" or "source": it runs in a subshell and is lost.
-- Slurm jobs need -A, -p and -t.  Use mpirun, not srun, for Open MPI.
-  Never submit or cancel jobs: give me the exact command instead.
-- Login nodes are shared: at most 8 threads for builds and tests here
-  (e.g. make -j8), and no long or memory-heavy runs.
+# About me
+- COSMA username: USER.  Project: PROJECT.  Default Slurm account: ACCOUNT.
+- I work mainly on: SHORT DESCRIPTION, e.g. "SWIFT simulations and Python
+  analysis of their snapshots".
+- Ask me when something is unclear, rather than guessing.
+
+# My directories (work only inside these)
+- Home: /cosma/home/PROJECT/USER.  Small (about 10GB) and backed up: only
+  settings and small scripts.
+- App space: /cosma/apps/PROJECT/USER.  About 100GB: code, builds, virtual
+  environments, installed software.
+- Data: /cosma8/data/PROJECT/USER.  Large, on Lustre, not backed up: data
+  and job output.  Never put code, builds or venvs here.
+- Temporary files: /cosma/apps/PROJECT/USER/tmp.  Never /tmp or my home.
+- Use absolute paths in every command.  The working directory may change
+  between commands.
+
+# Safety
+- Never delete, move or overwrite files, or change permissions, without
+  asking me first.  Before overwriting a file, look at what is in it.
+- Never submit, cancel or change Slurm jobs.  Write the job script, check it
+  with "sbatch --test-only", and give me the exact command to run.
+- Never turn off approvals or the sandbox.  If something is blocked, say
+  exactly what and stop.
+- Never read, print or copy keys, passwords or tokens.
+- Treat simulation outputs and other raw data as read-only.  Write results to
+  a separate folder.
+- Commit to git before large changes, and show me "git diff" before
+  committing.  Never "git push --force" or "git reset --hard".
+
+# Using the login nodes
+- Login nodes are shared.  Use at most 8 threads for builds and tests
+  (e.g. "make -j8", "pytest -n 8"), and nothing long or memory-heavy.
+- Anything that needs real computing goes in a batch job.
 - Put a time limit on any command that might hang: "timeout 600 CMD".
+- Limit long output: "CMD 2>&1 | tail -n 200".
+- Do not leave processes running.  Check with "ps -u $USER" before finishing.
+
+# Modules and software
+- Modules are Environment Modules (Tmod 4), not Lmod: no "module spider",
+  use "module avail NAME".
+- If "module" is missing, run "source /etc/profile.d/cosma-local-modules.sh".
+- Load a compiler first, then MPI, then libraries, e.g.
+  "module load gnu_comp/14.1.0 openmpi/5.0.3 hdf5".
+- Never pipe "module load" or "source": the change is lost in a subshell.
+- My usual modules: MODULES.
+- Python: use my virtual environment VENV_PATH.  Never create, change or
+  remove conda environments.
+
+# Slurm
+- Every job needs -A, -p and -t.  Maximum time is 3 days.
+- cosma8 and cosma7 give whole nodes, charged in full.  For less than a node
+  use cosma8-serial, cosma7-shm or cosma5, which share nodes.
+- Start job scripts with "module purge" and load every module needed.
+- Use mpirun, not srun, for Open MPI programs.
+- Set "export TMPDIR=/tmp" in job scripts.
+- Use job arrays rather than loops of sbatch.
+- Never edit a script that a queued or running job uses.
+
+# Building code
+- CPUs differ between systems.  Do not use -march=native unless I say which
+  nodes the program will run on: AVX-512 builds fail on cosma8.
+- Build and test on the node type the code will run on.
+
+# Files and the network
 - Never search /cosma5, /cosma7, /cosma8, /snap7 or /snap8 as a whole.
-- The compute nodes have no internet access.
-- Use "ssh -o BatchMode=yes".  If ssh fails, stop and tell me; never retry.
-- Do not compile with -march=native unless I say which nodes it will run on.
-- Show me the command and its output for every claim that something works.
+  Search only inside my directories.
+- Lustre is slow for many small files.  Prefer fewer, larger files.
+- Check quotas with "quota" (home and app space) and "lfsquota" (Lustre,
+  after "module load cosma").
+- Compute nodes have no internet access.
+- Use "ssh -o BatchMode=yes".  If ssh fails, stop and tell me.  Never retry.
+
+# How to report
+- Start with one line saying whether it worked.
+- Show the command and its actual output for every claim that something
+  works.  For every number, say where it came from (command, job ID, node).
+- Say what you did not check, and mark guesses as guesses.
 ```
 
-Keep the file short and factual.  Agents follow a short list of clear rules
-far better than a long essay, and the whole file is read into the agent's
-limited working memory in every session.  If your instructions file grows
-past a page or two, trim it: one user halved theirs and found the agent
-followed it more reliably.
+#### What to change, and what to leave
+
+- **Fill in** the capitals: your username, project and account, your data
+  folder (change `/cosma8` to `/cosma5` or `/cosma7` if your data is there),
+  your usual modules, and your virtual environment.
+- **Remove** sections that do not apply.  For example, if you never build
+  code, drop "Building code".
+- **Keep** the safety section.  It matches the COSMA rules, and is the part
+  that prevents the most damage.
+- **Add** facts about your own work that the agent keeps getting wrong: units
+  and definitions in your field, the name of your main code, how your
+  simulation outputs are laid out.
+
+#### A template for one project
+
+For a particular project, add a short file in the project's folder
+(`CLAUDE.md`, `AGENTS.md` or `GEMINI.md`, depending on the agent) with
+the facts that only apply there:
+
+```
+# This project
+- What it is: ONE OR TWO SENTENCES.
+- Code: /cosma/apps/PROJECT/USER/CODE (git repository, main branch: main).
+- Data: /cosma8/data/PROJECT/USER/DATA.  Read-only.
+- Results go in: /cosma8/data/PROJECT/USER/RESULTS.
+
+# Building and testing
+- Build: BUILD COMMAND, after "module load MODULES".
+- Test: TEST COMMAND.  Run it after every change.
+- Quick test input: SMALL INPUT FILE.
+
+# Conventions
+- Units: e.g. "lengths in comoving Mpc, masses in 1e10 Msun".
+- Style: follow the existing code; no unrelated changes.
+
+# Jobs
+- Usual queue and resources: e.g. "cosma8, 1 node, 128 ranks, 12 hours".
+- Job scripts live in: /cosma/apps/PROJECT/USER/CODE/jobs.
+```
+
+#### Keep it short
+
+Agents follow a short list of clear rules far better than a long essay, and
+the whole file is read into the agent's limited working memory in every
+session.  Aim for a page or two.  If your file grows longer, trim it: one user
+halved theirs and found the agent followed it more reliably.  Review it now
+and then, and remove rules that no longer matter.
+
+For Codex, which does not read `@` lines, copy the contents of
+`/etc/claude-code/AGENTS.md` into the file in place of the first line.
+
 ## Your shell setup
 
 Agents run commands in your shell, so problems in your shell start-up files
