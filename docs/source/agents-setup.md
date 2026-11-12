@@ -267,8 +267,8 @@ question that agents otherwise get wrong on COSMA.
 - Never search /cosma5, /cosma7, /cosma8, /snap7 or /snap8 as a whole.
   Search only inside my directories.
 - Lustre is slow for many small files.  Prefer fewer, larger files.
-- Check quotas with "quota" (home and app space) and "lfsquota" (Lustre,
-  after "module load cosma").
+- Check space before writing a lot of data: "quota" shows home, app space
+  and every Lustre file system.
 - Compute nodes have no internet access.
 - Use "ssh -o BatchMode=yes".  If ssh fails, stop and tell me.  Never retry.
 
