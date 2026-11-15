@@ -56,7 +56,7 @@ These file systems are not safe places to keep data:
 
 Therefore they should only be used for data that can be recreated.  There is no user quota, but please delete files that you no longer need.
 
-If you use them for checkpoints, either [mirror your files](lustre.md#redundancy), or copy a set of checkpoints to /cosma7 or /cosma8 every few days.  Do not overwrite your previous copy until the new one has been checked, so that you always have one good set.
+If you use them for checkpoints, either [mirror your files](lustre.md#mirroring-on-snap7-and-snap8), or copy a set of checkpoints to /cosma7 or /cosma8 every few days.  Do not overwrite your previous copy until the new one has been checked, so that you always have one good set.
 
 New files use a single disk by default.  To get the best speed, set the striping to suit the number of files that you write: see [using the snap file systems](faq.md#using-the-snap-file-systems-snap7-snap8).
 

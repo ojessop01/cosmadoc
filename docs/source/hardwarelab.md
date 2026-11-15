@@ -12,7 +12,7 @@ If you are a vendor, integrator or hardware developer, and would like to have yo
 
 ## Access
 
-To request access to any of the systems within the hardware lab, please [create an account](account.md) and request to join the corresponding [project code](project.md#hpc-hardware-lab-access).  Please contact cosma-support@durham.ac.uk when you request an account so that it can be set up correctly.
+To request access to any of the systems within the hardware lab, please [create an account](account.md) and request to join the corresponding [project code](project.md#hpc-hardware-lab-projects).  Please contact cosma-support@durham.ac.uk when you request an account so that it can be set up correctly.
 
 The Hardware Lab features the following systems and technologies:  
 - [DINE and DINE2](#dine-and-dine2)  

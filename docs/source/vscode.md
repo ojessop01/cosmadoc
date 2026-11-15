@@ -126,7 +126,7 @@ The gn002 and gn003 nodes use ARM processors, so they need their own virtual env
 
 To use notebooks, also install the Jupyter extension on the remote host and `ipykernel` in your virtual environment.  Open a notebook, click Select Kernel, and select your virtual environment.
 
-Anything that you run with the Run button or in a notebook runs on the login node, so please keep it short and small.  For anything larger, submit a [Slurm job](slurm.md), or [launch Jupyter on a compute node](jupyter.md#launching-jupyter-lab-on-a-compute-node).
+Anything that you run with the Run button or in a notebook runs on the login node, so please keep it short and small.  For anything larger, submit a [Slurm job](slurm.md), or [launch Jupyter on a compute node](jupyter.md#jupyter-in-a-batch-job).
 
 ## Don't normally run heavy jobs on the login node
 

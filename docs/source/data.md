@@ -34,7 +34,7 @@ scp myfile.dat USERNAME@login8.cosma.dur.ac.uk:/cosma8/data/PROJECT/USERNAME/
 
 Copying many small files is slow, so use `tar` to combine them first.  To check a copy, compare the output of `sha256sum` on each side, or run `rsync -avc --dry-run`, which should list no files.
 
-Choose the login node for the file system that you are using.  If you are copying files over 1GB onto COSMA, see [rsync on Lustre](lustre.md#rsync).
+Choose the login node for the file system that you are using.  If you are copying files over 1GB onto COSMA, see [rsync on Lustre](lustre.md#copying-data-onto-lustre).
 
 ## GLOBUS Online
 
