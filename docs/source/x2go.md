@@ -1,76 +1,117 @@
-# Graphical Access
+# Graphical access
 
-## Graphical Desktops
+Most work on COSMA is done at the command line, but sometimes you need a
+graphical program: a plot viewer, a debugger such as DDT, a visualisation
+tool such as ParaView, or a file browser.  There are three ways to do this:
 
-COSMA offers 2 ways to get a graphical desktop, in addition to standard X-11 forwarding: x2go and vnc. x2go is probably simpler to set up.
+| Method | Best for | Set-up |
+| ------ | -------- | ------ |
+| [x2go](#x2go) | A full desktop on COSMA, or using graphical programs for a long time | Install the x2go client once |
+| [X11 forwarding](ssh.md#running-programs-with-a-graphical-interface) | Opening the odd window, such as a quick plot | Log in with `ssh -X` |
+| [VNC](#vnc) | Only if x2go does not work for you | More complicated |
 
-## X2go
+x2go is the recommended way.  It is much more responsive than X11 forwarding
+over a slow connection, and if your connection drops, the desktop keeps
+running and you can reconnect to it.
 
-You will need an [x2go](https://wiki.x2go.org/doku.php) client on your desktop/laptop. This is available under common package repositories.
+## x2go
 
-Launch the client (e.g. x2goclient on Linux).
+x2go gives you a graphical desktop (Xfce) running on a COSMA login node, in a
+window on your own computer.  The x2go server is installed on every login
+node.
 
-Create a new session with the following details:
+### Installing the client
 
-Session name: (e.g. cosma - choose a name that means something to you!)
+Install the x2go client on your own computer:
 
-Host: Choose a cosma login node (e.g. login5a.cosma.dur.ac.uk)
+- **Linux:** from your distribution's packages, usually called `x2goclient`.
+- **macOS and Windows:** download it from the
+  [x2go website](https://wiki.x2go.org/doku.php/download:start).  On macOS you
+  also need [XQuartz](https://www.xquartz.org).
 
-Login: Your cosma user name
+### Setting up a session
 
-Use your ssh key for ssh connection: Select your private ssh key.
+Start the x2go client and create a new session with these settings:
 
-Session type: Select Xfce. You may need to untick the "Try auto login" box, but if it works with it ticked, that is probably more convenient.
+| Setting | Value |
+| ------- | ----- |
+| Session name | Anything you like, such as `cosma8` |
+| Host | A specific login node, such as `login8b.cosma.dur.ac.uk` or `login5c.cosma.dur.ac.uk` |
+| Login | Your COSMA username |
+| SSH port | 22 |
+| Use RSA/DSA key for ssh connection | The private SSH key you uploaded to SAFE, such as `~/.ssh/id_ed25519` |
+| Session type | `XFCE` |
 
-![](./images/x2gosetup.png)
+Use a specific login node, not `login8` or `login7`, so that you return to the
+same node, and the same desktop, each time.
 
-Save these settings. Then, click on this entry, and eventually, you will be given a graphical desktop environment on COSMA. You may need to enter your ssh key, then your password, and finally your ssh key again.
+![x2go session settings](./images/x2gosetup.png)
 
-Also note, if you have an error in your .bashrc file (for example, trying to load a non-existent module), then the x2go login may fail. To solve this, remove the offending lines from your .bashrc file.
+You may need to untick **Try auto login (via SSH Agent or default SSH key)**.
+If logging in works with it ticked, leave it ticked.
 
-If you find your x2go session is behaving odd graphically (e.g. the windows aren't getting redrawn when moved), you can try disabling compositing:
-1. Run `xfwm4-tweaks-settings` (or use the Applications menu -> Settings -> Window Manager Tweaks)
-2. Select the Compositor tab, and untick the compositing option.
+Save the session, then click it to connect.  You will be asked for your key
+passphrase and your COSMA password, and then the desktop opens.  The first
+connection can take a little while.
 
-The display should then be fixed.
+### Disconnecting and reconnecting
 
-The screen lock can also be disabled in
-```
-Applications > Settings > Xfce Screensaver > Lock Screen
-```
+- **Suspend** the session (the pause button in the x2go client, or closing the
+  window and choosing to suspend) to leave your programs running.  Connect
+  again later to carry on where you left off.
+- **Log out** from the desktop's menu when you have finished, so that your
+  programs do not keep running on the shared login node.
+
+Like everything on a login node, a suspended session is lost if that login node
+is restarted, for example during the scheduled downtimes listed on the
+[front page](index.rst).
+
+### If x2go does not work
+
+- **The login fails or the desktop never appears.**  An error in your
+  `~/.bashrc`, such as loading a module that does not exist or a command that
+  waits for input, can stop the desktop starting.  Try commenting out recent
+  changes to `~/.bashrc`, and make sure it prints nothing in non-interactive
+  shells.
+- **Windows are not redrawn properly when moved.**  Turn off compositing: run
+  `xfwm4-tweaks-settings` (or open Applications, Settings, Window Manager
+  Tweaks), go to the Compositor tab, and untick compositing.
+- **The screen locks and asks for a password.**  Turn off the screen lock in
+  Applications, Settings, Xfce Screensaver, Lock Screen.
+- **It is slow.**  In the session settings, under Connection, choose a lower
+  connection speed or a different compression method.
+
+## X11 forwarding
+
+For opening a single window, such as a plot or a PDF, log in with
+`ssh -X` and start the program from the command line.  See
+[running programs with a graphical interface](ssh.md#running-programs-with-a-graphical-interface).
 
 ## VNC
 
-While VNC can be used, ssh is preferred.
+```{note}
+On Rocky Linux 9, `vncserver` is an older command kept for compatibility: it
+prints a warning that it "has been replaced by a systemd unit and is now
+considered deprecated".  The steps below may not work.  Use x2go if you can,
+and contact cosma-support if you need VNC.
+```
 
-However, to use vnc, the following steps can be taken:
+VNC also gives a remote desktop.  The usual steps are:
 
-On a login node:
+1. On a login node, set a VNC password with `vncpasswd`, then start a server
+   with a display number `N` (try 1, and a higher number if it is in use):
 
-    vncserver :N 
+   ```
+   vncserver :N
+   ```
 
-(where N is a number from 1 to something - try starting with 1)
+2. On your own computer, forward VNC's port (5900 plus `N`) through SSH, and
+   connect a VNC viewer to it.  For example, for display 2 on login7a:
 
-If you haven't set up a vnc password run:
+   ```
+   ssh -N -L 5900:localhost:5902 USER@login7a.cosma.dur.ac.uk
+   vncviewer localhost:5900
+   ```
 
-    vncpasswd
-
-From your laptop/desktop:
-
-    ssh -Nf -L 5900:LOGINNODE:5900+N USERNAME@LOGINNODE.cosma.dur.ac.uk
-
-And then:
-
-    vncviewer localhost:5900
-e.g.
-
-On login7a:
-
-    vncserver :2
-
-On laptop:
-
-    ssh -Nf -L 5900:login7a:5902 dc-user1@login7a.cosma.dur.ac.uk
-
-    vncviewer localhost:5900
-
+3. When you have finished, stop the server on the login node with
+   `vncserver -kill :N`, so that it does not keep running.

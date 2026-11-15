@@ -1,52 +1,43 @@
-# The DiRAC Essentials Level Test
+# The DiRAC Essentials Test
 
-The DiRAC Project Management Board requires all post-graduate and
-post-doctoral research assistants to take a simple DiRAC Essentials
-Level Test (previously, a Driving Test) to ensure that all the
-researchers who use DiRAC Facilities have the basic IT skills needed
-to make best use of our Facility. This is a basic IT skills test, and
-upon successful completion the user will be awarded a certificate of
-competency.
+DiRAC asks researchers who use its facilities, including COSMA, to take the
+**DiRAC Essentials Test**: a short online test of the basic computing skills
+needed to use an HPC system well.  It replaced the earlier DiRAC "Driving
+Test", first run in 2013.
 
-The first round of Driving Tests occurred September and December 2013
-and Postdoctoral Research Assistants and final year PhD students were
-required to take the Driving Test at this time. The Essentials Level
-Test replaces this, and is taken by Postdoctoral Research Assistants
-and final year PhD students.
+## Who should take it
 
-- The Essentials Level Test is carried out at your own location (i.e. web-based). 
-- The Essentials Level Test is self-taught. Feedback will be given to each person who takes the Test. Further details of the Test and the course materials can be found [here](https://dirac.ac.uk/training/)
+The DiRAC Project Management Board requires postgraduate students and
+postdoctoral research assistants who use DiRAC facilities to take the test.
+Postdoctoral fellows, academic staff and users from outside the UK are also
+welcome to take it.
 
-No-one will lose account privileges for failing the Essentials Level
-Test - in fact it is designed to identify skills gaps that need to be
-addressed, not to grade anyone.
+## What it involves
 
-However the Director wishes to make it clear he reserves the right to
-remove account privileges from those who refuse to take the Essentials
-Level Test for no good reason. However this will only be carried out
-after a dialogue between the Director, the researcher and her/his
+- It is taken **online**, wherever you are.
+- It is **self-taught**: the course material is provided, and you get feedback
+  on your answers.
+- Passing it earns a certificate.
+
+The test is designed to find gaps in skills so that they can be filled, not to
+grade anyone, and **no one loses their account for failing it**.  However, the
+DiRAC Director reserves the right to remove access from anyone who refuses to
+take it without good reason, after discussion with the researcher and their
 supervisor.
 
-Post-Doctoral Research Associates, Independent Research Fellows,
-Academic Staff members and users from outside the UK are more than
-welcome to take the Essentials Level Test.
+## Why
 
-The Essentials Level Test is the first stage in a rolling plan to
-improve the quantity and quality of training and support offered to
-you all over the next few years.
+Researchers who are confident with HPC tools get more science out of their
+allocations, waste less computing time, and gain skills that are valued in
+both research and industry.  A well-trained community also lets DiRAC invest
+in more advanced equipment.
 
-We have a duty of care to make sure the equipment is used as
-efficiently as possible and we have an even greater duty of care to
-make sure you are well trained in advanced IT techniques and confident
-in using them.
+## Taking the test
 
-The latter urgently needs to be addressed and here's why
+Details of the test and the course material are on the
+[DiRAC training pages](https://dirac.ac.uk/training/).  If you cannot find the
+test there, or are not sure whether you need to take it, ask your supervisor
+or cosma-support.
 
-- You will be able to do more science of higher impact (and we hope you have more fun as well).
-- If we have a well trained cohort, we can invest in much more powerful equipment that is much closer to the bleeding edge and so allow you to generate those new results of high impact that will allow you and your group to be seen as leaders in your field.
-- It will make you much more employable. Real programming and IT skills are making a big comeback in Academe and Industry We need to equip you with these skills to improve your career progression.
-- In short we are trying to create a virtuous circle that will benefit both you, your science and your group's scientific reputation (often called esteem).
-
-We will also endeavour to try and keep costs to a minimum and deliver training as locally as possible.
-
-Happy Modelling (and Training)
+To prepare, the [useful links](usefullinks.md) page lists introductory
+material on the command line, git and HPC.

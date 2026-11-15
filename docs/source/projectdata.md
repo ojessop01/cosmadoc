@@ -1,17 +1,33 @@
-# Project Data
+# Project data
 
-Access to the data produced by projects using COSMA
+Some projects make the data they produce on COSMA available to other
+researchers.  For data available on the web, see [data links](links.md).
 
-## Flamingo
+## FLAMINGO
 
-To access data produced by the FLAMINGO project please create a [SAFE](https://safe.epcc.ed.ac.uk/dirac/) account ([instructions](account.md)), and sign up to project do012.
+To work with data from the [FLAMINGO](https://flamingo.strw.leidenuniv.nl/)
+simulations on COSMA:
 
-Once access has been granted, you can access COSMA, and submit SLURM jobs to the flamingo partition.
+1. Create a [SAFE](https://safe.epcc.ed.ac.uk/dirac/) account, if you do not
+   have one (see [getting an account](account.md)).
+2. Request a COSMA login account for project **do012**.
 
-For interactive access you can use e.g.:
+Once your account is set up, you can log in to COSMA and read the data from
+the login nodes, and run analysis jobs through Slurm.
 
-srun -p flamingo -A do012 -t 10 --pty /bin/bash
+```{note}
+In November 2026 no Slurm queue accepted jobs from the `do012` account, and
+the `flamingo` queue named in earlier versions of this page no longer exists.
+Contact cosma-support to find out which queue and account to use for
+analysis jobs.
+```
 
-Note that interactive access is not ideal as it will consume compute resource very inefficiently. You are better to submit a [batch script](slurm.md).
+For anything more than a quick look, use a [batch job](slurm.md) rather than
+an interactive session: an interactive session holds its resources even while
+you are not using them.
 
-If you wish to access the data without a COSMA account, we can make an S3-compatible share available, which will allow you to locally mount the remote file systm - please ask if this would be useful.
+If you need the data without a COSMA account, an S3-compatible share can be
+made available, which lets you mount the data on your own system.  Contact
+cosma-support if this would be useful.  For reading FLAMINGO data remotely,
+see also the FLAMINGO HDF5 streaming service on the
+[data links](links.md) page.
