@@ -6,7 +6,7 @@ Papers without an acknowledgement will not be counted as DiRAC papers. It is bec
 
 ## Current wording (2018 onwards)
 
-The new wording applies for any publication that has used DiRAC (even partially) from 1st May 2018.  In addition, if you use the [HPC Hardware Lab](hardwarelab.md), some [additional working below](#hardware-lab) can be added.
+The new wording applies for any publication that has used DiRAC (even partially) from 1st May 2018.  In addition, if you use the [HPC Hardware Lab](hardwarelab.md), some [additional wording below](#hardware-lab) can be added.
 
 For Durham we have two versions:
 
@@ -36,6 +36,7 @@ This work used the DiRAC@Durham facility managed by the Institute for Computatio
 
 -----------------------------------------------------------------
 
+(hardware-lab)=
 __(3) HPC Hardware Lab users (testbeds, experimental kit, etc)
 
 *Typically these will be for projects starting with do (e.g. do018).*

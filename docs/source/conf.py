@@ -35,6 +35,9 @@ intersphinx_disabled_domains = ['std']
 
 templates_path = ['_templates']
 
+# Templates for writing new pages, not pages themselves
+exclude_patterns = ['templates']
+
 # -- Options for HTML output
 
 html_theme = 'sphinx_rtd_theme'

@@ -50,7 +50,7 @@ read their output, so ask for them by name.  See also
 | `gprof` | installed | Function-level profiles of compiled code built with `-pg`. |
 | LIKWID | `module load gnu_comp/14.1.0 likwid/5.5.1` | `likwid-topology` for a node's sockets, caches and NUMA layout, `likwid-perfctr` for memory bandwidth, floating-point rate and vectorisation, and `likwid-pin` to place threads. |
 | Intel VTune and Advisor | `vtune` and `advisor` modules, or newer versions after loading `intel_comp` | Hotspots, threading efficiency, memory access patterns, and which loops are or are not vectorised. |
-| Linaro Forge (MAP and DDT) | `allinea/ddt/25.1.1` (the `linaro/forge/23.1.0` module does not currently start) | MAP for profiling MPI programs across ranks, DDT for debugging them. |
+| Linaro DDT | `allinea/ddt/25.1.1` (the default, 23.1.0, does not start; the MAP profiler has no licence) | DDT for debugging MPI and OpenMP programs, including offline reports in batch jobs (see [debugging](debugging.md#linaro-ddt)). |
 | Scalasca and PAPI | `scalasca` and `papi` modules | Communication and waiting time in large MPI runs, and hardware counters from inside your own code. |
 | Nsight Systems | `nsight-systems` module, with `cuda` or `nvhpc` | A timeline of GPU work: kernels, memory copies, and time the GPU spends idle. |
 | Valgrind | `valgrind/3.23.0` or installed | Cachegrind and Callgrind for cache behaviour and call counts on small cases, and Memcheck for memory errors. |
@@ -92,7 +92,7 @@ adding many at once:
   further.  Always compare results as well as speed.
 - **Instruction set.**  `-march=native` builds for the CPU you compile on,
   which is fast there but may not run elsewhere (see
-  [compiling for each system](facilities.md)).  For
+  [compiling for each system](facilities.md#compiling-for-each-system)).  For
   code that must run on several node types, either build once for each, or
   choose a target that all of them support, such as `-march=znver2` for
   COSMA8's CPUs.
@@ -167,7 +167,7 @@ the arithmetic.  Signs of this are a low number of instructions per cycle in
   With Intel MPI, `numactl` must go after `mpirun`, so that it applies to each
   rank.
 - **Load balance.**  If most ranks wait for a few, the code is only as fast as
-  the slowest.  Per-rank timings, Linaro MAP or Scalasca show this.
+  the slowest.  Per-rank timings or Scalasca show this.
 - **Communication.**  Fewer, larger messages are faster than many small ones,
   and collective operations (such as `MPI_Allreduce`) are usually faster than
   the same thing written by hand.  Overlapping communication with computation
@@ -288,7 +288,7 @@ calculation.
 - **Repeated set-up costs**, such as FFT plans or compiled kernels that are
   made again in every run, which can be saved and reused.
 - **Load imbalance**, where most ranks or threads wait for the slowest one.
-  MAP, Scalasca and per-rank timings show this.
+  Scalasca and per-rank timings show this.
 - **Precision.**  Using double precision where single precision would be
   accurate enough can halve memory use and speed up memory-bound code, but
   the agent must check the effect on accuracy, not assume it.

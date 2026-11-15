@@ -364,7 +364,7 @@ options until the errors stop.  An agent can work through this quickly:
 
 ### Building for different nodes
 
-COSMA's nodes have [different CPUs](facilities.md),
+COSMA's nodes have [different CPUs](facilities.md#compiling-for-each-system),
 and some have GPUs.  A program built for one may not run on another.  Agents
 are good at managing several builds of the same code:
 
@@ -386,7 +386,7 @@ common choices break on COSMA:
 - **`-march=native`.**  This builds code for the CPU of the machine you
   compile on.  Built on an AVX-512 login node, the program stops with
   `Illegal instruction` on nodes without AVX-512, such as COSMA8.  See
-  [compiling for each system](facilities.md).
+  [compiling for each system](facilities.md#compiling-for-each-system).
 - **`srun` with Open MPI.**  On COSMA, start Open MPI programs with `mpirun`.
   `srun` does not start them correctly.
 - **`TMPDIR` on a network file system.**  If `TMPDIR` points to app space or

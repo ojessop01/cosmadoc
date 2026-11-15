@@ -2,7 +2,7 @@
 
 ExCALIBUR was the UK Exascale preparation scheme (2019-2024), providing hardware and software effort in order to prepare the UK HPC community for forthcoming Exascale services.
 
-COSMA hosts several enabling hardware prototype systems funded by ExCALIBUR, which are hosted as part of the [HPC Hardware Laboratory](hardwarelab.html):
+COSMA hosts several enabling hardware prototype systems funded by ExCALIBUR, which are hosted as part of the [HPC Hardware Laboratory](hardwarelab.md):
 
 1. [DINE](facilities.md#dine) - a BlueField-2 (previously BlueField-1) enabled HPC cluster
 
@@ -22,7 +22,7 @@ COSMA has a MI100 GPU in server ga004.
 
 THere were also six AMD MI50 GPUs hosted in the ga003 server, now decommissioned. These were interlinked with a 4x and 2x InfinityFabric link between the GPUs, to enable direct data transfer. Newer MI GPUs are available instead.
 
-Relevant GPU programming software (ROCm) is available as the hipcc module (`module available hipcc`).  The AMD AOCC compiler is available as a module (module load aocc)
+Relevant GPU programming software (ROCm) is available as the hipcc module (`module available hipcc`).  The AMD AOCC compiler is only available among the older modules: run `module load old-modules`, then `module avail aocc_comp` (the newest is `aocc_comp/5.2.0`)
 
 The amd_smi command will provide information about the GPUs.
 

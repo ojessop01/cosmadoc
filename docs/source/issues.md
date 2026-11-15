@@ -2,6 +2,18 @@
 
 See the below for known hints and issues related to certain codes. These may give compilation hints, execution hints, etc.
 
+```{note}
+Many recipes on this page were written before COSMA moved to Rocky Linux 9 in
+July 2024, or soon after, and name module versions that are no longer
+available, such as `python/3.6.5`, `gnu_comp/9.3.0`, `gnu_comp/13.1.0`,
+`hdf5/1.12.0`, `gsl/2.4` and `ucx/1.10.1`.  Some of these can still be loaded
+after `module load old-modules`, but programs built with them may not run.
+Where a version is missing, use the current version of the same module, for
+example `gnu_comp/14.1.0`, `openmpi/5.0.3`, `hdf5/1.14.4` or `python/3.12.4`,
+and check what is available with `module avail NAME`.  If a recipe here no
+longer works, please tell cosma-support.
+```
+
 It should be noted that highly optimised code compiled on COSMA7 may not run on COSMA8, which does not support AVX-512 instructions. Therefore, if you need code to run on COSMA5, and are suffering from "illegal instructions", please try recompiling on COSMA5. Likewise, to run code on COSMA8, please compile on a COSMA8 login node.
 
 ## SWIFT

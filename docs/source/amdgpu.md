@@ -48,7 +48,7 @@ Benchmarks:
  - precision: FP64
 
  Cache topology:
- ```txt
+ ```text
 |--------------|     |--------------|
 |              |     |              |
 |    HBM3      |     |    HBM3      |   (8 stacks of 24GB = 192GB total HBM3)

@@ -237,7 +237,7 @@ A SLURM script such as:
     #SBATCH --nodes=2
 
     module purge
-    module load python/3.6.5
+    module load python/3.12.4
 
     # Get a comma separated list of IPs for the host and
     # Smart NICs that SLURM has assigned us
@@ -388,7 +388,7 @@ Durham project funded by EPSRC under the ExCALIBUR programme.
 
 ![ExaHyPE - an Exascale Hyperbolic PDE Engine](images/ExaHyPE_Logo-small.jpg)
 
-[www.exahype.org](www.exahype.org)
+[www.exahype.org](https://www.exahype.org)
 
 EU H2020 FET HPC project with partners from Munich (Technische Universitat Munchen and Ludwig-Maximilians Universitat), Trento and Frankfurt.
 
@@ -411,7 +411,7 @@ Let us know if you want to be added.
 
 ### Acknowledgement
 
-This work has used Durham University's DINE cluster. DINE has been purchased through Durham University’s Research Capital Equipment Fund 19_20 Allocation, led by the Department of Computer Science. It is installed in collaboration and as addendum to DiRAC@Durham facility managed by the Institute for Computational Cosmology on behalf of the STFC DiRAC HPC Facility ([www.dirac.ac.uk](www.dirac.ac.uk)). DiRAC equipment was funded by BEIS capital funding via STFC capital grants ST/P002293/1, ST/R002371/1 and ST/S002502/1, Durham University and STFC operations grant ST/R000832/1. DiRAC is part of the National e-Infrastructure.
+This work has used Durham University's DINE cluster. DINE has been purchased through Durham University’s Research Capital Equipment Fund 19_20 Allocation, led by the Department of Computer Science. It is installed in collaboration and as addendum to DiRAC@Durham facility managed by the Institute for Computational Cosmology on behalf of the STFC DiRAC HPC Facility ([www.dirac.ac.uk](https://www.dirac.ac.uk)). DiRAC equipment was funded by BEIS capital funding via STFC capital grants ST/P002293/1, ST/R002371/1 and ST/S002502/1, Durham University and STFC operations grant ST/R000832/1. DiRAC is part of the National e-Infrastructure.
 
 
 ## Other facilities

@@ -28,7 +28,7 @@ memory, such as some Python analysis packages and Jupyter kernels, can leave
 large files there when they crash or are killed: in one case 82GB, which
 stayed in the node's memory until it was found and deleted.
 
-See [temporary space](storage.md) for more on `/tmp` and
+See [temporary space](storage.md#temporary-space) for more on `/tmp` and
 `/dev/shm`.
 
 ### Send temporary files to your own space
@@ -285,7 +285,7 @@ which actions they may take without asking.  Use this.
 - Never let an agent work directly on raw simulation output or other data
   that cannot be regenerated.  Write results to a separate folder.
 - If an agent deletes something from your home or app space, it can usually
-  be recovered from a [snapshot](storage.md).
+  be recovered from a [snapshot](storage.md#recovering-files-from-snapshots).
   The data file systems are **not** backed up.
 ## Long sessions and several agents
 
@@ -367,7 +367,7 @@ read all of it.
 | New SSH sessions suddenly ask for a password | More than about 10 sessions on one shared connection.  Use fewer at once, or another login node. |
 | `pip install` hangs | The pip cache is on Lustre.  See [pip and other caches on Lustre](#pip-and-other-caches-on-lustre). |
 | Builds or tests are much slower than on your laptop | The code is on Lustre.  See [Lustre is slow for small files](#lustre-is-slow-for-small-files). |
-| `Illegal instruction` | The code was built with `-march=native` for a different CPU.  See [compiling for each system](facilities.md). |
+| `Illegal instruction` | The code was built with `-march=native` for a different CPU.  See [compiling for each system](facilities.md#compiling-for-each-system). |
 | `Permission denied` running a program the agent unpacked in `/tmp` | `/tmp` on the login nodes cannot run programs.  Set `TMPDIR` to your app space. |
 | The agent's connection to its model fails inside a batch job | Compute nodes cannot reach the internet.  Run the agent on a login node. |
 | The node is slow, or your memory use is high after a session | Leftover processes or files in `/dev/shm`.  See [leftover and stuck processes](#leftover-and-stuck-processes). |
