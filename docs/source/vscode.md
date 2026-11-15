@@ -99,7 +99,7 @@ python my_script.py
 
 ## Set up Python
 
-Without any setup, Python on COSMA is the system version (3.9), which has few packages.  Instead, use a [virtual environment](python.md#installing-python-libraries) and tell VS Code about it.
+Without any setup, Python on COSMA is the system version (3.9), which has few packages.  Instead, use a [virtual environment](python.md#installing-packages-in-a-virtual-environment) and tell VS Code about it.
 
 1. In the VS Code terminal, create a virtual environment in your app space:
 
