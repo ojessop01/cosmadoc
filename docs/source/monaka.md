@@ -1,3 +1,3 @@
-# The Monaka ARM system testbed
+# The Monaka ARM system CPU
 
-We are hoping to add a Monaka ARM testbed to the HPC Hardware Lab.
+Monaka is a new chip from Fujitsu which will be released shortly.

@@ -70,7 +70,7 @@ whereas the system copy of Node.js is not.
 
    These settings are saved in `~/.npmrc`, so later `npm` commands use them.
 
-2. Add the programs to your `PATH`, by adding these lines to `~/.bashrc`:
+2. Add the programs to your `PATH`, by adding these lines to `~/.bash_profile`:
 
    ```
    module load nodejs/24.18.1

@@ -187,6 +187,8 @@ export XDG_RUNTIME_DIR=""
 jupyter lab --no-browser --ip=$(ifconfig | awk '/172.17/ {print $2}')
 ```
 
+Use a queue that shares nodes, such as `cosma5` or `cosma8-serial`.  On `cosma7`, `cosma8` and several other queues you are given, and charged for, a whole node, which is rarely what you want for Jupyter.  To list the queues that share nodes, run `scontrol show partition | grep "Partition\|OverSubscribe" | grep -B 1 OverSubscribe=NO`.
+
 Submit it with `sbatch jupyter.sh`.  When it is running (`squeue --me`),
 Jupyter's address and token appear in the `.err` file within a few seconds:
 

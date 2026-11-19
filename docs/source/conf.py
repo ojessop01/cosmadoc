@@ -6,8 +6,9 @@ project = 'cosma'
 copyright = '2026, COSMA'
 author = 'cosma-support'
 
-release = '0.1'
-version = '0.1.0'
+#COSMA version (COSMA8), update number (i.e. 0=2020, 1=2021, 2=2023), current year,month.
+release = '8.2'
+version = '8.2.2611'
 
 # -- General configuration
 
