@@ -216,7 +216,7 @@ Host mad12
 
 `ssh mad12` then logs in to `login8b` first (reusing its shared connection if
 there is one), and from there connects to `mad12`.  The same works on the
-command line: `ssh -J login8b mad12.pri.cosma.local`.
+command line: `ssh -J login8b USER@mad12.pri.cosma.local`.
 
 This is for nodes you are allowed to log in to directly, such as the
 [hardware lab](hardwarelab.md) systems during their interactive hours.  The
@@ -252,8 +252,9 @@ already sharing a connection only takes effect after `ssh -O exit`.
 An SSH agent remembers your key's passphrase after you first type it, until
 you log out of your computer.
 
-- **Linux:** most desktops start an agent for you.  Add this to your
-  `~/.ssh/config`, at the top so it applies to every host:
+- **Linux:** most desktops start an agent for you.  Add this at the bottom of
+  your `~/.ssh/config` (after your specific `Host` blocks) so it applies to
+  every host:
 
   ```
   Host *

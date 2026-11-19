@@ -30,7 +30,7 @@ the MPI include files and libraries for you:
 | MPI | Module | C | C++ | Fortran |
 | --- | ------ | - | --- | ------- |
 | Open MPI | `openmpi/5.0.3` (after `gnu_comp` or `intel_comp`) | `mpicc` | `mpicxx` | `mpifort` |
-| Intel MPI | `mpi` (after `intel_comp` and `compiler-rt tbb compiler`) | `mpiicx` | `mpiicpx` | `mpiifx` |
+| Intel MPI | `mpi` (after `intel_comp` and `compiler-rt tbb umf compiler`) | `mpiicx` | `mpiicpx` | `mpiifx` |
 
 For example:
 
@@ -103,9 +103,12 @@ the login nodes' CPUs.
   program that stops with `Illegal instruction` on COSMA8.  Compiling on a
   COSMA8 login node, or with `-march=znver2`, works on all COSMA8 nodes.
 - If one program must run everywhere, use `-march=x86-64-v3`, which all the
-  systems above support, or build a separate version for each.
-- The Intel compilers use `-xHost` (the same as `-march=native`), or for
-  example `-xCORE-AVX512` and `-march=core-avx2`.
+  systems above support (or `$COSMA_ALL_OPT`, `-O3 -march=sandybridge`, set by
+  the compiler modules), or build a separate version for each.
+- The Intel compilers use `-xHost` (the same as `-march=native`), or `-march=...`
+  (for example `-march=skylake-avx512` or `-march=core-avx2`).  Avoid `-xCORE-AVX512`
+  for binaries that will run on AMD AVX-512 nodes such as `cosma5`, as `-x...` flags
+  add an Intel CPU vendor check.
 
 ## Optimisation options
 

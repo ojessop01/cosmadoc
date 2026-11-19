@@ -4,21 +4,25 @@
 
 COSMA8 has 2 login nodes, accessed via login8.cosma.dur.ac.uk
 
-[See here](facilities.md#cosma8) for detailed information on the COSMA8 hardware and benchmarks.
+See [COSMA at a glance](systems.md) and [facilities](facilities.md#cosma8) for hardware details, and [queues](queue.md) for the full list of Slurm partitions.
 
-There are 4 relevant SLURM queues which provide access to different sets of hardware or job types:
+The main COSMA8 Slurm queues are:
 
-__cosma8__: provides exclusive access to nodes, shared with cosma8-serial
+__cosma8__: provides exclusive access to all 527 compute nodes, shared with `cosma8-serial`.
 
-__cosma8-serial__: provides non-exclusive access to nodes. Use this if you want less than 128 cores (and remember to specify your memory requirement too)
+__cosma8-serial__: provides non-exclusive access to nodes. Use this if you want fewer than 128 cores (and remember to specify your memory requirement too).
 
-__cosma8-rome__: A subset of cosma8, 360 nodes with Rome processors
+__cosma8-rome__: a subset of `cosma8`, 356 nodes (`m8001` to `m8356`) with AMD Rome processors.
 
-__cosma8-milan__: A subset of cosma8, 168 nodes with Milan processors
+__cosma8-milan__: a subset of `cosma8`, 171 nodes (`m8357` to `m8527`) with AMD Milan processors.
 
-__cosma8-shm__: access to the mad04 and mad05 servers, with 4TB RAM. These is also non-exclusive, so may be shared with other users if you don't require all 128 cores or all 4TB RAM.
+__cosma8-shm__ (and __cosma8-highram__): access to the `mad04` and `mad05` servers, with 4TB RAM and an NVIDIA A100 GPU each. These are non-exclusive, so may be shared with other users if you do not require all 128 cores or all 4TB RAM.
 
-__cosma8-shm2__: access to the ga004 server with a Milan 7703 processor and MI100 GPU.
+__cosma8-shm2__: access to `ga004` (AMD MI100 GPU) and `ga006` (2x AMD MI210 GPUs).
+
+__cosma8-shm3__: access to `mad08` and `mad09` (192 cores, 772GB RAM each).
+
+__cosma8-ska__ and __cosma8-ska2__: large-memory queues (`mad07`, and `mad01`, `mad03` to `mad05`) for `durham` and `do011` accounts.
 
 ## Useful information
 
@@ -39,7 +43,7 @@ MKL is available via the `intel_comp` and `oneAPI` modules.
 
 There is a fix that must be applied: 
 
-By default, MKL (the Intel Math Kernel Library) does not select the best the best options when used on COSMA8, delivering significantly lower performance. For versions of MKL prior to 2020, setting `MKL_DEBUG_CPU_TYPE=5` would force it to use the zen2 code path. However, for newer versions, this no longer works. Instead, the following workaround should be used:
+By default, MKL (the Intel Math Kernel Library) does not select the best options when used on COSMA8, delivering significantly lower performance. For versions of MKL prior to 2020, setting `MKL_DEBUG_CPU_TYPE=5` would force it to use the zen2 code path. However, for newer versions, this no longer works. Instead, the following workaround should be used:
 
 ```bash
 cat <<EOF > amdmkl.c
@@ -53,7 +57,7 @@ EOF
 
 __Permanent fix__
 
-Rather than remembering to set LD_PRELOAD everytime you run your application, add this to your program using:
+Rather than remembering to set `LD_PRELOAD` every time you run your application, add this to your program using:
 
     patchelf --add-needed libamdmkl.so yourbinary
 
@@ -61,31 +65,9 @@ The information here was taken from [here](https://danieldk.eu/Posts/2020-08-31-
 
 ### Compilers
 
-Recommended compilers will depend on the success seen by your application. See the PDFs below for recommended compiler options on AMD systems. Wisdom about best compilers for particular codes is collected here. Here are the available compilers:
+See [compiling](compiling.md) for current recommended compilers and flags (`gnu_comp/14.1.0`, `intel_comp/2024.2.0` / `2025.3.0`, `llvm`, `nvhpc`). Older CentOS 7 compilers such as `aocc_comp` are only available after `module load old-modules` and may not work on Rocky Linux 9.
 
-__icc__
-
-`intel_comp/2018` - generally stable
-
-`intel_comp/latest` - possibly better optimisations
-
-`oneAPI` - The newest versions of the Intel compiler, aliased to intel_comp
-
-__gcc__
-
-gnu_comp/ - 10.2 or 11.1 know about the Zen2 architecture, so will be better optimised
-
-__aocc (AMD optimised compiler collection)__
-
-aocc/ - the AMD Optimised Compiler Collection - based on LLVM, use the latest version
-
-__llvm__
-
-Available via the llvm modules
-
-__pgi__
-
-Available via the pgi modules.  This may no longer work - if you have problems, please contact us.
+See the PDFs below for AMD tuning reference material.
 
 ### MPI Modules
 
@@ -138,31 +120,19 @@ The mvapich module can sometimes offer improved performance. However, in some ca
 
 ### GPUs
 
-A number of GPU servers are accessible - please ask if you are unsure how to use these:
-
-gn001: 10x NVIDIA V100 GPUs
-
-ga003: 6x AMD MI50 GPUs (now retired)
-
-ga004: 1x AMD MI100 GPU, 2x 64 core AMD Milan processors.
-
-ga005, ga006: 2x AMD MI200 GPUs, 2x 32 core 7513 EPYC processors
-
-login8b, mad04, mad05, mad06: Between 0-3 NVIDIA A100 GPUs (reconfigurable/moveable as required, please ask if you have a particular setup you wish for)
+See [GPUs](gpu.md) and [GPU jobs](gpujobs.md) for the current GPU nodes, partitions and job options.
 
 ### SWIFT
 
 The current recommended setup is given on the [swift pages](swift.md).
 
-### Arm Forge
+### Linaro Forge (Arm Forge / DDT)
 
-Allinea Arm Forge and MAP (used for code profiling) is available using the allinea/ddt/23.1.0 module.
+DDT is available via `module load allinea/ddt/25.1.1` (the older default `23.1.0` does not start on Rocky Linux 9). See [debugging](debugging.md#linaro-ddt) and [code performance](codeperformance.md#allinea) for details.
 
-Profiles collected during the commissioning period are available in the commissioning report.
+### Slurm batch scripts
 
-### SLURM batch scripts
-
-See examples [here](/slurm.md).
+See [Slurm](slurm.md) and [running your first job](firstjob.md).
 
 ### COSMA8 FAQ
 
@@ -170,20 +140,16 @@ The COSMA8 FAQ details some of the known issues or peculiarities related to COSM
 
 __How do I submit to COSMA8?__
 
-You must be part of a DiRAC project that has an allocation on COSMA8, and be part of the cosma8 group (use the id command to see this). If you are not part of the cosma8 group, but should be, please contact cosma-support. To submit a job script, you need to use -p cosma8.
+You must be part of a DiRAC project that has an allocation on COSMA8, and be part of the `cosma8` group (use the `id` command to see this). If you are not part of the `cosma8` group, but should be, please [contact cosma-support](contact.md). To submit a job script, use `-p cosma8` (or `-p cosma8-serial` for partial-node jobs).
 
-Jobs failing with `UCX ERROR: ivb_reg_mr`
+Jobs failing with `UCX ERROR: ibv_reg_mr`
 
-Try setting the following option in your SLURM batch script (note, this may impact performance):
+Try setting the following option in your Slurm batch script (note, this may impact performance):
 
     export UCX_IB_REG_METHODS=direct
-
-Jobs failing with Bus Error while writing files
-
-This is potentially due to a bug in Lustre 2.12.6. A possible solution is to reduce memory usage. We cannot yet upgrade to newer versions of Lustre, as these have been tested and found to be unstable on COSMA (including 2.12.8 and 2.12.9).
 
 Please let us know if there is something you would like added.
 
 ### Known code issues
 
-There is [collective wisdom](/issues.md) available when running particular codes on COSMA8.
+There is [collective wisdom](issues.md) available when running particular codes on COSMA8.

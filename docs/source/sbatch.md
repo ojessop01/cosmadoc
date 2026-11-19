@@ -42,7 +42,7 @@ Some common patterns are:
 
 ### Threads and CPUs
 
-On COSMA, Slurm allocates whole cores, and each core has two hardware threads.  A job with `--cpus-per-task=4` gets 4 cores but can see 8 threads, so programs that use `nproc` to choose how many threads to start will start 8.
+On COSMA, Slurm allocates whole cores, and most cores have two hardware threads (exceptions include ARM `gn003`, `mad01` and E-core `mad11`, which have one).  On two-thread cores, a job with `--cpus-per-task=4` gets 4 cores but can see 8 threads, so programs that use `nproc` to choose how many threads to start will start 8.
 
 To run one thread on each core, set the number of threads yourself:
 
@@ -67,10 +67,10 @@ On whole-node queues, your job gets all of the memory on its nodes.  On shared q
 
 | Option | Example | Meaning |
 | ------ | ------- | ------- |
-| `--mem` | `--mem=32G` | Memory for each node |
+| `--mem` | `--mem=32G` | Memory for each node (`--mem=0` requests all memory on the node) |
 | `--mem-per-cpu` | `--mem-per-cpu=4G` | Memory for each CPU |
 
-Use one or the other.  Values can use `K`, `M`, `G` or `T`, and the default unit is megabytes.  Jobs that use more than this are killed.  The default memory per CPU depends on the queue: see [the shm queues](faq.md#what-are-the-shm-queues).
+Use one or the other.  Values can use `K`, `M`, `G` or `T`, and the default unit is megabytes.  Jobs that use more than this are killed.  The default memory per CPU depends on the queue: see [queues](queue.md#main-queues) and [large memory queues](queue.md#large-memory-queues).  Do not use `--tmp`: Slurm does not track `/tmp` on COSMA, so `--tmp` is rejected.
 
 ## Choosing nodes
 
@@ -80,6 +80,8 @@ Use one or the other.  Values can use `K`, `M`, `G` or `T`, and the default unit
 | `-x`, `--exclude` | `-x m8001` | Do not use these nodes |
 | `-C`, `--constraint` | `--constraint=gpu` | Use nodes with this feature |
 | `--gres` | `--gres=gpu:1` | Request generic resources: see [GPU jobs](gpujobs.md) |
+| `--gpus` | `--gpus=1` | Request GPUs on queues billed by GPU (`mi300x`, `cosma8-draper`) |
+| `--reservation` | `--reservation=NAME` | Run in a named Slurm reservation |
 
 COSMA8 has two types of node.  To use only one, select the `cosma8-rome` or `cosma8-milan` queue.
 

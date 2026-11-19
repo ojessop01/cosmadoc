@@ -12,19 +12,19 @@ COSMA hosts several enabling hardware prototype systems funded by ExCALIBUR, whi
 
 4. CXL-prototype composable RAM systems
 
-5. [DWAVE quantum annealing credits]()
+5. [DWAVE quantum annealing credits](#dwave-quantum-annealing-credits)
 
-To use these systems, please contact cosma support.
+To use these systems, please contact [cosma-support](contact.md).
 
 ## AMD GPU systems
 
-COSMA has a MI100 GPU in server ga004.
+COSMA has an MI100 GPU in server `ga004` (see [AMD GPUs](amdgpu.md) and [GPU jobs](gpujobs.md) for current AMD GPU systems).
 
-THere were also six AMD MI50 GPUs hosted in the ga003 server, now decommissioned. These were interlinked with a 4x and 2x InfinityFabric link between the GPUs, to enable direct data transfer. Newer MI GPUs are available instead.
+There were also six AMD MI50 GPUs hosted in the `ga003` server, now decommissioned. These were interlinked with a 4x and 2x InfinityFabric link between the GPUs, to enable direct data transfer. Newer MI GPUs are available instead.
 
-Relevant GPU programming software (ROCm) is available as the hipcc module (`module available hipcc`).  The AMD AOCC compiler is only available among the older modules: run `module load old-modules`, then `module avail aocc_comp` (the newest is `aocc_comp/5.2.0`)
+Relevant GPU programming software (ROCm) is available as the `hipcc` module (`module available hipcc`).  The AMD AOCC compiler is only available among the older modules: run `module load old-modules`, then `module avail aocc_comp` (the newest is `aocc_comp/5.2.0`).
 
-The amd_smi command will provide information about the GPUs.
+The `amd-smi` (or `rocm-smi`) command provides information about the GPUs.
 
 These systems are available for general use. If you use them, feedback would be welcome, in particular around performance, and the software environment.
 
@@ -70,7 +70,7 @@ Co-Is:
 
 Alastair Basden (Durham)
 
-Tobias Weinrzierl (Durham)
+Tobias Weinzierl (Durham)
 
 Carlos Frenk (Durham)
 
@@ -106,14 +106,14 @@ __Resources__
 - [MPPHEA minutes 210125](minutes/minutes210125_software.txt) (last modified: 21 February 2021)
 - [MPPHEA minutes 210208](minutes/minutes210208_software.txt) (last modified: 21 February 2021)
 - [MPPHEA minutes 210222](minutes/minutes210222_software.txt) (last modified: 8 March 2021)
-- [MPPHEA minutes 210308](minutes/minutes210208_software.txt) (last modified: 22 March 2021)
+- [MPPHEA minutes 210308](minutes/minutes210308_software.txt) (last modified: 22 March 2021)
 - [MPPHEA minutes 210412](minutes/minutes210412_software.txt) (last modified: 13 April 2021)
 - [MPPHEA minutes 210517](minutes/minutes210517_software.txt) (last modified: 28 May 2021)
 - [MPPHEA minutes 210601](minutes/minutes210601_software.txt) (last modified: 14 June 2021)
 - [MPPHEA minutes 210621](minutes/minutes210621_software.txt) (last modified: 2 July 2021)
 - [MPPHEA minutes 210816](minutes/minutes210816_software.txt) (last modified: 17 August 2021)
 - [MPPHEA minutes 210906](minutes/minutes210906_software.txt) (last modified: 13 December 2021)
-- [MPPHEA minutes 211108](minutes/minutes210208_software.txt) (last modified: 13 December 2021)
+- [MPPHEA minutes 211108](minutes/minutes211108_software.txt) (last modified: 13 December 2021)
 - [MPPHEA minutes 220124](minutes/minutes220124_software.txt) (last modified: 9 February 2022)
 - [MPPHEA minutes 220207](minutes/minutes220207_software.txt) (last modified: 9 February 2022)
 

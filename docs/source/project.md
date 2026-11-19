@@ -1,15 +1,17 @@
 # Project codes
 
 Every COSMA account belongs to a project, identified by a project code.  You
-give the code when you [request your account](account.md) on SAFE, and use it
-as the Slurm account (`-A`) when you submit jobs.  The project's PI or manager
-must approve your request, so make sure they know who you are.
+give the code when you [request your account](account.md) on SAFE, and for most
+projects you also use it as the Slurm account (`-A`) when you submit jobs (the
+main exception is `hpcicc`, which maps to `-A durham` on COSMA5).  The
+project's PI or manager must approve your request, so make sure they know who
+you are.
 
 | You are | Project code |
 | ------- | ------------ |
 | Part of a DiRAC project awarded time by the Resource Allocation Committee (RAC) | `dpXXX`, a three-digit number: ask your project's PI |
 | Using the HPC Hardware Lab | One of the codes below |
-| A Durham user, or a collaborator, using COSMA5 | `hpcicc` |
+| A Durham user, or a collaborator, using COSMA5 | `hpcicc` (submit Slurm jobs with `-A durham`) |
 | Wanting FLAMINGO data | `do012` (see [project data](projectdata.md)) |
 
 ## HPC Hardware Lab projects

@@ -4,15 +4,14 @@ Azimuth is a cloud system hosted within COSMA.
 
 Projects with accounts on Azimuth can manage their own nodes, Slurm clusters, Kubernetes clusters, etc.
 
-# Kubernetes Access
+## Kubernetes Access
 
-The Azimuth Cloud Portal allow us to deploy Kubernetes clusters using `kubectl` and `k9s`.
+The Azimuth Cloud Portal allows you to deploy Kubernetes clusters and manage them with `kubectl`, `helm` and `k9s`.
 
 To access a Kubernetes cluster you need access to the [Azimuth portal](https://portal.azimuth.cosma.dur.ac.uk).
-If you want to have more details about Kubernetes cluster, a Kubernetes configuration file, usually called `kubeconfig`
-should be download to your local machine. To be able to use this cluster `kubectl` installed on your local machine. Optional but also recommended: `k9s`
+Download the Kubernetes configuration file (usually called `kubeconfig`) to your local machine, and install `kubectl` (plus `helm` and `k9s` if needed).
 
-You can check if all installation is good so far by:
+You can check your local installation with:
 
 ```bash
 kubectl version --client
@@ -20,7 +19,7 @@ helm version
 k9s version
 ```
 
-To interact with a cluster, you sould point your terminal to the downloaded config file.
+To interact with a cluster, point your terminal to the downloaded config file:
 
 ```bash
 export KUBECONFIG=~/.kube/ml-intro.yaml
@@ -47,7 +46,7 @@ ml-intro-ml-intro-69ngd-ckrhh         Ready    worker          v1.34.6   x.x.x.x
 
 ## Using K9s
 
-`k9s` is a terminal user interface for Kubernetes. It is can be useful for checking pods, logs, deployments, services, config maps, and secrets.
+`k9s` is a terminal user interface for Kubernetes. It can be useful for checking pods, logs, deployments, services, config maps, and secrets.
 
 ```bash
 k9s
@@ -85,19 +84,19 @@ Users may have access to more than one Kubernetes cluster, for example a GPU clu
 Kubernetes can merge multiple kubeconfig files using the KUBECONFIG environment variable:
 
 ```bash
-export KUBECONFIG=$HOME/.kube/config:$HOME/ml-intro.yaml:$HOME//test-cluster.yaml
+export KUBECONFIG=$HOME/.kube/config:$HOME/ml-intro.yaml:$HOME/test-cluster.yaml
 ```
 
 ## JupyterHub Configurations
 
-Jupyter notebooks runs as a Kubernetes pod inside the JupyterHub namespaces.  In those namespaces, diffrent reproducible deployments can be created via Helm charts. To maintaine and extend user resoruces, it could build unlike Docker images such as, GPU-enabled notebook, CPU-based notebook, C/C++ notebook etc. For more details please check [here](https://z2jh.jupyter.org/en/stable/resources/reference.html)
+Jupyter notebooks run as Kubernetes pods inside the `jupyterhub` namespace.  Different reproducible deployments can be created via Helm charts. To maintain and extend user resources, you can build different Docker images such as GPU-enabled, CPU-based, or C/C++ notebooks. For more details please check [here](https://z2jh.jupyter.org/en/stable/resources/reference.html).
 
-When you want to debug which image is running on which notebook helm chart, you could use below useful commands.
+When you want to debug which image is running on a notebook pod, you can use the commands below (replace `POD` with the specific pod name if more than one `jupyter-` pod is running):
 
-Checking which image is running: 
+Checking which image is running:
 
-```bash 
-POD=$(kubectl -n jupyterhub get pods -o name | grep jupyter- | sed 's|pod/||')
+```bash
+POD=$(kubectl -n jupyterhub get pods -o name | grep -m1 jupyter- | sed 's|pod/||')
 
 kubectl -n jupyterhub get pod "$POD" \
   -o jsonpath='{.spec.containers[?(@.name=="notebook")].image}{"\n"}'
@@ -124,21 +123,21 @@ __NOTE__: Jupyterhub configurations should generally be provided as explicit ass
 
 ### Creating Profiles for Courses
 
-If you are developing a new course, you have to build kernels on your local machine to deploy on Azimuth. To do that you have to create a directory having Dockerfile to pass your kernels along side requirtments and course materials. 
+If you are developing a new course, build kernels on your local machine to deploy on Azimuth. Create a directory with a `Dockerfile` alongside your requirements and course materials:
 
 ```bash
 docker build -t quay.io/<username>/<image>:<tag> .
 docker push quay.io/<username>/<image>:<tag>
 ```
 
-_Note:_ If you are using MacOs ARM procceses you have to use `buildx` to create cross platform working images. 
+_Note:_ If you are using macOS on ARM processors, use `docker buildx` (with `--platform linux/amd64`) to build cross-platform images.
 
-After building and pushing the image to a container registry (e.g. Quay), then reference the image should be in `apps/jupyterhub/values.yaml`. 
-You have to access that repo to be able to commit your deployment.
+After building and pushing the image to a container registry (e.g. Quay), reference the image in `apps/jupyterhub/values.yaml`.
+You need access to that repository to commit your deployment:
 
 ```bash
 git add .
-git commit - m "Image added with <tag>"
+git commit -m "Image added with <tag>"
 git push origin
 ```
 
@@ -153,6 +152,6 @@ flux reconcile helmrelease jupyterhub -n jupyterhub --force
 
 The new profile becomes available to users when they launch JupyterHub from Moodle.
 
-# Limitations
+## Limitations
 
-The system of Azimuth cloud still under the development phase - meaning that some issues/bugs in JupyterHub may be present. Please do let us know if you come across anything odd deploying your course on Azimuth cloud.
+The Azimuth cloud system is still under development, meaning that some issues or bugs in JupyterHub may be present. Please contact cosma-support@durham.ac.uk if you come across anything odd when deploying your course on Azimuth cloud.

@@ -1,18 +1,15 @@
 # Good citizenship guide
 
-- Please remember that login nodes are a shared resource
-  - Interactive jobs
-  - Testing
-  - Compilation
-  - Post-analysis
+- Please remember that login nodes are a shared resource, intended for lightweight work only:
+  - Editing files, compiling small codes, and managing jobs
+  - Quick, small tests (a few cores for a few minutes at most; use an [interactive session](interactive.md) or batch job for anything larger)
 
 - Please do not run interactive jobs on batch queues unless essential
   - in which case please do not let them remain idle
     - Idle jobs in queues waste precious compute time
 
-- Please do not run long non-interactive jobs on login nodes
-  - for more than a few seconds
-  - These are better submitted to the queues
+- Please do not run long or heavy non-interactive jobs on login nodes
+  - These should be submitted to the batch queues (see [Slurm](slurm.md))
 
 - Please do not run jobs that will hog memory on login nodes
 

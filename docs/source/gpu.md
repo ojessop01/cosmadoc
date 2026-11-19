@@ -44,29 +44,29 @@ To use a GPU available for direct login, just ssh to the node name given above. 
 | V100 | 7 | 32 | 900 |
 | A100 |9.7 | 40 | 1555 |
 | A30 | 5.2 | 24 | 933 |
-| H100 PCIe | 26 | 80 | 2000 |
-| H100 SMX | 34 | 80 | 3350 |
+| H100 NVL | 34 | 94 | 3938 |
+| GH200 | 34 | 96 | 4000 |
 | RTX PRO 6000 | 2 (126 for FP32) | 96 | 1790 |
-| MI50 | 6.6 | 16 | 1000 |
+| MI50 (retired) | 6.6 | 16 | 1000 |
 | MI100 | 11.5 | 32 | 1200 |
 | MI210 | 22.6 | 64 | 1600 |
 | MI300X | 81.7 | 192 | 5300 |
 | MI300A | 61.3 | 128 | 5300 |
 | PVC | 52.4 | 128 | 3280 |
 
-There is a more [detailed GPU comparison table](gpuspecs.md) and for more information on specifications and usage, see the following pages:
+There is a more [detailed GPU comparison table](gpuspecs.md) and for more information on specifications and usage, see:
 
-## [AMD GPUs](amdgpu.md)
-
-## [NVIDIA GPUs](nvidiagpu.md)
+- [AMD GPUs](amdgpu.md)
+- [NVIDIA GPUs](nvidiagpu.md)
+- [Intel GPUs](intelgpu.md)
 
 ## Further notes on GPUs
 
-For nodes not assigned to queues (mad06, gn001, gn002, gn005, ga008, gi001), please be aware that these are shared resources and that other people may be using (or may wish to use) them.
+For direct-SSH nodes (`gn001`, `gn002`) and hybrid GPU nodes during daytime interactive hours (`mad06`, `gn004`, `gn005`, `ga008` — see [hybrid nodes](hardwarelab-hybridnodes.md)), please be aware that these are shared resources and that other people may be using (or may wish to use) them.
 
-To use some of these GPUs, you may need to be in the "video" or "render" groups (use the ```id``` command to check which groups you are in).  If you are not in it, but need to be, please ask.
+To use some of these GPUs, you may need to be in the `video` or `render` groups (use the `id` command to check which groups you are in).  If you are not in it, but need to be, please [contact cosma-support](contact.md).
 
-To check that you have the correct permissions to submit to a partition, you can use the ```scontrol show partition=PARTITION_NAME``` command to see which groups are allow to submit to that partition.
+To check that you have the correct permissions to submit to a partition, you can use the `scontrol show partition=PARTITION_NAME` command to see which groups and accounts are allowed to submit to that partition.
 
-The Intel PVC GPUs on gi001 are currently dead - sometime in Autumn 2025.  Watch this space - we may be able to resurrect them.
+The Intel PVC GPUs on `gi001` are currently dead (since Autumn 2025).  `gi001` remains available as a Sapphire Rapids CPU node in the `hardwarelab-cpu` queue (see [CPU compute lab](cpucomputelab.md) and [hybrid nodes](hardwarelab-hybridnodes.md)).
 

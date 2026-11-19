@@ -58,7 +58,8 @@ Choosing the number of stripes:
 - Use more stripes for larger files and for files read or written by many
   processes at once.  A few stripes (4 to 16) suits most large files.
 - `-c -1` stripes over every disk.  This can suit a few very large files on
-  `/cosma7` or `/cosma8`, but is not a good idea on `/snap8`.
+  `/cosma7` or `/cosma8`, but is not a good idea on `/snap8` (where disks have
+  no redundancy, so a failure on any OST destroys the whole file).
 - The chunk size (`-S`) must be less than 4GB; 1MB to 16MB is usual.
 
 Lustre can also use a **progressive file layout**, in which a file gets more
@@ -178,9 +179,14 @@ lfs quota -g GROUP -h /cosma8
 With the `cosma` module loaded, `lfsquota` shows your quota on every Lustre
 file system at once, and `lfsquota -g GROUP` your project's.
 
+Both space (bytes) and file-count (**inode**) quotas are enforced on Lustre.
+`lfs quota` displays both (`kbytes` and `files`); hitting either limit causes
+writes to fail with `Disk quota exceeded`.  Use `lfs df -h /cosma8` to check
+overall free space and OST usage on a Lustre file system.
+
 ### Who is using the project's quota
 
-The [usage pages](system.md#system-usage) show how much each user in a project
+The [usage pages](system.md#nightly-batch-and-disk-use) show how much each user in a project
 is using on each Lustre file system.  Some of this information is updated
 nightly or weekly, so it may not show the last few hours.
 

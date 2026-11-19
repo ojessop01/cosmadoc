@@ -133,8 +133,10 @@ module load mytool/1.2
 ```
 
 Put the `module use` line in your `~/.bashrc` to make your modules always
-available.  Other members of your project can use them too, if they can read
-the folder (see [access control lists](acl.md)).
+available.  Other members of your project can use them too, if you grant group
+read and execute permissions (`chmod -R g+rX /cosma/apps/PROJECT/USER/modulefiles`
+and the software folder).  Note that POSIX [access control lists](acl.md) only
+apply to the Lustre data file systems, not `/cosma/apps`.
 
 ## Containers
 

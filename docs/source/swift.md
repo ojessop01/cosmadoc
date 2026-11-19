@@ -2,7 +2,7 @@
 
 A detailed study of different compilers has been carried out for SWIFT and there are many options that can be used.
 
-It is possible to use gcc 9.3, 10.2 or 11.1 with openmpi/4.1.1 or mvapich_mpi/2.3.7 on cosma8.  However, gcc provides poor performace.  
+It is possible to use gcc 9.3, 10.2 or 11.1 with openmpi/4.1.1 or mvapich_mpi/2.3.7 on cosma8.  However, gcc provides poor performance.
 
 The current recommendation (2024) is the Intel Compiler and either OpenMPI or Intel MPI.  It is thought that Intel MPI might be slightly better and lead to less imbalance.
 
@@ -34,7 +34,7 @@ On COSMA8 with 4 ranks per node, the following should be used when launching an 
 
     -np 4 --map-by socket:PE=32
 
-For a similiar effect with mvapich the following is required:
+For a similar effect with mvapich the following is required:
 
 `export MV2_CPU_BINDING_POLICY=hybrid`
 
@@ -44,12 +44,7 @@ For a similiar effect with mvapich the following is required:
 
 but note that the current module does not yet support mpirun.
 
-`MV2_ENABLE_AFFINITY=0` is required.
-
-With gcc the dependencies for swift are also available:
-
-
-With openmpi the default binding of processes to cores seems to be wrong for SWIFT. The '--bind-to none' flag is required to use all of the cpus.
+With openmpi the default binding of processes to cores seems to be wrong for SWIFT. The `--bind-to none` flag is required to use all of the cpus.
 
 With mvapich, `export MV2_ENABLE_AFFINITY=0` is required to use all of the cpus.
 
@@ -57,6 +52,13 @@ With mvapich, `export MV2_ENABLE_AFFINITY=0` is required to use all of the cpus.
 
 Yannick has put together a report on [compiling SWIFT with the icx compiler](files/SWIFT_ICX.pdf) (instead of icc, which is deprecated).
 
+## SWIFT: Profiling with Intel tools
+
+To be able to view source code via Intel VTune, Intel Inspector and Linaro Forge you need to compile SWIFT with:
+
+`./configure --enable-debug CFLAGS="-parallel-source-info=2"`
+
+Note this will disable inter-procedural optimization.
 
 ## SWIFT: compiler comparison on AMD Genoa (Peter Draper, Dec 2023)
 
@@ -73,14 +75,6 @@ and includes support for the latest language standards and innovations like
 the cross platform parts of oneAPI. So moving forward SWIFT needs to be
 capable of using these compilers as effectively as it has done using ICC.
 
-## SWIFT: Profiling with Intel tools
-
-To be able to view source code via Intel VTune, Intel inspector and Linaro Forge you need to compile Swift:
-
-`./configure --enable-debug CFLAGS="-parallel-source-info=2"`
-
-Note this will disable inter-procedural optimization.
-
 ### Benchmarks
 
 
@@ -93,7 +87,7 @@ is an interesting standalone test, when SPH is included the physics is more
 representative of a normal run of SWIFT. Note we do not attempt to benchmark a
 full physics build, such as used in the EAGLE or FLAMINGO simulations.
 
-The benchmarks were ran on a single Genoa node, which has 2 AMD EPYC 9654
+The benchmarks were run on a single Genoa node, which has 2 AMD EPYC 9654
 96-Core Processors, giving 192 physical cores configured as 8 NUMA regions,
 and 1TB of RAM. A notable change from Rome and Milan CPUs is support for
 AVX512 instructions.

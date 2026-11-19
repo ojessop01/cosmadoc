@@ -148,9 +148,10 @@ srun -A ACCOUNT -p cosma5 -t 2:00:00 -c 8 --mem=32G --pty /bin/bash
 When you get a shell on the compute node, start Jupyter:
 
 ```
+module load python/3.12.4
 export XDG_RUNTIME_DIR=""
 source /cosma/apps/PROJECT/USER/myenv/bin/activate
-jupyter lab --no-browser --ip=$(ifconfig | awk '/172.17/ {print $2}')
+jupyter lab --no-browser --ip=$(ip -4 -o addr show | awk '/172\.17\./ {split($4,a,"/"); print a[1]}')
 ```
 
 Jupyter prints an address containing the node's IP address, a port (usually
@@ -182,12 +183,14 @@ job:
 #SBATCH -e jupyter.%j.err
 
 module purge
+module load python/3.12.4
 source /cosma/apps/PROJECT/USER/myenv/bin/activate
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
 export XDG_RUNTIME_DIR=""
-jupyter lab --no-browser --ip=$(ifconfig | awk '/172.17/ {print $2}')
+jupyter lab --no-browser --ip=$(ip -4 -o addr show | awk '/172\.17\./ {split($4,a,"/"); print a[1]}')
 ```
 
-Use a queue that shares nodes, such as `cosma5` or `cosma8-serial`.  On `cosma7`, `cosma8` and several other queues you are given, and charged for, a whole node, which is rarely what you want for Jupyter.  To list the queues that share nodes, run `scontrol show partition | grep "Partition\|OverSubscribe" | grep -B 1 OverSubscribe=NO`.
+Use a queue that shares nodes, such as `cosma5` or `cosma8-serial`.  On `cosma7`, `cosma8` and several other queues (`OverSubscribe=EXCLUSIVE`) you are given, and charged for, a whole node, which is rarely what you want for Jupyter.  To list the queues that share nodes (`OverSubscribe=NO`), run `scontrol show partition | grep "Partition\|OverSubscribe" | grep -B 1 OverSubscribe=NO`.
 
 Submit it with `sbatch jupyter.sh`.  When it is running (`squeue --me`),
 Jupyter's address and token appear in the `.err` file within a few seconds:

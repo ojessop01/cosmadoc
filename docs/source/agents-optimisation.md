@@ -184,8 +184,8 @@ the arithmetic.  Signs of this are a low number of instructions per cycle in
   idle, waiting for data from the CPU.
 - **Move data less.**  Copying data between the CPU and the GPU is slow.  Keep
   data on the GPU between steps, and copy only what changes.
-- **Check the GPU is busy.**  `nvidia-smi` on the node shows how busy each GPU
-  is and how much memory is used.
+- **Check the GPU is busy.**  `nvidia-smi` (NVIDIA) or `rocm-smi` (AMD) on the
+  node shows how busy each GPU is and how much memory is used.
 - **Portable code.**  COSMA has GPUs from more than one maker.  Libraries such as
   Kokkos (the `kokkos` modules) let the same code run on NVIDIA and AMD GPUs and
   on CPUs.  See [GPUs](gpu.md) and [GPU jobs](gpujobs.md) for the hardware and
@@ -206,8 +206,8 @@ make large speed-ups.
   attach to a program that is already running.
 - `scalene` shows both time and memory use for each line.
 
-These are not installed on COSMA; install them with `pip` into your virtual
-environment.
+The last three (`line_profiler`, `py-spy` and `scalene`) are not installed on
+COSMA; install them with `pip` into your virtual environment.
 
 ### Making it faster
 

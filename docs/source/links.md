@@ -23,7 +23,7 @@ cosma-support.
 
 | Database | Address |
 | -------- | ------- |
-| EAGLE database | [virgodb.dur.ac.uk:8443/Eagle](http://virgodb.dur.ac.uk:8443/Eagle/), also at [virgodb.cosma.dur.ac.uk:8443/Eagle](http://virgodb.cosma.dur.ac.uk:8443/Eagle/) |
+| EAGLE database | [virgodb.dur.ac.uk:8443/Eagle](https://virgodb.dur.ac.uk:8443/Eagle/), also at [virgodb.cosma.dur.ac.uk:8443/Eagle](https://virgodb.cosma.dur.ac.uk:8443/Eagle/) |
 | Millennium database | [virgodb.dur.ac.uk:8443/Millennium](https://virgodb.dur.ac.uk:8443/Millennium/), also at [virgodb.cosma.dur.ac.uk:8443/Millennium](https://virgodb.cosma.dur.ac.uk:8443/Millennium/) |
 
 To share your own data from COSMA, see [data curation](datacuration.md).

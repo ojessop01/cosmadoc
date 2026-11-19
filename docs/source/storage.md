@@ -6,21 +6,21 @@ COSMA has several storage systems, each for a different purpose:
 | ------- | -------- | ------------- | ---------- | ----------- |
 | [Homespace](#homespace) | /cosma/home/PROJECT/USERNAME | 10GB | Hourly snapshots, daily backups | Scripts and settings |
 | [App space](#app-space) | /cosma/apps/PROJECT/USERNAME | 100GB | Daily snapshots | Software and Python virtual environments |
-| [Data space](#data-space) | /cosma5, 7 or 8/data/PROJECT/USERNAME | 10TB | Redundant disks, no backups | Simulation output and results |
+| [Data space](#data-space) | /cosma5, 7 or 8/data/PROJECT/USERNAME | 5-10TB | Redundant disks, no backups | Simulation output and results |
 | [Scratch space](#scratch-space) | /snap7 or 8/scratch/PROJECT/USERNAME | None | None | Checkpoints that can be recreated |
 | [Temporary space](#temporary-space) | /tmp | None | None | Short-lived files during a job |
 | [Archive space](#archive-space) | Tape | By request | Tape copy | Long-term storage |
 | [Shared space](#shared-space) | File system | By project | Various | Making data available |
 
-To see your usage and quotas, use the `quota` command (see the [FAQ](faq.md#are-there-disk-usage-quotas)).
+To see your usage and quotas (both disk space and file-count / inode limits), use the `quota` command (see the [FAQ](faq.md#are-there-disk-usage-quotas) and [Lustre quotas](lustre.md#quotas)).  Hitting either your space quota or your inode quota causes writes to fail with `Disk quota exceeded`.
 
 ## Homespace
 
-User homespace is found under /cosma/home and is a NFS-mounted file system.  Users typically have a 10GB quota.  This file system is snapshotted hourly, with snapshots kept for around 10 days.  It is also usually backed up daily, with backups kept for up to 60 days.
+User homespace is found under /cosma/home and is an NFS-mounted file system.  Users typically have a 10GB quota.  This file system is snapshotted hourly, with snapshots kept for around 10 days.  It is also usually backed up daily, with backups kept for up to 60 days.
 
 ## App space
 
-User app space is found under /cosma/apps and is a NFS-mounted file system.  Users typically have a 100GB quota.  This file system is snapshotted daily, with snapshots kept for around 10 days.
+User app space is found under /cosma/apps and is an NFS-mounted file system.  Users typically have a 100GB quota.  This file system is snapshotted daily, with snapshots kept for around 10 days.
 
 ### Recovering files from snapshots
 
@@ -86,7 +86,7 @@ There is no per-user quota on /tmp, so one user can fill it for everyone on that
 
 ### /tmp on login nodes
 
-Because /tmp is held in memory on login nodes, large files take memory from other users.  Programs in /tmp cannot be run, and fail with `Permission denied`.  If a tool needs to run something from its temporary directory, point it at your app space instead:
+Because /tmp is held in memory on login nodes, large files take memory from other users.  Programs in /tmp cannot be run, and fail with `Permission denied`.  If a tool needs to run something from its temporary directory, point it at your app space for small temporary files (remembering the 100GB app-space quota; put temporary files larger than 1GB on `/cosma*` or `/snap*` instead):
 
 ```
 mkdir -p /cosma/apps/PROJECT/USERNAME/tmp
@@ -110,7 +110,7 @@ export TMPDIR=$(mktemp -d /tmp/$USER.XXXXXX)
 trap 'rm -rf "$TMPDIR"' EXIT
 ```
 
-This also removes the directory if your job reaches its time limit.
+The `EXIT` trap also runs when the job reaches its time limit: Slurm first sends `SIGTERM`, and the shell runs the trap before it exits.  It does not run if the shell is killed outright with `SIGKILL`, which Slurm does if the job is still running 4 minutes after the `SIGTERM`, so keep the clean-up quick.  To get more warning before a time limit, see [saving work before the time limit](slurmtips.md#saving-work-before-the-time-limit).
 
 ### /dev/shm
 
@@ -158,10 +158,10 @@ findmnt -n -M /cosma7 -o OPTIONS
 
 ## Archive space
 
-The tape archive is a good place for long-term storage and archival of data which is not actively required, or which you wish to back up.  To archive data to tape, please contact cosma-support.
+The [tape archive](archive.md) is a good place for long-term storage and archival of data which is not actively required, or which you wish to back up.  To archive data to tape, please contact cosma-support@durham.ac.uk.
 
 ## Public space
 
-There are multiple ways in which you can make data publicly accessible.  We have a [StorJ](storj.md) object storage system hosted on servers spread across DiRAC, which can be used for uploading data and storing with users.
+There are multiple ways in which you can make data publicly accessible.  We have a [StorJ](storj.md) object storage system hosted on servers spread across DiRAC, which can be used for uploading data and sharing with users.
 
 It is also possible to make individual files available for download via a web link, please ask if you wish to do this.

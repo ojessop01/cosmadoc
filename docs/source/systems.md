@@ -39,16 +39,16 @@ suits its CPU (see [compiling code](compiling.md#building-for-the-right-cpu)).
 - Most queues allow jobs of up to **3 days**.  Variants with `-pauper` and
   `-prince` in their names have different limits and priorities: see
   [queue variants](queue.md#queue-variants).
-- Each core has 2 hardware threads.  Slurm's `--cpus-per-task` counts cores.
+- Each core on the main compute queues has 2 hardware threads (exceptions in specialised queues include `mad01` and `gn003`, which have 1 thread per core).  Slurm's `--cpus-per-task` counts cores.
 
 ## Large-memory and specialised queues
 
 | Queue | Nodes | Cores per node | Memory per node | GPUs per node |
 | ----- | ----- | -------------- | --------------- | ------------- |
-| `cosma7-shm` | 2 (`mad01`, `mad02`) | 56 | 3 TB | |
+| `cosma7-shm` | 2 (`mad01`, `mad02`) | 56 (`mad01`), 112 (`mad02`) | 3 TB (`mad01`), 1.5 TB (`mad02`) | |
 | `cosma7-shm2` | 1 (`mad03`) | 48 | 6 TB | |
 | `cosma8-shm` | 2 (`mad04`, `mad05`) | 128 | 4 TB | 1 × NVIDIA A100 (40 GB) |
-| `cosma8-shm2` | 2 (`ga004`, `ga006`) | 128 | 1 TB | 1 × AMD Instinct MI100 |
+| `cosma8-shm2` | 2 (`ga004`, `ga006`) | 128 (`ga004`), 64 (`ga006`) | 1 TB | 1 × AMD Instinct MI100 (`ga004`), 2 × AMD Instinct MI210 (`ga006`) |
 | `cosma8-shm3` | 2 (`mad08`, `mad09`) | 192 | 772 GB | |
 | `cosma8-ska` | 1 (`mad07`) | 56 | 4 TB | |
 | `cosma8-ska2` | 4 (`mad01`, `mad03`, `mad04`, `mad05`, shared with other queues) | 48 to 128 | 3 to 6 TB | A100 on `mad04` and `mad05` |

@@ -4,7 +4,7 @@ We have a single [Tenstorrent QuietBox](https://tenstorrent.com/hardware/tt-quie
 
 The host system is a single AMD 8124P 16-core processor with 512GB RAM.
 
-It is a highly capable system for AI inferencing, with further information available [here](https://docs.tenstorrent.com/systems/quietbox/quietbox-wh/index.html).
+It is a highly capable system for AI inferencing, with further information in the [Tenstorrent documentation](https://docs.tenstorrent.com/).
 
 ## Accessing the Tenstorrent system
 
@@ -25,9 +25,9 @@ program.
 
 We have not yet tested running multiple tt-metalium programs in parallel.
 
-### tt-metalalium
+### tt-metalium
 
-The tt-metalium library for c++ is installed on the machine, this is the low-level SDK for tenstorrent devices.
+The tt-metalium library for C++ is installed on the machine; this is the low-level SDK for Tenstorrent devices.
 
 Include the relevant headers like so:
 ```
@@ -53,9 +53,9 @@ Please try using the tools and give any feedback.
 
 ## Tutorials
 
-There are a number of tutorial, podcasts and lectures on [github](https://github.com/RISCVtestbed/tt-tutorial)
+There are a number of tutorials, podcasts and lectures on [GitHub](https://github.com/RISCVtestbed/tt-tutorial).
 
 ## Usergroup
 
-If you would like to join a UK Tenstorrent research mailing list, please let us know.  Primarily for discussion between users.
+If you would like to join a UK Tenstorrent research mailing list, please [contact cosma-support](contact.md).  Primarily for discussion between users.
 

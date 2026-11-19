@@ -59,7 +59,7 @@ The DINE2 system can be accessed via the dine2 Slurm partition.
 
 ### Environment
 
-As this is an Intel node while Cosma's login nodes are AMD, we recommend to compile exclusively on the node:
+As this is an Intel Sapphire Rapids node (whereas COSMA8/COSMA5 login nodes are AMD and COSMA7 login nodes are older Intel Skylake), we recommend compiling directly on the node:
 
 ```sh
 module load intel_comp

@@ -159,7 +159,7 @@ The `--map-by` option gives each task its own block of cores.  Set `--cpus-per-t
 | `cosma7`, `cosma7-rp` | 28 | 14 |
 | `cosma5` | 256 | 128 |
 
-Each core has two hardware threads, so a program that counts the available CPUs itself will see twice as many.  Setting `OMP_NUM_THREADS` avoids this.  See [threads and CPUs](sbatch.md#threads-and-cpus), and [MPI hints](mpi.md) for more on pinning.
+Most cores on COSMA have two hardware threads (exceptions include ARM `gn003`, `mad01` and E-core `mad11`, which have one), so a program that counts the available CPUs itself will usually see twice as many.  Setting `OMP_NUM_THREADS` avoids this.  See [threads and CPUs](sbatch.md#threads-and-cpus), and [MPI hints](mpi.md) for more on pinning.
 
 To use only some of the cores on each node, for example to give each task more memory, use fewer tasks per node.  For example, for 8 tasks with 2 cores each on 32 COSMA7 nodes:
 
@@ -194,7 +194,7 @@ Slurm can give one job several groups of nodes, each with different resources:
 #SBATCH --ntasks-per-node=8
 ```
 
-This requests one node with one task, and two more nodes with 16 tasks between them.  `mpirun` does not understand this kind of allocation, so MPI programs should be started with `srun` instead, for example:
+This requests one node with one task, and two more nodes with 16 tasks between them.  Depending on the MPI build, `mpirun` may not understand a Slurm `hetjob` allocation, in which case MPI programs must be started with `srun` (provided MPI was built with PMI support), for example:
 
 ```
 salloc -A PROJECT --time=72:00:00 -p cosma8 --nodes=3
@@ -253,13 +253,13 @@ The `showq` command shows the jobs in a queue (in addition to `squeue` and `sinf
 showq -q cosma7 -l -f -o
 ```
 
-The `c7jobload` and `c8jobload` commands show the load (CPU demand) of a running job.  Use `-h` to see the options.  For example:
+The `c7jobload` and `c8jobload` commands show the load (CPU demand) of running jobs on a partition or for specific job IDs.  Use `-h` to see the options (`-s` for short output, `-n INTERVAL` to repeat).  For example:
 
 ```
-c8jobload -l JOBID
+c8jobload JOBID
 ```
 
-`sstat` shows the resources used by a running job, and `sacct` by a finished one.  For example, to print the memory used so far at the end of your job script:
+`sstat` shows the resources used by a running job, and `sacct` by a finished one.  For example, to print the memory used so far on the head node (the `.batch` step) at the end of your job script:
 
 ```
 sstat --jobs=${SLURM_JOB_ID}.batch --format=jobid,maxrss,ntasks

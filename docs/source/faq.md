@@ -23,7 +23,7 @@ through an application to the standard call for proposals or through a
 seedcorn application. See the [DiRAC facility
 website](https://www.dirac.ac.uk) for more details.
 
-Access to the Cosma5, which is part Cosma, is available to all ICC and
+Access to COSMA5, which is part of COSMA, is available to all ICC and
 CEA members [(details here)](https://durhamuniversity-my.sharepoint.com/:w:/g/personal/dph0arj_durham_ac_uk/ESQiUHr4wKNCv4Y9PgPo57cBH66i03eh7oa2BR58StmN4Q).
 ICC collaborators may be able to access non-DiRAC time on cosma7 and
 cosma8. Contact your collaborator at Durham, cc-ing cosma-support.
@@ -65,7 +65,7 @@ relevant Operating System Group (use the "id" command on a login node), to
 submit to the corresponding COSMA.
 
 If you are not part of a DiRAC project, you should use COSMA5. You will need
-to be part of the "durham" group to do this.
+to be part of the `durham` group (project code `hpcicc` on SAFE) to do this.
 
 ## How do I copy (large) files to/from cosma?
 
@@ -106,25 +106,25 @@ Yes, these should be set. You have a quota both on total storage capacity
 (typically 10TB for data and 10GB for homespace), and total number of files
 used.
 
-How do I check my quota?
+## How do I check my quota?
 
 On a login node, use the `quota` command. This should report all your quotas
-on the different file systems (/cosma5, /cosma7, /cosma8, /cosma/home and
-/cosma/apps). This is part of the cosma module, so you may need to "module
-load cosma" first.
+on the different file systems (`/cosma5`, `/cosma7`, `/cosma8`, `/cosma/home` and
+`/cosma/apps`). This is part of the `cosma` module, so you may need to `module
+load cosma` first.
 
 Alternatively use the `c5quota`, `c7quota`, or `c8quota` commands to see your
 usage of those file systems, or the `lfsquota` command to see a report for all
-lustre file systems you have access to (this should work from all login
-nodes). These also need the cosma module loaded. To just see your homespace or
+Lustre file systems you have access to (this should work from all login
+nodes). These also need the `cosma` module loaded. To just see your homespace or
 apps quota, use the `nfsquota` command.
 
-Is anything backed-up?
+## Is anything backed up?
 
 Homespace is usually backed up every day. Data space can be archived to tape
-media upon request.
+media upon request (see [archive](archive.md)).
 
-Detailed usage for the data file systems can be found on [usage](system.md)
+Detailed usage for the data file systems can be found on the [usage](system.md)
 website.
 
 ## Can I print from cosma?
@@ -138,9 +138,9 @@ email a PDF to the CIS printers using the "mail" command.
 environment variables (e.g. PATH, etc) depending on what your requirements
 are.
 
-## Which modules should I load? Are these different on the different Cosma’s? How do I find which modules are available?
+## Which modules should I load? Are these different on the different COSMAs? How do I find which modules are available?
 
-Use the "modules available" command to see available modules. These are the
+Use the `module avail` command to see available modules. These are the
 same for each COSMA system, and if optimised versions exist for particular
 architectures, these may be loaded automatically.
 
@@ -160,8 +160,7 @@ defined.
 
 ## How do I load modules automatically on login?
 
-Put "module load MODULE" commands within your .bash_profile script (or .login
-if you are an older user)
+Put `module load MODULE` commands in your `~/.bash_profile` (or `.login` if you are an older user).  In batch jobs, it is also good practice to start the job script with `module purge` and load the modules it needs, so that the job does not depend on what was loaded when you submitted it (see [modules in job scripts](modules.md#modules-in-job-scripts)).
 
 ## I want to perform a large simulation: Who do I ask? Can I just run?
 
@@ -192,11 +191,13 @@ queue "cosma8-serial" for smaller jobs if really needed.
 
 ## How many cores can I reasonably request?
 
-COSMA5 has 2048 cores
+COSMA5 has 2,048 cores (8 nodes × 256 cores).
 
-COSMA7 has ~12,500 cores.
+COSMA7 has 12,376 cores (220 nodes on `cosma7` + 222 nodes on `cosma7-rp`, 28 cores each).
 
-COSMA8 has ~67,080 cores.
+COSMA8 has 67,456 cores (527 nodes × 128 cores).
+
+See [COSMA at a glance](systems.md) for full details.
 
 ## What determines when my job starts? How do I know the job is running? How can I kill it?
 
@@ -212,8 +213,8 @@ For job control, please see [here](slurm.md)
 You will have space in /cosma[5,7,8]/data/PROJECT/USERNAME
 
 This data is not backed up, but operates on a maintained parallel storage
-system (i.e. individual disk failures do not lead to data loss), and is
-archived periodically.
+system (i.e. individual disk failures do not lead to data loss), and can be
+archived to tape upon request (see [archive](archive.md)).
 
 Each storage location is optimally connected to that system. e.g. if you store
 data in /cosma7/ please access it from the cosma7 queue.
@@ -391,20 +392,20 @@ available.
 
 What are the debugging tools?
 
-allinear, gdb, perf, etc are all installed.
+Linaro Forge DDT (`allinea/ddt/25.1.1`), `gdb`, `valgrind` and others are installed.  See [debugging](debugging.md).
 
 ## What are the profiling tools?
 
-allinear, gdb, perf, etc are all installed
+`perf`, Intel VTune/Advisor, LIKWID, Darshan, Scalasca and others are installed.  See [code performance](codeperformance.md).
 
 ## My short tests take a long time to start: can I do something about this?
 
-Specify a short time period in you batch script file so you can run using
+Specify a short time period in your batch script file so you can run using
 backfill.
 
 ## Can I run interactively on a node? How do I do this?
 
-The srun command will allow you to do this.
+The `srun` and `salloc` commands allow you to do this: see [interactive sessions](interactive.md).
 
 
 ## Tell me about parallel compile. Can I compile on cosma5 and then run on cosma7? 
@@ -438,7 +439,7 @@ If you begin moving large files about, you may notice poor performance.
 
 With the cosma module loaded ("module load cosma"), use the `quota` command.
 
-You can ask for an increase your quota by email cosma-support@durham.ac.uk but
+You can ask for an increase to your quota by emailing cosma-support@durham.ac.uk, but
 you should make sure that this is OK with the appropriate project manager or
 follows your project rules especially for larger requests. Quotas apply to
 users and projects, so both can be exceeded.
@@ -452,46 +453,49 @@ reading/writing is done to locally attached storage.
 
 ## I am in many groups, how do I change my default one?
 
-The "newgrp" command can be used to do this. If the "id" command shows you
-being a member of several groups, you can change between them using "newgrp
-GROUPNAME". This will only take effect for your current shell. However, it can
+The `newgrp` command can be used to do this. If the `id` command shows you
+being a member of several groups, you can change between them using `newgrp
+GROUPNAME`. This will only take effect for your current shell. However, it can
 be used within batch scripts if you wish to write your data as a particular
-group.  I cannot write to my data space in
-/cosma*/data/PROJECT/USERNAME. Please help...
+group.
+
+## I cannot write to my data space in /cosma*/data/PROJECT/USERNAME. Please help...
 
 First, check that you have write permission on this directory:
 
+```
 ls -ld /path/to/directory
+```
 
-This should show something like drwxr-xr-x 1234 USERNAME GROUP ..., which
+This should show something like `drwxr-xr-x 1234 USERNAME GROUP ...`, which
 means that you have read, write and execute permission, that members of the
 group have read and execute permission, and that everyone else has read and
-execute permission. If the w for write permission is not present
-(e.g. dr-xr-xr-x) you should add it: chmod u+w /path/to/directory
+execute permission. If the `w` for write permission is not present
+(e.g. `dr-xr-xr-x`) you should add it: `chmod u+w /path/to/directory`.
 
 Check that the directory is owned by you, i.e. that the USERNAME returned from
-the ls -ld command is your username!
+the `ls -ld` command is your username!
 
-If that is all okay, check that you have sufficient quota left to write data
-there: "module load cosma" and then `quota`. This should be done on a login
-node (login5, login6 or login7).
+If that is all okay, check that you have sufficient quota left (both space and file count) to write data
+there: `module load cosma` and then `quota`. This should be done on a login
+node (`login5c`, `login7a/b/c`, or `login8a/b`).
 
 Finally, if you are still not able to write, check that the group you are
-writing as still has quota left. To identify your group, use the "id"
-command. This will show gid=XXXX(group) where XXXX is a number. You can then
-use e.g. c5quota -g XXXX (or c7quota or c8quota). Also, please note that your
-default group may not be that used to write your data, if your directory has a
-"sticky" bit set. In this case, the "ls -ld" command will show something like
-drwxr-sr-x. Note the "s". You will be writing as the specified group into this
+writing as still has quota left. To identify your group, use the `id`
+command. This will show `gid=XXXX(group)` where XXXX is a number. You can then
+use e.g. `c5quota -g XXXX` (or `c7quota` or `c8quota`). Also, please note that your
+default group may not be that used to write your data, if your directory has the
+setgid bit set. In this case, the `ls -ld` command will show something like
+`drwxr-sr-x`. Note the `s`. You will be writing as the specified group into this
 directory, regardless of what your default group is. Then check that this
 group is not over quota.
 
-To change the group that you are writing as, if a sticky bit is set, either
-remove the sticky bit (chmod g-s /path/to/directory) or re-group the directory
-(chown USER:NEWGROUP /path/to/directory). If a sticky bit is not set, and your
+To change the group that you are writing as, if the setgid bit is set, either
+remove the setgid bit (`chmod g-s /path/to/directory`) or change the directory's group
+(`chgrp NEWGROUP /path/to/directory`). If the setgid bit is not set, and your
 default group is over quota, so you wish to write as a different group, you
-can use the "newgrp" command: "newgrp GROUP". This will change your group to
-that specified (which should be in the list given by the "id" command), for
+can use the `newgrp` command: `newgrp GROUP`. This will change your group to
+that specified (which should be in the list given by the `id` command), for
 the current terminal. Therefore, you will need to do this again if you log in
 again. You will also need to put it into your Slurm batch
 scripts. Alternatively, if you believe that your default group is wrong, and
@@ -515,14 +519,13 @@ simultaneously, then the things to bear in mind: There are 192 OSTs (disks) on
 best possible is a good idea.
 
 If you are writing >96 files (80 files for /snap7), then set the
-striping of the parent directory to 1 (lfs setstripe -c 1
-/path/to/dir) and then all files written here will be written to a
-single file.
+striping of the parent directory to 1 (`lfs setstripe -c 1 /path/to/dir`) and then each file written here will be written to a
+single OST.
 
 If you want to optimise further, you can specify each file to be written to
-a specific OST in advance (lfs setstripe -c 1 -i INDEX /path/to/file)
-where INDEX is the
-index of that specific file.  This effectively "touches" the file (creates
+a specific OST in advance (`lfs setstripe -c 1 -i INDEX /path/to/file`)
+where `INDEX` is the
+index of that specific OST.  This effectively "touches" the file (creates
 a 0-byte stub), which when you then write to, will be written to the
 selected OST.
 

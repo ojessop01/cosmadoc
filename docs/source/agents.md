@@ -62,7 +62,7 @@ are:
   `conda clean` or `conda init`.
 - Never read, print or copy keys, tokens or passwords.
 
-The rest of this page explains how to set things up so that following these
+The rest of this section explains how to set things up so that following these
 rules is easy, and what goes wrong when they are not followed.
 
 ## Quick start

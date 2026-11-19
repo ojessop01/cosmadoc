@@ -68,7 +68,7 @@ Libraries such as `parmetis` need an MPI module as well as a compiler.  The
 which compiler and MPI modules it works with.
 
 Some modules only appear after loading another one.  For example, the Intel
-oneAPI modules `compiler`, `mpi`, `tbb` and `compiler-rt` appear after loading
+oneAPI modules `compiler`, `mpi`, `tbb`, `umf` and `compiler-rt` appear after loading
 `intel_comp`:
 
 ```
@@ -77,10 +77,11 @@ module load intel_comp/2025.3.0 compiler-rt tbb umf compiler mpi
 
 ### Compiler optimisation settings
 
-The compiler modules also set two variables that you can use in makefiles:
-`COSMA_OPT`, which is `-O3 -march=native`, and `COSMA_ALL_OPT`, which is
-`-O3 -march=sandybridge` and works on every x86 node, at the cost of some
-speed.  Code built with `-march=native` only runs on CPUs
+The compiler modules also set variables that you can use in makefiles:
+`COSMA_OPT` (`-O3 -march=native`), `COSMA_7_OPT` (`-O3 -march=skylake-avx512`),
+`COSMA_8_OPT` (`-O3 -march=znver2`), and `COSMA_ALL_OPT` (`-O3 -march=sandybridge`,
+which works on every x86 node at the cost of some speed; see also
+[building for the right CPU](compiling.md#building-for-the-right-cpu)).  Code built with `-march=native` only runs on CPUs
 like the one it was built on, so it may stop with `Illegal instruction` on
 other nodes.  See [compiling for each system](facilities.md#compiling-for-each-system).
 

@@ -1,4 +1,4 @@
-# Generating a SSH key
+# Generating an SSH key
 
 To log in to COSMA you need an SSH key pair, as well as your COSMA password.
 A key pair has two parts:
@@ -60,7 +60,7 @@ Older key types, such as DSA, are not recommended and may be refused.
    show the `.pub` file as a Microsoft Publisher file; it is not one, and
    uploading it is fine.
 
-Never upload the private key, the file without `.pub`.
+Never upload the private key, the file without `.pub`.  Note that `ssh-copy-id` does not work on COSMA: keys must be uploaded through SAFE.
 
 A new key has to be accepted by cosma-support before it works, so it may not
 work straight away.  Once it does, see [SSH access](ssh.md) to log in.
@@ -112,8 +112,8 @@ In summary:
 2. In the cmd window type `ssh-keygen -t ed25519 -C "cosmakey"`
 3. Hit return for the default options (key filename, etc), and enter a passphrase (twice) when requested.
 4. The key will be in a .ssh folder.  You need to upload this to [SAFE](https://safe.epcc.ed.ac.uk/dirac), select login accounts -> COSMA, and then the "Add credential" button.  Upload the public part (.pub), which will probably try to identify itself as a Microsoft Publisher file (it isn't).
-5. Once you have a welcome email from cosma, try: ssh USERNAME@login.cosma.dur.ac.uk
-6. It should ask for you key passphrase.  It will then ask for your COSMA password, which will be in the welcome email.  You will need to enter this twice: once to login and then once to start the password change.
+5. Once you have a welcome email from COSMA, try: `ssh USER@login8.cosma.dur.ac.uk` (or `login7.cosma.dur.ac.uk` / `login5c.cosma.dur.ac.uk`).
+6. It should ask for your key passphrase.  It will then ask for your COSMA password, which will be in the welcome email.  You will need to enter this twice: once to log in and then once to start the password change.
 7. Enter a new password twice.
 
 

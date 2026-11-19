@@ -6,11 +6,11 @@ Data access is provided as part of this laboratory.
 
 ## Snap file systems
 
-COSMA7 and COSMA8 both contain a NVMe-based fast parallel Lustre file system developed to meet checkpointing needs.  These high performance systems were some of the fastest in Europe when installed
+COSMA7 and COSMA8 both contain an NVMe-based fast parallel Lustre file system developed to meet checkpointing needs.  These high-performance systems were some of the fastest in Europe when installed.  See [storage](storage.md#scratch-space) and [Lustre](lustre.md) for usage details.
 
 ## StorJ
 
-A on-premise [StorJ](storj.md) cloud storage system backed by over 300TB storage has been developed.  This system is also federated with components at Edinburgh and Leicester meaning that files stored here can be split between the sites.
+An on-premise [StorJ](storj.md) cloud storage system backed by over 300TB storage has been developed.  This system is also federated with components at Edinburgh and Leicester meaning that files stored here can be split between the sites.
 
 This provides a web interface and an object store to facilitate data sharing.
 

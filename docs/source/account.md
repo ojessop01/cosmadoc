@@ -26,7 +26,7 @@ You need two things:
   | ------- | ------------ |
   | Part of a DiRAC project | `dpXXX` (a three-digit number), from your project's PI |
   | Using the HPC Hardware Lab | One of the hardware lab codes, such as `do016` for NVIDIA GPUs |
-  | A Durham user (or collaborator) of COSMA5 | `hpcicc` |
+  | A Durham user (or collaborator) of COSMA5 | `hpcicc` (uses `-A durham` when submitting Slurm jobs) |
 
   See [project codes](project.md) for the full list.
 
@@ -122,6 +122,7 @@ your new password twice.  See
 
 - **New to COSMA?**  Read [your first job](firstjob.md), which goes from logging in
   to running a job, and [good citizenship](citizenship.md).
+- **DiRAC user?**  See the [DiRAC Essentials Test](essentials.md).
 - **Avoid typing passwords repeatedly**: set up
   [connection sharing](ssh.md#reusing-ssh-connections) and an
   [SSH agent](ssh.md#storing-your-key-passphrase).

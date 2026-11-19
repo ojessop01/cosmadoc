@@ -34,10 +34,15 @@ See [temporary space](storage.md#temporary-space) for more on `/tmp` and
 ### Send temporary files to your own space
 
 Most agents, like most programs, put temporary files wherever the `TMPDIR`
-variable points.  Set it to a folder in your app space, in `~/.bashrc`:
+variable points.  Create a folder in your app space once:
 
 ```
 mkdir -p /cosma/apps/PROJECT/USER/tmp
+```
+
+and point `TMPDIR` at it in `~/.bashrc`:
+
+```
 export TMPDIR=/cosma/apps/PROJECT/USER/tmp
 ```
 
@@ -71,16 +76,17 @@ find /cosma/apps/PROJECT/USER/tmp -maxdepth 1 -mtime +7
 ```
 
 Delete what you no longer need **yourself**, after checking what it is.  Do
-not ask the agent to "clean up" in general: the rules above forbid agents from
+not ask the agent to "clean up" in general: the [COSMA rules](agents.md#the-cosma-rules-for-agents) forbid agents from
 deleting files without your agreement, for good reason.  Remember that `/tmp`
 and `/dev/shm` on each node are separate, so check each node you use.
+
 ## Using the login nodes fairly
 
 Agents often start parallel builds, test suites and searches without being
 asked, and run them over and over.  On a shared login node this can make the
 node slow for everyone.
 
-- Tell the agent how many threads to use (see the template above), and keep
+- Tell the agent how many threads to use (see the [starting template](agents-setup.md#a-starting-template)), and keep
   well within the limits in the COSMA rules: about 30 cores on a COSMA8 login
   node, 14 on a COSMA5 or COSMA7 login node.
 - Anything that needs real computing time belongs in a [batch job](slurm.md),
@@ -115,6 +121,7 @@ from interrupted test runs were found on a single node, still using CPU.
   the ranks are out of step.  Agents wait for such commands for a long time.
   Ask the agent to run commands that might hang with a time limit:
   `timeout 600 COMMAND`.
+
 ## File systems
 
 The `/cosma5`, `/cosma7`, `/cosma8`, `/snap7` and `/snap8` file systems are
@@ -136,8 +143,9 @@ Lustre is built for large files.  Work that reads and writes many small files
 packages) can be several times slower on Lustre than on app space.  In one
 case, a code-generation step took 26 minutes on Lustre instead of 8.
 
-- Keep source code, build folders and virtual environments in app space or
-  your home directory, and keep the data file systems for data.
+- Keep source code, build folders and virtual environments in app space (not
+  on Lustre, and avoid filling your small ~10GB home directory), and keep the
+  data file systems for data.
 - In batch jobs, build and test in `/tmp` on the compute node, which is local
   to that node.
 
@@ -155,13 +163,14 @@ pipelines, setting `PIP_NO_CACHE_DIR=1` avoids the cache entirely.
 A full quota makes agents fail in confusing ways: half-written files, broken
 installs, or errors about something else entirely.
 
-- Check your quotas before an agent writes a lot of data: see
+- Check your quotas (both disk space and file-count / inode limits) before an agent writes a lot of data: see
   [quotas](lustre.md#quotas) for the data file systems, and the
   [storage](storage.md) page for home and app space.
 - App space can fill up too, for example with test data, build folders or
-  conversation histories.  Keep large outputs on a data file system.
+  conversation histories.  Keep large outputs (and temporary files over 1GB) on a data file system.
 - Data file system quotas are often shared by everyone in a project, so an
   agent that fills the project quota stops other people's jobs too.
+
 ## Slurm and agents
 
 Under the COSMA rules, agents must not submit or cancel jobs by themselves.  A
@@ -185,8 +194,9 @@ Things to watch for in scripts that agents write:
 - Separate `--output` and `--error` files make problems easier to find.
 - Use a [job array](sbatch.md) instead of a loop of `sbatch` commands.
   Hundreds of separate submissions slow the scheduler for everyone.
-- Never let an agent edit a script that a queued or running job will use:
-  `bash` reads scripts as it goes, so the edit can break the running job.
+- Never let an agent edit helper scripts, Python files or configs that a queued
+  or running job reads: while Slurm copies the submitted `sbatch` script
+  itself, editing any file it calls can break the running job.
 - `sbatch --test-only` does not show everything.  On some queues, asking for
   more memory per CPU than the queue allows makes Slurm give the job extra
   CPUs, and charge for them, but `--test-only` does not show this.  After
@@ -194,6 +204,7 @@ Things to watch for in scripts that agents write:
   `scontrol show job JOBID`.
 
 See [your first job](firstjob.md) and the [Slurm pages](slurm.md) for more.
+
 ## SSH, passwords and logins
 
 - **Never give an agent your SSH key passphrase or your COSMA password**, and
@@ -229,6 +240,7 @@ See [your first job](firstjob.md) and the [Slurm pages](slurm.md) for more.
   machine): `~/.ssh/cm-%L-%r@%h:%p`.
 - Do not let agents change your `~/.ssh` files, set up tunnels or forward
   ports.  The COSMA rules forbid it.
+
 ## Data, privacy and accounts
 
 ```{note}
@@ -244,7 +256,7 @@ priority.  Ask cosma-support or your PI if you are unsure.
   allowed to share, check that this is allowed.  Many agents have settings to
   keep certain files or folders out of reach.
 - **Keep API keys and login tokens private.**  Agents store these in their
-  own folders (see [above](agents-setup.md#move-the-agents-own-folders-out-of-your-home-directory)).
+  own folders (see [moving the agents' folders](agents-setup.md#move-the-agents-own-folders-out-of-your-home-directory)).
   Make sure only you can read them (`chmod 700` on the folder), and never put
   keys in shared project folders or commit them to git.
 - **If a key is shown, treat it as leaked.**  If a key or token appears in an
@@ -257,6 +269,7 @@ priority.  Ask cosma-support or your PI if you are unsure.
 - **Check before an agent sends anything outside COSMA**, such as emails,
   issue comments, pull requests or uploads.  These are public or hard to take
   back.
+
 ## Approvals and permissions
 
 Most agents ask before running commands or editing files, and let you decide
@@ -287,6 +300,7 @@ which actions they may take without asking.  Use this.
 - If an agent deletes something from your home or app space, it can usually
   be recovered from a [snapshot](storage.md#recovering-files-from-snapshots).
   The data file systems are **not** backed up.
+
 ## Long sessions and several agents
 
 ### Agents forget
@@ -318,6 +332,7 @@ Commit often, so that work is never left half-done when it stops.
   with `git worktree list` and `git branch`, and remove the ones you no longer
   need with `git worktree remove` once their work is merged.
 - Do not let several agents run benchmarks on the same node at once.
+
 ## Checking the agent's work
 
 Agents can be wrong while sounding certain.  They may say a script works when
@@ -339,6 +354,7 @@ read all of it.
   yourself from the original output.
 - Timing tests on a shared login node are unreliable, because other people's
   work affects them.  Run benchmarks in a batch job.
+
 ## At the end of a session
 
 1. Check that no jobs are left that you did not mean to run: `squeue --me`.
@@ -350,6 +366,7 @@ read all of it.
    longer need.
 5. Make sure the agent's notes and results are saved in your project, not
    only in its temporary folder.
+
 ## Troubleshooting
 
 | Problem | Likely cause and fix |
@@ -361,7 +378,7 @@ read all of it.
 | `node: command not found`, or `npm` installs to a system folder | Load `nodejs/24.18.1`, and set the `npm` prefix to your app space. |
 | An agent that worked now fails to start, or `.nfs` files cannot be deleted | An interrupted install or update.  See [when an install or update goes wrong](agents-setup.md#when-an-install-or-update-goes-wrong). |
 | Logging in to one account logs the other out | Two accounts share one agent folder.  See [one folder for each account](agents-setup.md#one-folder-for-each-account). |
-| `Disk quota exceeded` in your home directory | Agent folders or caches are in `~`.  Move them to app space (see [above](agents-setup.md#move-the-agents-own-folders-out-of-your-home-directory)). |
+| `Disk quota exceeded` in your home directory | Agent folders or caches are in `~`.  Move them to app space (see [moving the agents' folders](agents-setup.md#move-the-agents-own-folders-out-of-your-home-directory)). |
 | The agent stops at a password or second-factor prompt, or SSH hangs | Agents cannot answer these.  Log in yourself with connection sharing turned on.  If a shared connection is frozen, run `ssh -O exit HOST`. |
 | SSH to another COSMA node stopped working after a day | Your Kerberos ticket has expired.  Check with `klist`, renew with `kinit`. |
 | New SSH sessions suddenly ask for a password | More than about 10 sessions on one shared connection.  Use fewer at once, or another login node. |

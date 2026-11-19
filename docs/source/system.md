@@ -38,14 +38,14 @@ see [how do I check my project's allocation?](faq.md#how-do-i-check-my-project-s
 
 To analyse usage of a node running a current job, you can use Performance Co-Pilot or the cjobload command.  The example output on this page comes from older jobs, so the numbers will differ from yours.
 
-## cjobload
+### cjobload
 
 Running: `cjobload -n 2 JOBID` will show the CPU load and RAM for the job given, every 2 seconds, for each node used by the job.
 There are also `c8jobload`, `c7jobload`, `c7rpjobload` and `c5jobload` variants that show value for all the currently running jobs
 on these partitions. See the `--help` of `cjobload` for additional options.
 
 
-## Performance Co-Pilot
+### Performance Co-Pilot
 
 Performance Co-Pilot (PCP) is a system for monitoring the status of computers,
 and is installed on the compute nodes of COSMA. Some of the information that
@@ -73,7 +73,7 @@ node `m8001` is running your job you can do:
     # -----              ----   --------        ---   --------
       9175206          128.32      50.13     625.37      62.11
 
-Interesting numbers here, other the obvious use of CPUs and memory are the
+Interesting numbers here, other than the obvious use of CPUs and memory, are the
 number of processes and the 1, 5 and 15 minute load averages, these are all
 suggesting that the correct numbers are being used, i.e. 128. Higher loads
 usually indicate that too many processes or threads are being used.
@@ -157,7 +157,7 @@ The pmstat man page describes the various fields, but loadavg is probably the
 first thing to look at, it is roughly the number of runnable processes (not
 quite, for more details see the uptime man page). In general this should not
 exceed the number of physical cores on the machine, so an optimal load for
-COSMA7 is 28 and for COSMA8 128. If your code uses hyper-threads then these
+COSMA7 is 28, for COSMA8 is 128, and for COSMA5 is 256. If your code uses hyper-threads then these
 numbers may double. In this case we can see a job using fewer cores, this may
 be necessary to achieve the memory use per core. Hybrid codes will also not in
 general show loads equal to the numbers of cores as they will not be
@@ -194,12 +194,12 @@ report memory use, but a good one is:
 
 This is a clone of the output from the sar -r command, and reports much of the
 node memory information from the /proc/meminfo file. The pmrep command, like
-pcp dstat has a large number of possible reports, these defined in the file
+pcp dstat has a large number of possible reports, which are defined in the file
 /etc/pcp/pmrep/pmrep.conf
 
 ### NUMA Balance
 
-A well behaved batch job will distribute itself over the all the cores and
+A well behaved batch job will distribute itself over all the cores and
 sockets of the machine. A classic issue is sharing a single core with more
 than one pinned thread, so checking that both the CPUs and cores are loaded as
 expected can be a good idea. The socket balance can be seen using:
@@ -216,8 +216,8 @@ remotely.  If so, use the per-core report below instead.
 
 In this case the balance is good, each NUMA node has the same work and all the
 cores are in use as 50% equals all the physical cores -- the other 50% would
-be used if hyper-threading was required. Note that nodes in this case are a
-equivalent to a socket holding a CPU, some architectures allow CPUs to be
+be used if hyper-threading was required. Note that nodes in this case are
+equivalent to a socket holding a CPU; some architectures allow CPUs to be
 split into more NUMA regions (COSMA8 has 4 per socket), usually depending on
 how the memory is accessed.
 
@@ -245,15 +245,16 @@ The metrics that can be reported from a node can be seen using the command:
 
     $ pminfo -h m7400
 
-each of these can be queried using the pmval or pmrep commands, they can also
-be visualized in a graph using the pmchart command. This is very flexible and
+each of these can be queried using the pmval or pmrep commands; they can also
+be visualised in a graph using the `pmchart` command (this requires X11
+forwarding via `ssh -X` or an [x2go](x2go.md) session). This is very flexible and
 can be used to see the metrics of more than one node at a time, as in:
 
     $ pmchart -h m7001 m7002 m7003
 
 you can then select the metrics of interest from the nodes for comparison and
-can also capture the information. There is fuller help at
-[here](https://pcp.io/docs/lab.pmchart.html)
+can also capture the information. See the
+[pmchart documentation](https://pcp.io/docs/lab.pmchart.html) for more detail.
 
 The CPU value defines a view which are some predefined plots. Other useful
 views are Memory and Overview, but if using Overview increase the vertical

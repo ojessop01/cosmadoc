@@ -16,8 +16,10 @@ for one, saying which group or project you will work with.
 To push and pull over SSH, add an SSH public key to your GitLab profile
 (your avatar, Edit profile, SSH Keys).  You can use the key you use to log in
 to COSMA (see [generating an SSH key](sshkey.md)), or a separate key.  If you
-will clone repositories while logged in to COSMA, the key must be on COSMA
-too, or forwarded with your SSH agent.
+clone repositories while logged in to COSMA, either create a dedicated
+passphrase-protected SSH key on COSMA (or a project deploy key), or clone over
+HTTPS with a GitLab Personal Access Token.  Avoid leaving SSH agent forwarding
+(`ForwardAgent yes`) enabled on shared login nodes.
 
 Clone a repository with its SSH address, shown under the **Code** button on
 the repository's page:

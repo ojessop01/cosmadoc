@@ -3,7 +3,8 @@
 Terms used throughout these pages, in alphabetical order.
 
 **Account (Slurm)**: The project that a job's use is charged to, given with `-A`, for example
-`-A dp004`.  It is the same as your [project code](project.md).
+`-A dp004`.  For most projects this is the same as your [project code](project.md)
+(Durham COSMA5 users apply under `hpcicc` on SAFE and submit with `-A durham`).
 
 **Allocation**: The amount of computing time a project has been awarded, usually per
 quarter.  `mybalance` shows how much has been used.  In Slurm, "allocation"
@@ -29,9 +30,10 @@ you.  See [your first job](firstjob.md).
 **Compute node**: One of the many computers that run jobs.  You reach them through Slurm, not
 by logging in directly.
 
-**Core, thread, CPU**: A core is one processing unit of a CPU.  Each core on COSMA runs 2
-hardware threads.  Slurm's `--cpus-per-task` counts cores; programs such as
-`nproc` count threads.
+**Core, thread, CPU**: A core is one processing unit of a CPU.  Most cores on COSMA run 2
+hardware threads (exceptions include `gn003` and `mad01`, which run 1 thread per
+core).  Slurm's `--cpus-per-task` counts cores; programs such as `nproc` count
+threads.
 
 **cosma-support**: The COSMA support team, at cosma-support@durham.ac.uk.  See
 [contact](contact.md).

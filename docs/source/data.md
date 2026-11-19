@@ -1,6 +1,6 @@
 # Data Transfer
 
-Data transfer off-site can be done from one of the login nodes (10GBit/s connectivity or from dataweb.cosma.dur.ac.uk (20GBit/s bonded). Alternatively, a GLOBUS ONLINE account can be used (which is associated with dataweb). Various other fast copy tools are available, such as bbcp (module load bbcp).
+Data transfer off-site can be done from one of the login nodes (10GBit/s connectivity) or from dataweb.cosma.dur.ac.uk (20GBit/s bonded). Alternatively, a GLOBUS ONLINE account can be used (which is associated with dataweb). Various other fast copy tools are available, such as bbcp (`module load bbcp`).  For sharing data with external collaborators, see also [StorJ](storj.md).
 
 ## Using rsync and scp
 
@@ -44,19 +44,19 @@ To transfer files, it is necessary to explicitly allow access to your directory 
 
 ## Using bbcp
 
-bbcp is relatively straightforward to use, once it is understood.  Instructions are at [https://www.slac.stanford.edu/~abh/bbcp/](https://www.slac.stanford.edu/~abh/bbcp/)
+On COSMA, load the module first with `module load bbcp`.  `bbcp` is relatively straightforward to use, once it is understood.  Instructions are at [https://www.slac.stanford.edu/~abh/bbcp/](https://www.slac.stanford.edu/~abh/bbcp/)
 
 Some examples are provided here, known to work on the date they were tested.
 
 To transfer data from COSMA to Tursa (September 2024, from dataweb):
 
 ```
-bbcp --port 50000 -z -n -A -T "ssh  tursa bin/bbcp" /cosma8/data/dp004/flamingo/Runs/L1000N1800/HYDRO_FIDUCIAL/lightcones/lightcone1_particles/* USER@tursa-login1.dirac.ed.ac.uk:./tmp/
+bbcp --port 50000 -z -n -A -T "ssh tursa bin/bbcp" /cosma8/data/PROJECT/USER/source/* USER@tursa-login1.dirac.ed.ac.uk:./tmp/
 ```
 
 This requires a copy of bbcp in your bin/ directory on Tursa - you may need to compile this from source.
 
-This requires a ssh tunnel to be set up (since Tursa uses MFA).  To do this, add to your .ssh/config file (change USER, PROJECT and id_TURSA to the appropriate values):
+This requires an ssh tunnel to be set up (since Tursa uses MFA).  First create `~/.ssh/controlmasters` (`mkdir -p ~/.ssh/controlmasters`), then add to your `~/.ssh/config` file (change USER, PROJECT and id_TURSA to the appropriate values):
 
 ```
 Host tursa
@@ -78,11 +78,13 @@ The flags used are:
 - `-A` Make the destination directory (tmp/) if it does not exist
 - `-T` Specify the command used to run bbcp on Tursa
 
-Other useful arguments are
+Other useful arguments are:
+
 - `--recursive` which allows the source to be a directory.
 
 Performance tuning:
+
 - `-w 64k` Set the window size.  With simple testing, 64k seemed to give the best value.  5.5 gbit/s.  Default is 128k.
-- `-s 8` Set the number of streams used.  32 seems to be a good number.  Default is 4.
+- `-s 32` Set the number of streams used (32 is a good starting point; default is 4).
 - `-B 64m` Sets the buffer size.  Default is the window size.  Doesn't appear to make much difference, though large sizes may help, e.g. 64m.  6.7gbit/s.
 

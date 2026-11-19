@@ -41,14 +41,21 @@ packages you install into it.
    pip install numpy scipy matplotlib h5py
    ```
 
-3. Use it.  Each new session or job needs the `module load` and `source` lines
-   again.  `which python` shows which Python you are using: inside the
-   environment it is `.../myenv/bin/python`.  `deactivate` leaves it.
+3. Use it.  Each new session or job needs the `source` line to activate the
+   environment (and loading `python/3.12.4` keeps `python` and library paths
+   consistent; you must also load any MPI or HDF5 modules that packages such as
+   `mpi4py` or `h5py` were built against).  `which python` shows which Python
+   you are using: inside the environment it is `.../myenv/bin/python`.
+   `deactivate` leaves it.
 
 - **Keep a list of what you installed**: `pip freeze > requirements.txt`, then
   `pip install -r requirements.txt` makes the same environment again.
+- **Keep pip's cache out of your home directory** if you install large packages:
+  `export PIP_CACHE_DIR=/cosma/apps/PROJECT/USER/.cache/pip`.
 - **One environment per project** avoids version clashes between projects.
 - **Install on a login node**: compute nodes cannot reach the internet.
+- **ARM nodes (`gn002`, `gn003`)** need their own virtual environment created on
+  an ARM node; x86 virtual environments will not run there.
 - **To delete an environment**, delete its folder.
 - If you use csh or tcsh, source `activate.csh` instead.
 
@@ -122,9 +129,9 @@ eval "$(/cosma/local/anaconda3/202512/bin/conda shell.bash hook)"
 Conda environments are large, so do not keep them in your home directory.  Choose a location in your app space, and do the same for its package cache:
 
 ```
-export CONDA_PKGS_DIRS=/cosma/apps/PROJECT/USERNAME/conda/pkgs
-conda create -p /cosma/apps/PROJECT/USERNAME/conda/myenv python=3.12 numpy
-conda activate /cosma/apps/PROJECT/USERNAME/conda/myenv
+export CONDA_PKGS_DIRS=/cosma/apps/PROJECT/USER/conda/pkgs
+conda create -p /cosma/apps/PROJECT/USER/conda/myenv python=3.12 numpy
+conda activate /cosma/apps/PROJECT/USER/conda/myenv
 ```
 
 A small environment like this one, with its cache, takes around 1.5GB.  Create environments on a login node, because compute nodes cannot reach the internet.  Your job script then needs the `module load`, `eval` and `conda activate` lines.

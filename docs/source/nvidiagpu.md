@@ -84,7 +84,7 @@ Benchmarks:
 
 There are two Grace-Hopper nodes, one which allows direct ssh, and one which is part of the Slurm partition `gracehopper`.
 
-The GH200 has a unified memory model, combining an H100 GPU and a Grace CPU using NVLINK-C2C.  This is conceptually similar to the AMD MI300A, but allows the CPU and GPU to share memory across separate dies, rather than being phsically part of the same chip.
+The GH200 has a unified memory model, combining an H100 GPU and a Grace CPU using NVLINK-C2C.  This is conceptually similar to the AMD MI300A, but allows the CPU and GPU to share memory across separate dies, rather than being physically part of the same chip.
 
 The Grace CPU is ARM-based, and therefore cannot run X86 binaries.  It is best to compile your code on the direct-ssh node.
 
@@ -96,20 +96,20 @@ The Grace CPU is ARM-based, and therefore cannot run X86 binaries.  It is best t
 
 ## Usage
 
-If you do not already have an account on COSMA, please follow the instructions [here](account.md), then request to join the project(s): do016 for the NVidia testbed, or do015 for DINE2.
+If you do not already have an account on COSMA, please follow the instructions [here](account.md), then request to join the project(s): `do016` for the NVIDIA testbed, or `do015` for DINE2.  See [GPU jobs](gpujobs.md) for batch submission flags.
 
-- There are two ways to access V100 GPUs: 
-    - 6x V100 GPUs are accessible by direct ssh.  From a login node, use `ssh gn001`. 
-    - 4x V100 GPUs are accessible through the `dine2` slurm queue.
+- There are two ways to access V100 GPUs:
+    - 6x V100 GPUs are accessible by direct ssh.  From a login node, use `ssh gn001`.
+    - 4x V100 GPUs are accessible through the `dine2` Slurm queue (`--constraint=gpu`).
 - There are two ways to access (configurable up to 3) A100 GPUs:
-    - By direct ssh.  From a login node, use `ssh mad06`.
-    - Through the `cosma8-shm` slurm queue.
-- A30 GPUs are accessible through the `dine2` slurm queue.
-- H100 NVL node is accessible by direct ssh.  From a login node, use `ssh gn004`.
+    - `mad06` is a hybrid node: direct ssh (`ssh mad06`) during the day (08:00–19:00), and the `hardwarelab-gpu` queue overnight (see [hybrid nodes](hardwarelab-hybridnodes.md)).
+    - `mad04` and `mad05` through the `cosma8-shm` Slurm queue (`--gres=gpu:1`).
+- A30 GPUs are accessible through the `dine2` Slurm queue (`--constraint=gpu`).
+- H100 NVL (`gn004`) is a hybrid node: direct ssh (`ssh gn004`) during the day (08:00–19:00), and the `hardwarelab-gpu` queue overnight (see [hybrid nodes](hardwarelab-hybridnodes.md)).
 - There are two ways to access the GH200 nodes:
     - By direct ssh.  From a login node, use `ssh gn002`.
-    - Through the `gracehopper` slurm queue.
-- RTX 6000 GPU is available via direct ssh. From a login node, use `ssh gn005`.
+    - Through the `gracehopper` Slurm queue (`--gres=gpu:1`).
+- RTX PRO 6000 (`gn005`) is a hybrid node: direct ssh (`ssh gn005`) during the day (08:00–19:00), and the `hardwarelab-gpu` queue overnight (see [hybrid nodes](hardwarelab-hybridnodes.md)).
 
 ## Notes
 
@@ -117,19 +117,19 @@ If you do not already have an account on COSMA, please follow the instructions [
 
 To request a specific configuration of GPUs on any of the composable nodes, please email cosma-support@durham.ac.uk.
 
-When using a composable partition, you can use `#SBATCH --constraint=gpu` to ensure your job is given a node with a GPU, or if you need a particular node (after allocating more GPUs to it, for example) you can use the `--nodelist` or `--exclude` paramaters to select the desired node.
+On `dine2`, use `#SBATCH --constraint=gpu` to ensure your job is given a node with a GPU; on `cosma8-shm`, use `#SBATCH --gres=gpu:1` (see [GPU jobs](gpujobs.md)).  If you need a particular node (after allocating more GPUs to it, for example), you can use the `--nodelist` or `--exclude` parameters to select the desired node.
 
 ### nvhpc
 
-There are nvhpc modules available (`module avail nvhpc`), which include the NVidia compilers, CUDA, and other build tools.  It may be necessary to specify a toolchain to use with these, e.g.
+There are `nvhpc` modules available (`module avail nvhpc`), which include the NVIDIA compilers, CUDA, and other build tools.  It may be necessary to specify a toolchain to use with these, e.g.
 
 ```
 nvc++ --std=c++20 --gcc-toolchain=/cosma/local/gcc/14.1.0 mycode.cpp
 ```
 
-On grace-hopper nodes (gn002, gn003), alternative toolchains can be found in `/opt/rh/`: gcc-toolset-13, gcc-toolset-14 and gcc-toolset-15.
+On Grace Hopper nodes (`gn002`, `gn003`), alternative toolchains can be found in `/opt/rh/`: `gcc-toolset-13`, `gcc-toolset-14` and `gcc-toolset-15`.
 
 
-The combination of the gcc-15 toolchain with nvc++ 25.1 can cause a compile-time issue with some std:format-related code.  In this case, you can try using gcc-toolset-14, likely nvc++ will complain about a missing gfortran, if this is required.  In this case, make a copy of the gcc-toolset-14 in your apps/ directory, and then copy gfortran/f951 from the gcc-toolet-15 into this.
+The combination of the gcc-15 toolchain with `nvc++` 25.1 can cause a compile-time issue with some `std::format`-related code.  In this case, you can try using `gcc-toolset-14`; likely `nvc++` will complain about a missing `gfortran`, if this is required.  In this case, make a copy of `gcc-toolset-14` in your `apps/` directory, and then copy `gfortran`/`f951` from `gcc-toolset-15` into this.
 
 
