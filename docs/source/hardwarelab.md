@@ -19,7 +19,7 @@ The Hardware Lab features the following systems and technologies:
 - [GPU compute nodes](#gpu-compute) (AMD, NVIDIA, Intel)
 - [CPU Compute Lab](#cpu-compute-lab)  
   - [Tenstorrent RISC-V system](#tenstorrent-blackhole-node-risc-v)
-  - [Advanced ARM systems](#arm-system)
+  - [Advanced ARM systems](#arm-systems)
 - [Composable Infrastructure](#composable-infrastructure)  
 - [Rockport Network Fabric](#rockport-network-fabric)  
 - [Quantum Annealing (DWAVE)](#dwave-quantum)  
