@@ -1,6 +1,10 @@
 # COSMA presentations
 
-A list of presentations given about COSMA, when audiences have requested tht they be made available.
+A list of presentations given about COSMA, when audiences have requested that they be made available.
+
+```{note}
+These slides are historical (2018–2022, prior to the Rocky Linux 9 upgrade and COSMA8 phase 2). For current modules, queues and commands, see the main documentation pages.
+```
 
 ## Theory lunch talks
 

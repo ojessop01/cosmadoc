@@ -38,8 +38,8 @@ most cost effective way to satisfy the varied scientific requirements.
 ## COSMA: The DiRAC Memory Intensive System
 
 The Durham system, COSMA, is memory intensive, with lots of memory per
-compute core (currently 18GB for COSMA7, and 8GB for COSMA5 and
-8). It is therefore ideal for large cosmological simulations.
+compute core (currently 18GB for COSMA7, 8GB for COSMA8, and 6GB for
+COSMA5). It is therefore ideal for large cosmological simulations.
 
 As a single Facility, DiRAC allows more effective and efficient use of
 equipment, promotes the science goals of the STFC communities,
@@ -54,13 +54,13 @@ astronomy and cosmology.
 
 ## Training
 
-DiRAC offer plenty of [training](https://dirac.ac.uk/training/) opportunities, including [basic skills training](https://training-academy.dirac.ac.uk/course/view.php?id=25).
+DiRAC offers plenty of [training](https://dirac.ac.uk/training/) opportunities, including [basic skills training](https://training-academy.dirac.ac.uk/course/view.php?id=25) and the [DiRAC Essentials Test](essentials.md).
 
 ![DiRAC logo](images/logoDiRAC280.png)
 
-To access these online materials and courses please sign up to [DiRAC Training Academy](https://training-academy.dirac.ac.uk/login/signup.php). Please note that these courses open to all researchers, not only DiRAC users. 
+To access these online materials and courses please sign up to [DiRAC Training Academy](https://training-academy.dirac.ac.uk/login/signup.php). Please note that these courses are open to all researchers, not only DiRAC users. 
 
-Some of DiRAC Traning Academy courses listed below.
+Some of the DiRAC Training Academy courses are listed below.
 
 | Category | Course |
 |----------|--------|

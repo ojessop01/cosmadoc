@@ -6,9 +6,9 @@ Papers without an acknowledgement will not be counted as DiRAC papers. It is bec
 
 ## Current wording (2018 onwards)
 
-The new wording applies for any publication that has used DiRAC (even partially) from 1st May 2018.  In addition, if you use the [HPC Hardware Lab](hardwarelab.md), some [additional working below](#hardware-lab) can be added.
+The new wording applies for any publication that has used DiRAC (even partially) from 1st May 2018.  In addition, if you use the [HPC Hardware Lab](hardwarelab.md), some [additional wording below](#hardware-lab) can be added.
 
-For Durham we have two versions:
+For Durham we have four versions:
 
 (1) general DiRAC users
 
@@ -20,7 +20,7 @@ For Durham we have two versions:
 
 The wording is reproduced below.  Please be careful to use the correct one.
 
-__(1) DiRAC@Durham (Memory Intensive service) for all RAC projects *EXCEPT* dp004, dp203 (Virgo) and hpcicc(Durham COSMA5 users)__
+__(1) DiRAC@Durham (Memory Intensive service) for all RAC projects *EXCEPT* dp004, dp203 (Virgo) and hpcicc (Durham COSMA5 users)__
 
 -----------------------------------------------------------------
 
@@ -36,7 +36,8 @@ This work used the DiRAC@Durham facility managed by the Institute for Computatio
 
 -----------------------------------------------------------------
 
-__(3) HPC Hardware Lab users (testbeds, experimental kit, etc)
+(hardware-lab)=
+__(3) HPC Hardware Lab users (testbeds, experimental kit, etc)__
 
 *Typically these will be for projects starting with do (e.g. do018).*
 
@@ -44,9 +45,9 @@ This work used the HPC Hardware Lab which is part of the COSMA facility which in
 
 -----------------------------------------------------------------
 
-__(4) IRIS users: If you used any of the IRIS-funded facilities (primarily the Azimuth cloud system), please use:
+__(4) IRIS users: If you used any of the IRIS-funded facilities (primarily the Azimuth cloud system), please use:__
 
-This work used IRIS computing resources funded by the Science and Technology Facilities Council hosted by the COSMA facility (including DiRAC@Durham) managed by the Instutute for Computational Cosmology at Durham University.
+This work used IRIS computing resources funded by the Science and Technology Facilities Council hosted by the COSMA facility (including DiRAC@Durham) managed by the Institute for Computational Cosmology at Durham University.
 
 -----------------------------------------------------------------
 
@@ -64,7 +65,7 @@ For users at Durham and/or members of Virgo Consortium please state the followin
 
 For everyone else:
 
-*"This work used the COSMA Data Centric system at Durham University, operated by the Institute for Computational Cosmology on behalf of the STFC DiRAC HPC Facility (www.dirac.ac.uk. This equipment was funded by a BIS National E-infrastructure capital grant ST/K00042X/1, DiRAC Operations grant ST/K003267/1 and Durham University. DiRAC is part of the National E-Infrastructure."*
+*"This work used the COSMA Data Centric system at Durham University, operated by the Institute for Computational Cosmology on behalf of the STFC DiRAC HPC Facility (www.dirac.ac.uk). This equipment was funded by a BIS National E-infrastructure capital grant ST/K00042X/1, DiRAC Operations grant ST/K003267/1 and Durham University. DiRAC is part of the National E-Infrastructure."*
 
 Thank you for your cooperation.
 

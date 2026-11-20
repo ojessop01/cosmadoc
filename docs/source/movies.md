@@ -26,7 +26,7 @@ Movies related to COSMA and the work of the ICC
 
 [Dell-Durham storage case study](files/dell_durham_storage_case_study.pdf) (2019)
 
-[https://www.amd.com/en/case-studies/durham-university](https://www.amd.com/en/case-studies/durham-university ) (2021)
+[https://www.amd.com/en/case-studies/durham-university](https://www.amd.com/en/case-studies/durham-university) (2021)
 
 [https://www.hpcwire.com/2021/02/11/dirac-amd-team-for-cosma-8-cosmological-supercomputer/](https://www.hpcwire.com/2021/02/11/dirac-amd-team-for-cosma-8-cosmological-supercomputer/)
 

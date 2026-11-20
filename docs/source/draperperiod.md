@@ -1,3 +1,7 @@
+---
+orphan: true
+---
+
 # At-risk period
 
 In honour of the retirement of Peter Draper on 31st March 2026, a long-time COSMA support team member, COSMA is operating at-risk.
