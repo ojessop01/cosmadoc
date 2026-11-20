@@ -1,3 +1,7 @@
+---
+orphan: true
+---
+
 # High bandwidth demonstration
 
 1st April 2026, the COSMA support team demonstrated the high bandwidth data transfer between the Physics Department and Department of Computer Science at Durham University, a 0.5km direct distance.

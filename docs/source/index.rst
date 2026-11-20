@@ -127,6 +127,7 @@ Contents
    :caption: STORAGE AND DATA CURATION
 	  
    storage
+   storj
    data
    archive
    datacuration

@@ -10,12 +10,12 @@ After logging in to the web interface, you will be presented with a project dash
 
 On a COSMA login node, first `module load rclone`.
 
-To set a new end point (you need to do this for each bucket and project you with to interact with), use `rclone config`.  Then follow these steps:
+To set a new endpoint (you need to do this for each bucket and project you wish to interact with), use `rclone config`.  Then follow these steps:
 
 ```
 n) to create a new remote
 name> Give it a name (e.g. mybucket)
-Select the S3 or StorJ backend (option 5 or 41 respectively at the time of writing, respectively)
+Select the S3 or StorJ backend (option 5 or 41 respectively at the time of writing)
 ```
 
 You will then be presented with options specific for the back end.
@@ -47,7 +47,7 @@ We recommend you choose a passphrase.
 
 And "y" to save the config.
 
-Once you have chosen a phassphrase, you will also need to use this in the [web interface](https://satellite.storj.cosma.dur.ac.uk/login) (if you use this).  Here, select "Project" (top of the side bar) -> "Manage passphrase" -> "Switch active passphrase".
+Once you have chosen a passphrase, you will also need to use this in the [web interface](https://satellite.storj.cosma.dur.ac.uk/login) (if you use this).  Here, select "Project" (top of the side bar) -> "Manage passphrase" -> "Switch active passphrase".
 
 #### Using rclone
 
@@ -61,12 +61,12 @@ You can then use commands such as:
 
 ## The uplink command
 
-The uplink command ([available to download from StorJ](https://storj.dev/dcs/api/uplink-cli/installation), or in the storj module on COSMA)  can be used instead of S3 tools.
+The `uplink` command ([available to download from StorJ](https://storj.dev/dcs/api/uplink-cli/installation), or via `module load storj` on COSMA) can be used instead of S3 tools.
 
 `uplink access setup --use`
 
 1. Give a name for your setup.
-2. Enter the Access grant that you obain from the web interface.
+2. Enter the Access grant that you obtain from the web interface.
 3. N to not use S3 backwards-compatible gateway credentials.
 
 `uplink access list`
@@ -77,13 +77,13 @@ Shows the current keys.
 
 Shows files within this storage.
 
-`uplinke mb sj://demo`
+`uplink mb sj://demo`
 
 Make bucket (mb) of type sj, name demo.
 
 `uplink ls`
 
-Will now show the bucket (a bit loke a directory).
+Will now show the bucket (a bit like a directory).
 
 `echo "My file contents" | uplink cp --progress=false - sj://demo/file.txt`
 
@@ -110,8 +110,7 @@ Get metadata on a file:
 
 Set some metadata:
 
-`metaclient set sj://demo/file.txt -d '{"project":"cosma", "dataset":"halo-catalogue", "run":1, "tags":["dm","sim"]}'
-`
+`metaclient set sj://demo/file.txt -d '{"project":"cosma", "dataset":"halo-catalogue", "run":1, "tags":["dm","sim"]}'`
 
 `metaclient get sj://demo/file.txt`
 
@@ -129,7 +128,7 @@ Filtering
 
 Projections
 
-`metaclient search sj://demo --match  '{"project":"cosma"} --projection '{ds: dataset, r:run}`
+`metaclient search sj://demo --match '{"project":"cosma"}' --projection '{ds: dataset, r:run}'`
 
 Getting metadata with uplink
 
@@ -148,31 +147,31 @@ Accessing multiple buckets
 `uplink access remove demo`
 
 
-# Scope
+## Scope
 
 1. Temporary offloading data from DiRAC services
-2. Transfering, sharing, collaborating, within DiRAC, between DiRAC and internationally
+2. Transferring, sharing, collaborating, within DiRAC, between DiRAC and internationally
 
 Storage beyond the end of a DiRAC project is not supported.  
 
 
 
-# Storage allocation
+## Storage allocation
 
 Apply during annual RAC calls, with an initial call in October 2026.
 
-# Encryption
+## Encryption
 
 Data are encrypted, and only you and collaborators have the encryption key.  If you lose your key, we cannot help!
 
 
 
 
-# DiRAC StorJ Terms of service
+## DiRAC StorJ Terms of service
 
 To be added.
 
-# DiRAC StorJ Privacy Policy
+## DiRAC StorJ Privacy Policy
 
 To be added.
 
