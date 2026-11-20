@@ -12,21 +12,21 @@ If you are a vendor, integrator or hardware developer, and would like to have yo
 
 ## Access
 
-To request access to any of the systems within the hardware lab, please [create an account](account.md) and request to join the corresponding [project code](project.md#hpc-hardware-lab-access).  Please contact cosma-support@durham.ac.uk when you request an account so that it can be set up correctly.
+To request access to any of the systems within the hardware lab, please [create an account](account.md) and request to join the corresponding [project code](project.md#hpc-hardware-lab-projects).  Please contact cosma-support@durham.ac.uk when you request an account so that it can be set up correctly.
 
 The Hardware Lab features the following systems and technologies:  
 - [DINE and DINE2](#dine-and-dine2)  
 - [GPU compute nodes](#gpu-compute) (AMD, NVIDIA, Intel)
 - [CPU Compute Lab](#cpu-compute-lab)  
   - [Tenstorrent RISC-V system](#tenstorrent-blackhole-node-risc-v)
-  - [Advanced ARM systems](#arm-system)
+  - [Advanced ARM systems](#arm-systems)
 - [Composable Infrastructure](#composable-infrastructure)  
 - [Rockport Network Fabric](#rockport-network-fabric)  
-- [Quantum Annealing (DWAVE)](#dwave-quantum)  
-- [Storage Lab](#storage-lab)  
-  [Solar Power](#solar)  
-- [Immersion Cooling](#immersion-cooling)  
-- [Heat Storage](#heat-storage)  
+- [Quantum Annealing (expired)](#dwave-quantum)  
+- [Storage Lab](#storage-lab)
+- [Solar Power](#solar)
+- [Immersion Cooling](#immersion-cooling)
+- [Heat Storage](#heat-storage)
 
 There are a number of other hardware lab facilities around the UK.  If you are looking for specific hardware which is not on this list, a good starting point to search for available facilities is the [collection maintained by the SHAREing project](https://shareing-dri.github.io/resources/).
 
@@ -37,7 +37,7 @@ DINE and DINE2 are experimental test clusters for exploring new hardware and net
 
 ![DINE](images/dine.png)
 
-[DINE](dine.md), is equipped with 24 nodes, each containing a NVIDIA BlueField-2 Data Processing Unit, with HDR200 InfiniBand connectivity.  
+[DINE](dine.md) has 18 nodes currently in use (`bluefield1` partition), each containing an NVIDIA BlueField-2 Data Processing Unit, with HDR200 InfiniBand connectivity.  
 It was previously equipped with BlueField1 and Rockport network cards.
 To use this facility, join the do009 project and submit jobs to the `bluefield1` Slurm partition.  
 
@@ -45,7 +45,7 @@ The [DINE2](dine2.md) cluster is an 8-node cluster equipped with a CerIO composa
 
 ## GPU compute
 
-We maintain [multiple generations of GPU architecture](gpu.md) from multiple vendors.
+We maintain [multiple generations of GPU architecture](gpu.md) from multiple vendors.  Some nodes operate in hybrid mode (direct SSH during the day, Slurm overnight): see [hybrid nodes](hardwarelab-hybridnodes.md).
 
 ### AMD GPU nodes
 
@@ -55,47 +55,47 @@ We have multiple generations of [AMD MI GPU](amdgpu.md):
 - MI300A
 - MI300X
 
-There are two nodes, each with two AMD MI210 GPUs available.  Submit jobs to the cosma8-shm2 partition.  This partition also contains a node with one AMD MI100 GPU.  To specify a particular GPU to submit to, use --exclude or --nodelist.
+The `cosma8-shm2` partition contains an AMD MI100 node (`ga004`) and a dual-MI210 node (`ga006`).  To select a particular GPU, use `--gres=gpu:instinct_mi210:1`, `--nodelist` or `--exclude` (see [GPU jobs](gpujobs.md)).
 
-For the MI300X GPUs, submit to the mi300x queue (node ga007).  For the MI300A GPUs, ssh directly from a login node to ga008 during the day, or submit to the hardwarelab-gpu queue for jobs to run overnight.
+For the MI300X GPUs, submit to the `mi300x` queue (node `ga007`).  For the MI300A GPUs (`ga008`), ssh directly from a login node during the day, submit to the `mi300a` queue (up to 2 hours), or submit to the `hardwarelab-gpu` queue overnight.
 
 ### NVIDIA GPU nodes
 
-V100, A100 and H100 nodes are [available for use](nvidiagpu.md), including Intel-Hopper (X86 CPU) and Grace-Hopper (ARM CPU).
+V100, A30, A100, H100 NVL, GH200 and RTX PRO 6000 nodes are [available for use](nvidiagpu.md), including Intel-Hopper (x86 CPU) and Grace-Hopper (ARM CPU).
 
 ### Intel GPU nodes
 
-A [Ponte Vecchio GPU](intelgpu.md) node was once available but is currently offline.
+A [Ponte Vecchio GPU](intelgpu.md) node (`gi001`) was once available; the GPUs have been dead since Autumn 2025, though the node remains active as a Sapphire Rapids CPU node in `hardwarelab-cpu`.
+
+## Composable infrastructure
+
+COSMA contains a [composable](composable.md) GPU and RAM system, attached to the `cosma8-shm` queue.  If you need to use these resources in a different configuration, please [contact cosma-support](contact.md).
+
+COSMA also hosts an 8-node system (DINE2) with 8x A30 and 4x V100 GPUs, allowing up to 8 GPUs per node, based on a CerIO composable fabric.
+
+## Rockport network fabric
+
+The [Rockport network fabric](rockportlab.md) is a 6D torus network with 100G connectivity, installed as half of COSMA7 (see [usage instructions](rockport.md)).  To use this, please submit to the `cosma7-rp` Slurm partition.
+
+## DWAVE quantum
+
+The ExCALIBUR project funded [quantum annealing system access](quantum.md) via a DWAVE system (and later QuEra), administered by COSMA staff.  Both allocations have now expired; if you are interested in future quantum access, please [contact cosma-support](contact.md).
+
+## CPU compute lab
+
+A wide variety of [processor technologies](cpucomputelab.md) are available for testing and benchmarking (`do025` project code) and we try to maintain cutting-edge components.
 
 ### Tenstorrent Blackhole node (RISC-V)
 
-A [Tenstorrent Blackhole](tenstorrent.md) server is available for interactive use, containing 4x Blackhole cards.  
+A [Tenstorrent Blackhole](tenstorrent.md) server is available for interactive use (`do023` project code), containing 4x Blackhole cards.
 
 Tenstorrent cards are designed specifically for AI and machine-learning workloads, unlike GPUs which have been adapted over time from their original graphics rendering workloads.  Currently PyTorch, ONNX, and TensorFlow can be easily ported to Tenstorrent architecture, but software support is otherwise in the early stages of development.
 
 ### ARM systems
 
-We host NVIDIA Grace ARM CPUs
+We host NVIDIA Grace ARM CPUs (`gn002` and `gn003`).
 
-Another ARM CPU from a leading manufacturer will shortly be available for testing (early 2027).
-
-## Composable infrastructure
-
-COSMA contains a [composable](composable.md) GPU and RAM system, attached to the cosma8-shm queue.  If you need to use these resources in a different configuration, please ask cosma-support.
-
-COSMA also hosts an 8-node system with 8x A30 GPUs, allowing up to 8 GPUs per node, based on a CerIO composable fabric.
-
-## Rockport network fabric
-
-The [Rockport network fabric](rockport.md) is 6D torus network with 100G connectivity, installed as half of COSMA7.  To use this, please submit to the cosma7-rp Slurm partition.
-
-## DWAVE quantum
-
-The ExCALIBUR project funded [quantum annealing system access](quantum.md) via a DWAVE system, which was administered by COSMA staff.  This has now expired, but if you are interested in access, please contact cosma-support.
-
-## CPU compute lab
-
-A wide variety of [processor technologies](cpucomputelab.md) are available for testing and benchmarking and we try to maintain cutting-edge components.
+Another ARM CPU ([Fujitsu Monaka](monaka.md)) will shortly be available for testing (early 2027).
 
 ## Storage lab
 

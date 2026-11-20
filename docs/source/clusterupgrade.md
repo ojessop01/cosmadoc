@@ -1,10 +1,8 @@
 # Rocky9 Cluster upgrade
 
-COSMA was reinstalled with Rocky9 in July 2024.
+COSMA was upgraded to Rocky Linux 9 in July 2024 (currently Rocky Linux 9.8).
 
-Helpful information should appear here as it becomes available.
-
-In the meantime, please see the [email text](rocky9email) for further details.
+For the original upgrade announcement, see the [Rocky 9 upgrade emails](rocky9email.md).
 
 ## Fixes
 
@@ -24,4 +22,4 @@ The screen lock can also be disabled in:
 Applications > Settings > Xfce Screensaver > Lock Screen
 ```
 
-Further information about [x2go is here](x2go.md)
+Further information about [x2go is here](x2go.md).

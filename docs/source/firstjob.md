@@ -18,9 +18,9 @@ Your project is usually one of these, for example `dp004`.  The queue depends on
 | ------- | ------------ | -------------- | --------------- |
 | On a DiRAC project with COSMA8 time | `cosma8-serial` | Your project, e.g. `dp004` | /cosma8/data/PROJECT/USERNAME |
 | On a DiRAC project with COSMA7 time | `cosma7` | Your project, e.g. `dp004` | /cosma7/data/PROJECT/USERNAME |
-| A Durham user | `cosma5` | `durham` | /cosma5/data/durham/USERNAME |
+| A Durham user (SAFE code `hpcicc`) | `cosma5` | `durham` | /cosma5/data/durham/USERNAME |
 
-The examples below use COSMA8.  If you are using another row of the table, change the directory and the `-p` and `-A` lines to match.  On `cosma7`, each job takes a whole node, so your project is charged for all 28 CPUs, even for this small job.
+The examples below use COSMA8.  If you are using another row of the table, change the directory and the `-p` and `-A` lines to match: not every file system is mounted on every queue (for example, `/cosma8` is not mounted on `cosma5`, and `/cosma5` is not mounted on `cosma8` — see [mounted filesystems](storage.md#mounted-filesystems)).  On `cosma7`, each job takes a whole node, so your project is charged for all 28 CPUs, even for this small job.
 
 ## 2. Make a directory
 
