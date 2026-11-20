@@ -18,7 +18,7 @@ This provides an opportunity to run uninterrupted production workloads or benchm
 | ----- | ---- | -------- | -------- |
 | `hardwarelab-gpu` | ga008 | 96 cores, 4x AMD MI300A | durham, do016, do017, do018 |
 | `hardwarelab-gpu` | gn004 | 64 cores (Intel), 1x NVIDIA H100 NVL | durham, do016, do017, do018 |
-| `hardwarelab-gpu` | gn005 | 256 cores (AMD Turin), 1x NVIDIA RTX PRO 6000 | durham, do016, do017, do018 |
+| `hardwarelab-gpu` | gn005 | 128 cores / 256 threads (AMD Turin), 1x NVIDIA RTX PRO 6000 | durham, do016, do017, do018 |
 | `hardwarelab-gpu` | mad06 | 128 cores (AMD Milan-X), NVIDIA A100 | durham, do016, do017, do018 |
 | `hardwarelab-cpu` | gi001 | 112 cores (Intel Sapphire Rapids) | durham, do025 |
 | `hardwarelab-cpu` | mad11 | 256 cores (Intel Sierra Forest) | durham, do025 |
@@ -33,7 +33,7 @@ Instead, use `--exclude` or `--nodelist` to explicitly define which node(s) to s
 
 Additionally, since the queue ends at 08:00 the following day, a submitted job must fit inside the remaining time window.  The maximum job time on these queues is 6 hours.
 
-An example slurm script targeting the RTX6000 might look like this.  The `--gres` line reserves the GPU: see [GPU jobs](gpujobs.md).
+An example Slurm script targeting the RTX PRO 6000 might look like this.  The `--gres` line reserves the GPU: see [GPU jobs](gpujobs.md).
 
 ```sh
 #!/bin/bash
@@ -60,5 +60,5 @@ module load nvhpc
 For additional information on the nodes, their hardware configurations, or known issues, see the detailed Hardware Lab pages:
  - [GPUs](gpu.md)
  - [AMD](amdgpu.md)
- - [NVidia](nvidiagpu.md)
+ - [NVIDIA](nvidiagpu.md)
  - [CPUs](cpucomputelab.md)

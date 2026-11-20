@@ -6,19 +6,20 @@ How you request a GPU depends on the queue, so a job script for one queue may no
 
 | Queue | Nodes | GPUs | How to request one | Maximum time |
 | ----- | ----- | ---- | ------------------ | ------------ |
-| `cosma8-shm` | mad04, mad05 | NVIDIA A100 | `--gres=gpu:1` | 3 days |
+| `cosma8-shm`, `cosma8-highram` | mad04, mad05 | NVIDIA A100 | `--gres=gpu:1` | 3 days |
 | `cosma8-shm2` | ga004, ga006 | AMD MI100, MI210 | `--gres=gpu:1` | 3 days |
 | `gracehopper` | gn003 | NVIDIA GH200 | `--gres=gpu:1` | 6 hours |
-| `dine2` | gc001-gc008 | NVIDIA A30, V100 | `--constraint=gpu` | 3 days |
-| `mi300x` | ga007 | AMD MI300X | `--gpus=N` | 1 day |
+| `dine2`, `cosma8-dine2` | gc001-gc008 | NVIDIA A30, V100 | `--constraint=gpu` | 3 days |
+| `mi300x`, `cosma8-draper` | ga007 | AMD MI300X | `--gpus=N` | 1 day |
+| `hardwarelab-gpu` | ga008, gn004, gn005, mad06 | MI300A, H100 NVL, RTX PRO 6000, A100 | `--gres=gpu:N --nodelist=NODE` | 6 hours (overnight) |
 
-Each queue is only open to some projects.  To see which, use `scontrol show partition NAME`, and look at `AllowAccounts`.  For example, `gracehopper` needs `durham` or `do016`, and `mi300x` needs `do018`.
+Each queue is only open to some projects.  To see which, use `scontrol show partition NAME`, and look at `AllowAccounts`.  For example, `gracehopper` needs `durham` or `do016`, `mi300x` needs `do018`, and `cosma8-draper` is for `dp266`.
 
 The `gracehopper` node uses ARM processors, so programs built on the login nodes will not run on it.  Build them on gn002 or in a job.
 
-The GPUs on `dine2` are composable, and are not tracked by Slurm, so `--gres=gpu:1` is rejected with `Requested node configuration is not available`.  `--constraint=gpu` selects a node with GPUs attached.  At the time of writing, these are gc004 and gc008.
+The GPUs on `dine2` are composable, and are not tracked by Slurm, so `--gres=gpu:1` is rejected with `Requested node configuration is not available`.  `--constraint=gpu` selects a node with GPUs attached; check which nodes currently have GPUs with `sinfo -p dine2 -o "%N %f"` (currently `gc004` to `gc008`).
 
-The hybrid nodes, including gn004, gn005 and ga008, are available in the `hardwarelab-gpu` queue overnight.  This queue has a mix of hardware, so choose a node with `--nodelist`: see [hybrid nodes](hardwarelab-hybridnodes.md).
+The hybrid nodes (`ga008`, `gn004`, `gn005` and `mad06`) are available in the `hardwarelab-gpu` queue overnight.  This queue has a mix of hardware, so choose a node with `--nodelist`: see [hybrid nodes](hardwarelab-hybridnodes.md).
 
 ## Example job script
 
@@ -43,7 +44,7 @@ nvidia-smi
 ./myprogram
 ```
 
-For `dine2`, replace `-p cosma8-shm` with `-p dine2`, and `--gres=gpu:1` with `--constraint=gpu`.  For an AMD GPU on `cosma8-shm2`, change the queue, and use `rocm-smi` or your own program instead of `nvidia-smi`.
+For `dine2`, replace `-p cosma8-shm` with `-p dine2`, and `--gres=gpu:1` with `--constraint=gpu`.  For an AMD GPU on `cosma8-shm2`, change the queue, replace `module load nvhpc` with a `hipcc` module (see [AMD GPUs](amdgpu.md)), and use `rocm-smi` or your own program instead of `nvidia-smi`.
 
 ## Check that your job has a GPU
 

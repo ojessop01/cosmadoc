@@ -4,7 +4,7 @@ Half of COSMA7 now has a [Rockport](https://www.cerio.io) Ethernet network fabri
 
 This is available for anyone with an active DiRAC project on COSMA7 to use. Please ask if you are unsure (or just try to use it).
 
-Please note, COSMA7 nodes have 28 cores and 512GB RAM each. Both the cosma7 and cosma7-rp (Rockport) partitions have 224 nodes.
+Please note, COSMA7 nodes have 28 cores and 512GB RAM each. The `cosma7` partition has 220 nodes and the `cosma7-rp` (Rockport) partition has 222 nodes.
 
 This is exploratory and will allow us to benchmark and explore this technology for use in future DiRAC procurements.
 
@@ -60,7 +60,7 @@ Rockport recommend some other settings for RDMA transports:
 
 The Rockport partition does not currently have dedicated (fabric-native) storage. Rather, the /cosma7, /cosma8 etc storage are routed through 4 dedicated nodes. This results in a slight reduction in performance. Therefore, when benchmarking codes, please don't include any time to read or write to storage.
 
-Not all storage systems are mounted on the Rockport partition - please check before use. e.g. /cosma6 is not currently mounted.
+Not all storage systems are mounted on the Rockport partition — see [mounted file systems](storage.md#mounted-filesystems) before use (for example `/cosma5` and `/cosma8` are not mounted on COSMA7 compute nodes).
 
 ## Benchmarking
 

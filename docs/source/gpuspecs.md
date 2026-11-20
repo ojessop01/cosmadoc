@@ -18,7 +18,7 @@ The initial version of this table was AI generated, and we are tidying up as tim
 | Intel Data Center GPU Max 1550 | Xe-HPC | ~52.4 TFLOPS | XMX accelerated | ~52.4 TFLOPS | ~52.4 TFLOPS | ~839 TFLOPS XMX | — | 128 GB HBM2e | ~3.28 TB/s | 600 W | PCIe 5 + Xe Link |
 | Intel Crescent Island / GPU D-Series | Xe3P | 10 TFLOPS | XMX accelerated | 20 TFLOPS | 41 TFLOPS | XMX accelerated; peak TBD | 1300 TFLOPS | 160 GB LPDDR5X reference | 1.5 TB/s | 350 W | PCIe |
 
-### Notes
+## Notes
 - All performance figures are theoretical peak values and should not be interpreted as application benchmark results.
 - "Vector" distinguishes conventional GPU arithmetic from specialised matrix/Tensor/XMX operations.
 - Matrix/Tensor values refer to dense performance where a dense figure is available. Sparse performance can be substantially higher.

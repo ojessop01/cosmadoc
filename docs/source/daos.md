@@ -4,7 +4,7 @@ The DAOS file system is based on 4 nodes each with 8x NVMe drives, and a total c
 
 It is an experimental file system, only accessible on the DINE system.
 
-# DAOS USER instructions
+## DAOS user instructions
 
 The DAOS file system is currently being rebuilt.  Once complete, it should be accessible from most login and compute nodes.
 
@@ -28,7 +28,7 @@ If you append to a file (e.g. `echo test >> file.txt`) then our current understa
 
 ## Setup instructions
 
-1. Before you use the DAOS system: Access to the DAOS filesystem is via a DAOS pool. Pools can only be created or amended by a cosma-support. Currently the only pool that exists is called DAOS8 and is 47TB in size, and is accessible for anyone who is part of the durham group. If you are part of that group then please have a go, otherwise contact the cosma-support and we can add you to the DAOS8 pool.
+1. Before you use the DAOS system: Access to the DAOS filesystem is via a DAOS pool. Pools can only be created or amended by [cosma-support](contact.md). Currently the only pool that exists is called DAOS8 and is 47TB in size, and is accessible for anyone who is part of the `durham` group. If you are part of that group then please have a go, otherwise contact [cosma-support](contact.md) and we can add you to the DAOS8 pool.
 
 2. Create a container for your data: Think about this as a directory that you can place (mount) at different places in the file system. In this example I will mount my container in my home directory.
 So we are going to create a container called “PiData”, and this container will be created in the pool named DAOS8. I am trying to give my container a name that I and anyone else who looks at in the DAOS8 pool will understand what is inside this container. The container will have a POSIX file system type, and we want to create this container with some redundancy, so I will add rf:1. This means there will always be an additional data copy erasure code (i.e. 1 disk failure).  You might wish to use rf:2 to allow for simultaneous failure of two disks.
@@ -51,7 +51,7 @@ daos cont list DAOS8
 
 This shows the new container PiData, and another container that was used during testing.
 
-4. Create a local mount point: To access this container you need a place on the file system where you would like to access that data. I will create a local director and then mount the container there.
+4. Create a local mount point: To access this container you need a place on the file system where you would like to access that data. Create a local directory and mount the container there.
 
 ```
 mkdir PiData
@@ -66,60 +66,60 @@ If you ‘ls’ to see what is inside the container it should be empty as we hav
 ls ./PiData
 ```
 
-5. Using this container within your job script: Within your job script you need to mount the container on the compute node before you try to access it, and then unmount the container afterwards. This will ensure you never have any stale mounts if you use the same compute node in the future. So with in you job script add the following lines:
+5. Using this container within your job script: Within your job script you need to mount the container on the compute node before you try to access it, and then unmount the container afterwards. This will ensure you never have any stale mounts if you use the same compute node in the future. So within your job script add the following lines:
 
-```
+```bash
 ## mount your container
-mountPoint="/cosma/home/sfw/DAOS/PiData"
-#
-dfuse -m ${mountPoint} --pool DAOS8 --cont PiData
+mountPoint="/cosma/home/PROJECT/USER/DAOS/PiData"
 
-## Add you program here
-echo `date`" -2- "`hostname` >> ${mountPoint}/PiData.log
-tail ${mountPoint}/PiData.log
+dfuse -m "${mountPoint}" --pool DAOS8 --cont PiData
+
+## Add your program here (avoid appending to large files on DAOS)
+echo "$(date) -2- $(hostname)" > "${mountPoint}/PiData.log"
+cat "${mountPoint}/PiData.log"
 
 ## unmount your container
-fusermount3 -u ${mountPoint}
+fusermount3 -u "${mountPoint}"
 ```
 
 6. Exemplar script: Below is a working script
 
-```
+```bash
 #!/bin/bash -l
 
-#1 node, running 1 core.
+# 1 node, running 1 core.
 
 #SBATCH --ntasks 1        # The number of cores you need...
-#SBATCH -J Daos-PiData_01 #Give it something meaningful.
+#SBATCH -J Daos-PiData_01 # Give it something meaningful.
 #SBATCH -o standard_output_file.%J.out
 #SBATCH -e standard_error_file.%J.err
-#SBATCH -p bluefield1     #or some other partition, e.g. cosma, cosma6, etc.
-#SBATCH -A durham         #e.g. dp004
+#SBATCH -p bluefield1     # Partition name
+#SBATCH -A durham         # Project account, e.g. durham or dp004
 #SBATCH --exclusive
 #SBATCH -t 0:01:00        # Max time expected for code to run, 1 minute
 #SBATCH --nodes=1         # Number of nodes to use
-#SBATCH --nodelist=b101   # Specific node. for DAOS this is b101- b114
+#SBATCH --nodelist=b101   # Specific node; for DAOS this is b101-b114
 #SBATCH --mail-type=END   # notifications for job done & fail
-#SBATCH --mail-user=richard.regan@durham.ac.uk 
+#SBATCH --mail-user=USER@EXAMPLE.AC.UK
 
 #module list
 
-#mount container
-mountPoint="/cosma/home/sfw/DAOS/PiData"
+# mount container
+mountPoint="/cosma/home/PROJECT/USER/DAOS/PiData"
 
-dfuse -m ${mountPoint} --pool DAOS8 --cont PiData
+dfuse -m "${mountPoint}" --pool DAOS8 --cont PiData
 
 ## Add your program here
-echo `date`" -- "`hostname` >> ${mountPoint}/PiData.log
-tail ${mountPoint}/PiData.log
+echo "$(date) -- $(hostname)" > "${mountPoint}/PiData.log"
+cat "${mountPoint}/PiData.log"
 
 ## unmount container
-fusermount3 -u ${mountPoint}
+fusermount3 -u "${mountPoint}"
 ```
 
-If you run this script then the output file will show that it ran successfully and show the date and host name. Great it works, but if you try to view this locally mounted container you will not see the update.
+If you run this script then the output file will show that it ran successfully and show the date and host name. Great, it works, but if you try to view this locally mounted container you will not see the update.
 
-7. Seeing your data: To ensure you see the updated date you need to unmount and then mount the container, if you did not previously mount it with caching disabled.
+7. Seeing your data: To ensure you see the updated data you need to unmount and then mount the container, if you did not previously mount it with caching disabled.
 
 ```
 fusermount3 -u ./PiData

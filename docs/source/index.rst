@@ -115,6 +115,15 @@ Contents
    dine
    dine2
    cpucomputelab
+   hardwarelabsummary
+   gpuspecs
+   intelgpu
+   tenstorrent
+   cerio
+   monaka
+   immersion
+   lustrelab
+   daos
    amdgpu
    nvidiagpu
    composable
