@@ -45,12 +45,12 @@ The main queues have variants that use the same nodes, with different limits and
 | ------- | ----------- | ------------ | -------- | -------------- |
 | Normal | `cosma8`, `cosma7` | 3 days | Normal | Projects with time on the system |
 | `-prince` | `cosma8-prince`, `cosma7-rp-prince` | 30 days | Highest | By request only |
-| `-pauper` | `cosma8-pauper`, `cosma7-pauper` | 1 day | Lowest | Projects with time on the system |
+| `-pauper` | `cosma8-pauper`, `cosma7-pauper` | 1 day (3 days for `-rome`/`-milan`) | Lowest | Projects with time on the system |
 | `-serial` | `cosma8-serial` | 3 days | Normal | As `cosma8`, sharing nodes |
 | `-rome`, `-milan` | `cosma8-rome-pauper` | 3 days | As above | As above, using one type of node |
 | `-test` | `cosma8-test` | 3 to 30 days | High | Restricted to the `dphsprog` group |
 
-The `-prince` queues are for jobs with a good reason to run longer than 3 days, or with a higher priority.  They can be used by large jobs instead of a reservation, which improves the efficiency of the system.  To use them, please ask cosma-support.
+The `-prince` queues are for jobs with a good reason to run longer than 3 days, or with a higher priority.  They can be used by large jobs instead of a reservation, which improves the efficiency of the system.  To use them, please ask [cosma-support](contact.md).
 
 The `-pauper` queues are for low priority jobs, mostly from projects that have used up their allocation, which are moved there automatically.  Their jobs can still run when nodes would otherwise be idle.  `cosma8-rome-pauper` and `cosma8-milan-pauper` allow up to 3 days, unlike the other `-pauper` queues.
 
@@ -150,9 +150,15 @@ Some nodes can be used directly with ssh from a login node, for testing and deve
 
 | Node | Hardware |
 | ---- | -------- |
+| gn001 | 6x NVIDIA V100 GPUs, 768GB RAM |
 | gn002 | NVIDIA Grace Hopper (ARM), like the `gracehopper` node |
-| mad06 | 128 cores, 1TB, AMD Milan-X with a large (768MB) L3 cache, and an A100 GPU.  Overnight, it is in the `hardwarelab-gpu` queue |
-| ga008 | 96 cores, 512GB, 4x AMD MI300A.  Overnight, it is in the `hardwarelab-gpu` queue |
+| gn004 | 64 cores, 510GB RAM, 1x NVIDIA H100 NVL.  Overnight, it is in the `hardwarelab-gpu` queue |
+| gn005 | 128 cores (256 threads), 2.3TB RAM, 1x NVIDIA RTX PRO 6000.  Overnight, it is in the `hardwarelab-gpu` queue |
+| mad06 | 128 cores, 1TB RAM, AMD Milan-X with a large (768MB) L3 cache, and an A100 GPU.  Overnight, it is in the `hardwarelab-gpu` queue |
+| ga008 | 96 cores, 510GB RAM, 4x AMD MI300A.  Overnight, it is in the `hardwarelab-gpu` queue |
+| gi001 | 112 cores, 500GB RAM, Intel Sapphire Rapids.  Overnight, it is in the `hardwarelab-cpu` queue |
+| mad11 | 256 cores, 1TB RAM, Intel Sierra Forest (E-cores).  Overnight, it is in the `hardwarelab-cpu` queue |
+| mad12 | 256 cores, 1.5TB RAM, AMD Turin.  Overnight, it is in the `hardwarelab-cpu` queue |
 
 See [GPUs](gpu.md) and the [CPU compute lab](cpucomputelab.md) for more.
 

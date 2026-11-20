@@ -77,7 +77,7 @@ The `B:` sends the signal to the batch script itself, which needs to run your pr
 | ---- | ------- |
 | Hold a pending job | `scontrol hold JOBID` |
 | Release it | `scontrol release JOBID` |
-| Shorten its time limit | `scontrol update JobId=JOBID TimeLimit=01:00:00` |
+| Shorten its time limit | `scontrol update JobId=JOBID TimeLimit=01:00:00` (users cannot extend a running job's time limit; contact [cosma-support](contact.md)) |
 | Change its name | `scontrol update JobId=JOBID JobName=newname` |
 | Cancel all of your jobs | `scancel --me` |
 | Cancel your jobs by name | `scancel --me --name=myjob` |
@@ -89,7 +89,7 @@ The `B:` sends the signal to the batch script itself, which needs to run your pr
 | See your jobs | `squeue --me` |
 | See estimated start times | `squeue --me --start` |
 | See everything about a job | `scontrol show job JOBID` |
-| See memory use of a running job | `sstat -j JOBID.batch -o JobID,MaxRSS` |
+| See memory use of a running job | `sstat -j JOBID.batch -o JobID,MaxRSS` (head node only for multi-node jobs) |
 | See finished jobs since a date | `sacct -S 2026-11-01 -X -o JobID,JobName,State,Elapsed` |
 | See a job's priority | `sprio -j JOBID` |
 | See the queues | `sinfo -s` |

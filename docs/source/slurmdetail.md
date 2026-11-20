@@ -8,16 +8,16 @@ considered for scheduling. However, a job will only start when the resources
 it needs are actually available, so scheduling is not a simple first-in,
 first-out queue based on priority.
 
-A job's priority is determined using several factors:
+A job's priority is determined using several factors (with current Slurm weights):
 
-- The fairshare score, which falls as you and your project use the system.
+- **Fairshare** (weight 100,000): falls as you and your project use the system.
   Past usage counts for less over time, halving every 7 days.
-- The age of the job, which counts for up to 28 days of waiting.
-- The queue, so that jobs in the `-prince` queues come first.
-- The size of the job (cores, nodes).
+- **Age** (weight 50,000): how long the job has been waiting, up to 28 days.
+- **Partition / queue** (weight 10,000): so that jobs in higher-tier queues (such as `-prince`) come first.
+- **Job size** (weight 5,000): number of cores/nodes requested.
 
-See [how jobs are prioritised](queue.md#how-jobs-are-prioritised) for how much
-each factor counts, and run `sprio -j JOBID` to see them for one of your jobs.
+See [how jobs are prioritised](queue.md#how-jobs-are-prioritised) for more detail,
+and run `sprio -j JOBID` to see the exact priority breakdown for one of your jobs.
 
 In the current configuration, all users within a project are assigned equal
 fairshare, ensuring that everyone starts with the same likelihood of
