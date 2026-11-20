@@ -18,7 +18,7 @@ ssh -i /path/to/ssh/key username@loginX.cosma.dur.ac.uk
 
 Replace the hostname and username with those relevant for you.  You will be asked for your ssh key passphrase, then your COSMA password.
 
-It would also be worth setting up [SSH multiplexing](ssh.html#Reusing-SSH-connections) to ensure that you only need to authenticate once per session.
+It would also be worth setting up [SSH multiplexing](ssh.md#reusing-ssh-connections) to ensure that you only need to authenticate once per session.
 
 ## Add COSMA to your SSH config
 
@@ -32,7 +32,7 @@ Then add this to `~/.ssh/config`, changing USERNAME, the key and the login node 
 
 ```
 Host cosma8
-    HostName login8.cosma.dur.ac.uk
+    HostName login8b.cosma.dur.ac.uk
     User USERNAME
     IdentityFile ~/.ssh/id_ed25519
     IdentitiesOnly yes
@@ -43,7 +43,7 @@ Host cosma8
 
 Test it from a normal terminal with `ssh cosma8`.  The ControlMaster lines share [one connection](ssh.md#reusing-ssh-connections) between your terminals and VS Code, so that you only need to authenticate once per session.  They are not supported by the SSH client included with Windows, so leave them out if you are using Windows, and expect to enter your password more often.  Take care, because too many failed logins will get you banned.
 
-`login8` picks one of the two COSMA8 login nodes.  To always use the same one, use `login8a` or `login8b` for the HostName.
+Using a fixed login node (`login8a` or `login8b`, or `login7a`/`login7b`/`login7c`, or `login5c`) avoids reconnecting to a different node and leaving extra `vscode-server` processes behind.
 
 ## Configure VS Code
 
@@ -54,7 +54,7 @@ In VS Code:
 - Select Remote-SSH: Connect to Host...
 - Select `cosma8`, the host that you added to your SSH config
 
-VS Code will establish an SSH connection and install its remote components on the HPC system.  Using your /cosma/apps space is good for this.
+VS Code will establish an SSH connection and install its remote components (`vscode-server`) on the HPC system.  To avoid filling your 10GB home directory, configure `remote.SSH.serverInstallPath` to use your `/cosma/apps` space before connecting for the first time (see [Selecting vscode-server installation path](#selecting-vscode-server-installation-path)).
 
 A new VS Code window will open. The bottom-left corner should indicate that you are connected to the remote machine.
 
@@ -99,7 +99,7 @@ python my_script.py
 
 ## Set up Python
 
-Without any setup, Python on COSMA is the system version (3.9), which has few packages.  Instead, use a [virtual environment](python.md#installing-python-libraries) and tell VS Code about it.
+Without any setup, Python on COSMA is the system version (3.9), which has few packages.  Instead, use a [virtual environment](python.md#installing-packages-in-a-virtual-environment) and tell VS Code about it.
 
 1. In the VS Code terminal, create a virtual environment in your app space:
 
@@ -126,7 +126,7 @@ The gn002 and gn003 nodes use ARM processors, so they need their own virtual env
 
 To use notebooks, also install the Jupyter extension on the remote host and `ipykernel` in your virtual environment.  Open a notebook, click Select Kernel, and select your virtual environment.
 
-Anything that you run with the Run button or in a notebook runs on the login node, so please keep it short and small.  For anything larger, submit a [Slurm job](slurm.md), or [launch Jupyter on a compute node](jupyter.md#launching-jupyter-lab-on-a-compute-node).
+Anything that you run with the Run button or in a notebook runs on the login node, so please keep it short and small.  For anything larger, submit a [Slurm job](slurm.md), or [launch Jupyter on a compute node](jupyter.md#jupyter-in-a-batch-job).
 
 ## Don't normally run heavy jobs on the login node
 
@@ -158,7 +158,9 @@ Once the job starts, your VS Code shell is running on a compute node rather than
 
 You can then run your program:
 
+```
 python my_script.py
+```
 
 This is particularly useful when you need access to GPUs or other compute-node resources.
 
@@ -184,42 +186,36 @@ VS Code provides settings that let you exclude directories from file watching, s
 
 For example, add the following to your VS Code settings.json:
 
-```
+```json
 {
     "files.watcherExclude": {
         "**/.git/**": true,
-        "**/cosma/**": true,
         "**/cosma8/**": true,
-        "**/cosma7/**": true,
         "**/cosma7/**": true,
         "**/cosma6/**": true,
         "**/cosma5/**": true,
         "**/snap8/**": true,
-        "**/snap7/**": true,
+        "**/snap7/**": true
     },
 
     "search.exclude": {
         "**/.git/**": true,
-        "**/cosma/**": true,
         "**/cosma8/**": true,
-        "**/cosma7/**": true,
         "**/cosma7/**": true,
         "**/cosma6/**": true,
         "**/cosma5/**": true,
         "**/snap8/**": true,
-        "**/snap7/**": true,
+        "**/snap7/**": true
     },
 
     "files.exclude": {
         "**/.git/**": true,
-        "**/cosma/**": true,
         "**/cosma8/**": true,
-        "**/cosma7/**": true,
         "**/cosma7/**": true,
         "**/cosma6/**": true,
         "**/cosma5/**": true,
         "**/snap8/**": true,
-        "**/snap7/**": true,
+        "**/snap7/**": true
     }
 }
 ```
@@ -284,7 +280,7 @@ This reduces unnecessary filesystem operations and makes VS Code considerably mo
 
 Also, don't assume that files.watcherExclude prevents every form of scanning. It primarily controls file watching; search, language servers, Git, and individual extensions can have separate mechanisms and settings.
 
-# Understanding VS Code connections
+## Understanding VS Code connections
 
 You cannot SSH directly to a compute node.  VS Code connects to a login node, and therefore anything that VS Code itself runs (e.g. extensions, linters, kernels) also run on the login node, which is a shared resource.  You should therefore try to keep the VS Code footprint to a minimum.
 
@@ -301,54 +297,35 @@ You should edit locally (e.g. on your laptop) not using Remote-SSH when:
 
 In this case, edit the files locally in a non-remote VS Code window and use rsync, or better, git, to transfer them to COSMA to run something.
 
-# File system and quota awareness
+## File system and quota awareness
 
-The Remote-SSH extension installs a server into ~/.vscode-server on first connection to each login node. This can be troublesome, mostly because the home directory is usually reserved for code, may have a limited storage quota, and the remote server can take up a lot of space.
+The Remote-SSH extension installs a server into `~/.vscode-server` on first connection to each login node. This can be troublesome, mostly because the home directory has a limited storage quota (~10GB), and the remote server can take up a lot of space.
 
-## Selecting vscode-server installation path
+### Selecting vscode-server installation path
 
-COSMA already provides a specific storage space more appropriate for this kinds of applications in the Apps space. To achieve this, you can change the default installation path of the vscode-server to a more appropriate location.
+COSMA already provides a specific storage space more appropriate for this kind of application in your app space (`/cosma/apps/PROJECT/USERNAME`). To achieve this, you can change the default installation path of the `vscode-server`.
 
-For this one needs to change the local VS Code setting `remote.SSH.serverInstallPath` to decide where the server is installed. To open the **local user** settings:
+For this, change the local VS Code setting `remote.SSH.serverInstallPath` to decide where the server is installed. To open the **local user** settings:
 
-- Open the Command Palette (CTRL + Shift + P on Windows/Linux or CMD + Shift + P on Mac)
-- Type *">open settings"* (you must include the '>' at the beginning)
-- Open User Settings (JSON)
+- Open the Command Palette (`Ctrl+Shift+P` on Windows/Linux or `Cmd+Shift+P` on macOS)
+- Type `Open User Settings (JSON)` and select **Preferences: Open User Settings (JSON)**
 
-In the VS Code user settings (`settings.json`), you can add the following configuration:
+In the VS Code user settings (`settings.json`), add the following configuration:
 
-```
+```json
 "remote.SSH.serverInstallPath": {
-    "remote_host_name": "/desired/location",
+    "cosma8": "/cosma/apps/PROJECT/USERNAME"
 }
 ```
 
-- Replace `remote_host_name` with the name of the remote host you are connecting to (as defined in your SSH config file).
-- Replace `/desired/location` with the path where you want the vscode-server to be installed, in this case the path to your Apps space provided by COSMA.
+- Replace `cosma8` with the `Host` alias defined in your SSH config file.
+- Replace `/cosma/apps/PROJECT/USERNAME` with your own app space path (VS Code creates `.vscode-server` inside that directory).
 
-This should reduce the footprint of the vscode-server installation in your home directory and make better use of the available storage space on the remote server. Once you have made this change, the next time you connect to the remote server, VS Code will install the vscode-server in the specified location instead of the default home directory and you can safely remove the previous installation from your home directory if needed.
+This reduces the footprint of the `vscode-server` installation in your home directory and makes better use of the available storage space. Once you have made this change, the next time you connect to the remote server, VS Code will install the `vscode-server` in the specified location instead of your home directory and you can safely remove `~/.vscode-server` if needed.  If a remote server becomes stuck or uses too much CPU, open the Command Palette and run **Remote-SSH: Kill VS Code Server on Host...**.
 
-## AI assistants
+## Tips with Extensions
 
-AI coding assistants (Copilot, the ChatGPT extension, and similar) are
-worth singling out because several are known to run continuously in
-the background - polling, sending telemetry, or maintaining a
-connection - rather than only acting when you invoke them.
-
-Check the extension's own settings for anything related to auto-completion, background suggestions, or telemetry, and turn it off if you only want it available on demand. For the ChatGPT extension specifically, look for and disable auto-triggered/inline suggestion settings and any "keep session alive" style options - leave it as invoke-on-request only.
-
-Many extensions don't actually need to run on the remote host at all - VS Code lets you force an extension to run only in the local UI process (your laptop) instead of on the remote server, via remote.extensionKind in your local settings.json:
-
-```
- {  "remote.extensionKind": {    "publisher.chatgpt-extension-id": ["ui"]  }}
-```
-
-- Replace with the actual extension ID - check the extension's page or right-click it in the Extensions view for its ID). This stops it from spinning up a background process on the shared login node entirely, while still being usable from the same window.
-- If an assistant extension needs deep workspace/file access to be useful (rather than just chat), forcing it to the local UI may limit some features — check its docs. But for anything you're using mainly as a chat sidebar rather than something reading your remote files directly, the local UI is usually sufficient and avoids adding background load to the login node.
-
-# Tips with Extensions
-
-## Recommended extensions
+### Recommended extensions
 
 Every extension adds some load, so please only install what you need:
 
@@ -361,40 +338,68 @@ Every extension adds some load, so please only install what you need:
 
 When connected to COSMA, the Extensions panel shows which extensions are installed locally and which are installed on COSMA.
 
-## C/C++
+### C/C++
 
 The C/C++ extension (`ms-vscode.cpptools`) or `clangd` will index your codebase on open. On large repositories - especially ones with big third-party header trees - this is one of the heaviest things VS Code can do on a login node, both in CPU and in filesystem metadata traffic.
 
-- Generate a compile_commands.json (e.g. via CMake with CMAKE_EXPORT_COMPILE_COMMANDS=ON) so the language server indexes only what your build actually uses, rather than guessing include paths broadly.
+- Generate a `compile_commands.json` (e.g. via CMake with `-DCMAKE_EXPORT_COMPILE_COMMANDS=ON`) so the language server indexes only what your build actually uses, rather than guessing include paths broadly.
 
-`cpptools` specifically has been observed generating a lot of background activity on remote connections - continuous parsing, logging, and re-scanning even when you're not actively editing. In your remote workspace settings (.vscode/settings.json in the folder you open on the remote host), the following cut this down significantly:
+`cpptools` specifically has been observed generating a lot of background activity on remote connections - continuous parsing, logging, and re-scanning even when you're not actively editing. In your remote workspace settings (`.vscode/settings.json` in the folder you open on the remote host), the following cut this down significantly:
 
+```json
+{
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "C_Cpp.autocomplete": "disabled",
+    "C_Cpp.loggingLevel": "None",
+    "C_Cpp.workspaceParsingPriority": "low",
+    "C_Cpp.intelliSense.maxCachedProcesses": 1,
+    "C_Cpp.maxConcurrentThreads": 1
+}
 ```
- {  "C_Cpp.intelliSenseEngine": "disabled",  "C_Cpp.autocomplete": "disabled",  "C_Cpp.loggingLevel": "None",  "C_Cpp.workspaceParsingPriority": "low",  "C_Cpp.intelliSense.maxCachedProcesses": 1,  "C_Cpp.maxConcurrentThreads": 1}
- ```
- 
-Setting intelliSenseEngine and autocomplete to disabled assumes you're using clangd instead for actual code intelligence — clangd tends to be lighter and gives more direct control over indexing via its own arguments, e.g.:
 
-```
-{  "clangd.arguments": ["--background-index=false", "-j=1"]}
+Setting `intelliSenseEngine` and `autocomplete` to `disabled` assumes you're using `clangd` instead for actual code intelligence — `clangd` tends to be lighter and gives more direct control over indexing via its own arguments, e.g.:
+
+```json
+{
+    "clangd.arguments": ["--background-index=false", "-j=1"]
+}
 ```
 
-## Python
+### Python
 
 Point the Python extension to the correct Python interpreter, as described in [Set up Python](#set-up-python).
 
-The `pylance` extension indexes your workspace, so exclude this behaviour similarly to the C/C++ section.
+The `pylance` extension indexes your workspace, so exclude large data and build directories in your workspace `.vscode/settings.json` using `python.analysis.exclude` (for example `["**/data/**", "**/build/**"]`).
 
-## Fortran
+### Fortran
 
 The `fortls` language server should be configured with the correct module and include directories so that it does not scan unnecessarily.
 
-# Security
+### AI assistants
+
+AI coding assistants (Copilot, the ChatGPT extension, and similar) are worth singling out because several are known to run continuously in the background - polling, sending telemetry, or maintaining a connection - rather than only acting when you invoke them.
+
+Check the extension's own settings for anything related to auto-completion, background suggestions, or telemetry, and turn it off if you only want it available on demand. For the ChatGPT extension specifically, look for and disable auto-triggered/inline suggestion settings and any "keep session alive" style options - leave it as invoke-on-request only.
+
+Many extensions don't actually need to run on the remote host at all - VS Code lets you force an extension to run only in the local UI process (your laptop) instead of on the remote server, via `remote.extensionKind` in your local settings.json:
+
+```json
+{
+    "remote.extensionKind": {
+        "publisher.chatgpt-extension-id": ["ui"]
+    }
+}
+```
+
+- Replace with the actual extension ID (check the extension's page or right-click it in the Extensions view for its ID). This stops it from spinning up a background process on the shared login node entirely, while still being usable from the same window.
+- If an assistant extension needs deep workspace/file access to be useful (rather than just chat), forcing it to the local UI may limit some features — check its docs. But for anything you're using mainly as a chat sidebar rather than something reading your remote files directly, the local UI is usually sufficient and avoids adding background load to the login node.
+
+## Security
 
 Running untrusted VS Code extensions can lead to security issues.
 
-- Make sure you keep your SSH keys pass-phrase protected incase these get exfiltrated by an extension, and do not syncronise them to unencrpyted cloud storage.  Explicitly exclude your `~/.ssh` folder from sync.
-- Avoid SSH agent forwarding (ForwardAgent yes) to login/compute nodes, as this exposes your agent socket on the remote host, allowing others to potentially authenticate elsewhere as you.
+- Make sure you keep your SSH keys passphrase-protected in case these get exfiltrated by an extension, and do not synchronise them to unencrypted cloud storage.  Explicitly exclude your `~/.ssh` folder from sync.
+- Avoid SSH agent forwarding (`ForwardAgent yes`) to login/compute nodes, as this exposes your agent socket on the remote host, allowing others to potentially authenticate elsewhere as you.
 - Keep your VS Code and OS up to date.
 - Be selective with extensions.
 - Use the VS Code Workspace Trust feature when opening directories you do not fully control.

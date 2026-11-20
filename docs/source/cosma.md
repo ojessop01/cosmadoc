@@ -16,14 +16,16 @@ The [DINE](facilities.md#dine) experimental system is also part of COSMA.
 
 DiRAC is the UK's integrated supercomputing facility for theoretical modelling and HPC-based research in particle physics, astronomy and cosmology. For more information about DiRAC please visit the [DiRAC web pages](https://www.dirac.ac.uk).
 
-The COSMA systems run security hardened DiRAC Linux.
+The COSMA systems run Rocky Linux 9.
 
 The login details are:
-- cosma5: login.cosma.dur.ac.uk or login5.cosma.dur.ac.uk
-- cosma7: login7.cosma.dur.ac.uk (round-robin to login7a, login7b and login7c)
-- cosma8: login8.cosma.dur.ac.uk (round-robin to login8a, login8b)
+- COSMA5: `login5c.cosma.dur.ac.uk`
+- COSMA7: `login7.cosma.dur.ac.uk` (round-robin to `login7a`, `login7b` and `login7c`)
+- COSMA8: `login8.cosma.dur.ac.uk` (round-robin to `login8a` and `login8b`)
 
-All systems use a global slurm batch system. Submission to any queue (cosma5, cosma7, cosma8, etc) can be done from any login node.
+All systems use a global Slurm batch system. Submission to any queue (`cosma5`, `cosma7`, `cosma8`, etc.) can be done from any login node.
+
+For an overview of all nodes and queues, see [COSMA at a glance](systems.md).  If you are new to COSMA, start with [getting an account](account.md), [SSH access](ssh.md), and [your first job](firstjob.md).
 
 COSMA5 is no longer a DiRAC facility. Therefore, DiRAC users should use COSMA7 or 8 as appropriate for their project.
 

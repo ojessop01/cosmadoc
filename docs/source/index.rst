@@ -50,6 +50,8 @@ Contents
    centreofexcellence
    excalibur
    cosma8
+   systems
+   lhdctour
 
 .. toctree::
    :maxdepth: 2
@@ -60,6 +62,7 @@ Contents
    sshkey
    ssh
    firstjob
+   interactive
    citizenship
 	     
 .. toctree::
@@ -67,6 +70,8 @@ Contents
    :caption: SOFTWARE
 
    modules
+   compiling
+   installing
    spack
    modulelist
    gitlab
@@ -78,6 +83,7 @@ Contents
    acl
    x2go
    editors
+   vscode
    
 .. toctree::
    :maxdepth: 4
@@ -143,6 +149,7 @@ Contents
    :caption: GETTING HELP
 
    codeperformance
+   debugging
    clusterupgrade
    faq
    rockport
@@ -164,3 +171,4 @@ Contents
    industry
    acknowledgements
    contact
+   glossary

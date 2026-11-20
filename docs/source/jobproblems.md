@@ -52,6 +52,12 @@ error: couldn't chdir to `/cosma8/data/dp004/USERNAME': No such file or director
 
 Your job was submitted from a directory that does not exist on its compute node.  Not all file systems are available everywhere, so see [mounted file systems](storage.md#mounted-filesystems).
 
+If a job stops immediately with `Illegal instruction` (signal 4, exit code `0:4` or `132`), the binary was compiled for a newer CPU instruction set than the compute node supports — most commonly AVX-512 (built on `login5c` or `login7*`) run on COSMA8 (AVX2 only).  Recompile on a COSMA8 login node (`login8a` or `login8b`, which are AVX2) or pass `-march=znver2` / `-march=x86-64-v3`: see [building for the right CPU](compiling.md#building-for-the-right-cpu).
+
+If an Open MPI job runs N independent copies of rank 0 instead of communicating across N ranks, you probably launched it with `srun` instead of `mpirun`: on COSMA, launch Open MPI programs with `mpirun` (see [MPI](mpi.md)).
+
+If a job fails with `Disk quota exceeded`, you (or your project) have reached either the space limit or the file-count (**inode**) limit on that file system.  Run `quota` (or `lfs quota -u $USER -h /cosma8`) on a login node to check: see [Lustre quotas](lustre.md#quotas).
+
 ## Errors when submitting a job
 
 | Message | Cause |

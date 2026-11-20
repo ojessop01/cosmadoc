@@ -17,14 +17,16 @@ COSMA also includes a number of other facilities including:
 - GPU systems
 - Other facilities
 
+For a concise current summary of all nodes, queues and hardware, see [COSMA at a glance](systems.md) and [queues](queue.md).
+
 [Storage](storage.md) includes:
 
-- /cosma5 - 2.4PB
-- /cosma6 - 2.0PB (repurposed from the original COSMA6 storage)
-- /cosma7 - 3.1PB
-- /cosma8 - 18PB
-- /snap7 - 440TB for fast temporary storage (e.g. checkpointing)
-- /snap8 - 1.2PB for fast temporary storage (e.g. checkpointing)
+- `/cosma5` - 1.6PB
+- `/cosma6` - 2.0PB (repurposed from the original COSMA6 storage)
+- `/cosma7` - 3.5PB
+- `/cosma8` - 18PB
+- `/snap7` - 440TB for fast temporary storage (e.g. checkpointing)
+- `/snap8` - 1.1PB for fast temporary storage (e.g. checkpointing)
 - /cosma/home - 300TB for user homespace (10GB quota)
 - /cosma/local - 300TB for program/module storage
 - /cosma/apps - 300TB for user application storage (100GB quota)
@@ -89,32 +91,32 @@ The nodes were connected via Mellanox FDR10 Infiniband switches in a 2:1 blockin
 
 ![COSMA7](images/cosma7_1.jpg)
 
-COSMA 7 has 448 compute nodes, each with 512GB RAM and 28 cores (2x Intel Xeon Gold 5120 CPU @ 2.20GHz) giving it 12544 cores. The CPU is based on the skylake architecture.
+COSMA7 has 442 active compute nodes (220 in `cosma7` and 222 in `cosma7-rp`), each with 512GB RAM and 28 cores (2x Intel Xeon Gold 5120 CPU @ 2.20GHz). The CPU is based on the Skylake architecture.
 
-A single job can only span half of COSMA7. This is because one have uses a Mellanox EDR InfiniBand fabric, while the other half (224 nodes) uses a Rockport switchless Ethernet fabric.
+A single job can only span half of COSMA7. This is because one half (220 nodes) uses a Mellanox EDR InfiniBand fabric, while the other half (222 nodes) uses a Rockport switchless Ethernet fabric.
 
-You should use the cosma7 partition for InfiniBand, and cosma7-rp for Rockport.
+You should use the `cosma7` partition for InfiniBand, and `cosma7-rp` for Rockport.
 
 The Rockport fabric forms a 6D torus. The InfiniBand fabric has a fat tree topology with a 2:1 blocking configuration.
 
-Access is enabled through three login/development servers each with 1.5TB of memory. Currently connected is a DELL storage system configured with 3.1 PB of data space (/cosma7), and a fast I/O storage with 459TB (/snap7) for temporary checkpointing. Both file systems are based on Lustre.
+Access is enabled through three login/development servers (`login7a` and `login7b` with 1.5TB RAM each, and `login7c` with 754GB RAM). Currently connected is a Dell storage system configured with 3.5PB of data space (`/cosma7`), and a fast I/O storage with 440TB (`/snap7`) for temporary checkpointing. Both file systems are based on Lustre.
 
 ## COSMA8
 
-The COSMA8 prototype system entered service in October 2020. It was then extended in early 2021, to become the initial COSMA8 installation. A phase-2 extension was then installed in 2023, entering service in October 2023 with 528 nodes.  It is the first COSMA system to reach Petascale, with ~2PF on the HPL benchmark (RMax), and a ~3PF peak performance. Each node has at least 4.2 TFLOP HPL performance.
+The COSMA8 prototype system entered service in October 2020. It was then extended in early 2021, to become the initial COSMA8 installation. A phase-2 extension was then installed in 2023.  It is the first COSMA system to reach Petascale, with ~2PF on the HPL benchmark (RMax), and a ~3PF peak performance. Each node has at least 4.2 TFLOP HPL performance.
 
 It is currently comprised of:
 
-- 528 compute nodes with 1 TB RAM and dual 64-core AMD EPYC water-cooled processors
-  - Of which, 360 compute nodes are Rome 7H12 processors at 2.6GHz
-  - and 168 nodes are Milan 7763 processors at 2.45GHz
-- 2 login nodes with 2 TB RAM and dual 32-core AMD EPYC 7542 processors at 2.9GHz
-- 2 fat nodes with 4 TB RAM and dual 64-core AMD EPYC 7702 processors at 2.2GHz
-- 1 AMD GPU node with 6 MI50 GPUs (32GB), 1TB RAM, dual 16-core AMD EPYC 7282 processors at 2.8GHz
-- 1 AMD Milan node with a MI100 GPU, 1TB RAM, dual 64-core AMD EPYC Milan 7713 processors at 2GHz
-- 2 AMD Milan nodes with 2x MI200 GPUs each, 1TB RAM, dual 64-core processors
-- 1 NVIDIA GPU node with 6 V100 GPUs (32GB), 768GB RAM, dual Intel Xeon Gold 5218 processors at 2.3GHz
+- 527 compute nodes with 1TB RAM and dual 64-core AMD EPYC water-cooled processors
+  - Of which, 356 compute nodes (`m8001`–`m8356`) are Rome 7H12 processors at 2.6GHz
+  - and 171 nodes (`m8357`–`m8527`) are Milan 7763 processors at 2.45GHz
+- 2 login nodes with 2TB RAM and dual 32-core AMD EPYC 7542 processors at 2.9GHz
+- 2 fat nodes (`mad04`, `mad05`) with 4TB RAM, dual 64-core AMD EPYC 7702 processors at 2.2GHz, and composable NVIDIA A100 GPUs
+- 1 AMD Milan node (`ga004`) with a MI100 GPU, 1TB RAM, dual 64-core AMD EPYC Milan 7713 processors
+- 1 AMD Milan node (`ga006`) with 2x MI210 GPUs, 1TB RAM, dual 32-core AMD EPYC 7513 processors
+- 1 NVIDIA GPU node (`gn001`) with 6 V100 GPUs (32GB), 768GB RAM, dual Intel Xeon Gold 5218 processors at 2.3GHz
 - 2 console nodes with a single 16-core AMD EPYC 7302 processor at 3GHz and 256GB RAM
+- Additional Hardware Lab GPU and high-memory nodes: see [COSMA at a glance](systems.md) and [GPUs](gpu.md).
 
 The interconnect is Mellanox HDR, 200GBit/s, with a non-blocking fat tree topology.
 
@@ -141,9 +143,9 @@ The following people helped build COSMA8:
 
 ## DINE-2
 
-Installed in 2024, DINE-2 is a composable cluster with 8 nodes, 8 GPUs that can be composed to them, and is based on a CerIO composable fabric.
+Installed in 2024, DINE-2 is a composable cluster with 8 nodes, 8x NVIDIA A30 and 4x NVIDIA V100 GPUs that can be composed to them, and is based on a CerIO composable fabric.  See [DINE2](dine2.md) for details.
 
-To submit to the DINE-2 system, use the dine2 SLURM partition
+To submit to the DINE-2 system, use the `dine2` Slurm partition.
 
 ## The Cosmological Database
 
@@ -237,7 +239,7 @@ A SLURM script such as:
     #SBATCH --nodes=2
 
     module purge
-    module load python/3.6.5
+    module load python/3.12.4
 
     # Get a comma separated list of IPs for the host and
     # Smart NICs that SLURM has assigned us
@@ -388,7 +390,7 @@ Durham project funded by EPSRC under the ExCALIBUR programme.
 
 ![ExaHyPE - an Exascale Hyperbolic PDE Engine](images/ExaHyPE_Logo-small.jpg)
 
-[www.exahype.org](www.exahype.org)
+[www.exahype.org](https://www.exahype.org)
 
 EU H2020 FET HPC project with partners from Munich (Technische Universitat Munchen and Ludwig-Maximilians Universitat), Trento and Frankfurt.
 
@@ -411,7 +413,7 @@ Let us know if you want to be added.
 
 ### Acknowledgement
 
-This work has used Durham University's DINE cluster. DINE has been purchased through Durham University’s Research Capital Equipment Fund 19_20 Allocation, led by the Department of Computer Science. It is installed in collaboration and as addendum to DiRAC@Durham facility managed by the Institute for Computational Cosmology on behalf of the STFC DiRAC HPC Facility ([www.dirac.ac.uk](www.dirac.ac.uk)). DiRAC equipment was funded by BEIS capital funding via STFC capital grants ST/P002293/1, ST/R002371/1 and ST/S002502/1, Durham University and STFC operations grant ST/R000832/1. DiRAC is part of the National e-Infrastructure.
+This work has used Durham University's DINE cluster. DINE has been purchased through Durham University’s Research Capital Equipment Fund 19_20 Allocation, led by the Department of Computer Science. It is installed in collaboration and as addendum to DiRAC@Durham facility managed by the Institute for Computational Cosmology on behalf of the STFC DiRAC HPC Facility ([www.dirac.ac.uk](https://www.dirac.ac.uk)). DiRAC equipment was funded by BEIS capital funding via STFC capital grants ST/P002293/1, ST/R002371/1 and ST/S002502/1, Durham University and STFC operations grant ST/R000832/1. DiRAC is part of the National e-Infrastructure.
 
 
 ## Other facilities

@@ -12,15 +12,15 @@ Water enters the room at 18C and leaves at 22C, from where it heads to the roof.
 
 ## 3) CDU (Cooling Distribution Unit)
 
-LHDC hosts two CDUs. They run heat exchangers that transfer heat between the primary loop that runs to the roof chillers and the seconday loop that cools the servers.   
+LHDC hosts two CDUs. They run heat exchangers that transfer heat between the primary loop that runs to the roof chillers and the secondary loop that cools the servers.   
 
 ## 4) Immersion Tank
 
-Our immersion tank is part of a pilot project to harness supercomputer waste heat. Six servers, including eleven COSMA5 nodes, are fully immersed in mineral oil that removes the heat generated. At present this heat is dispersed to the standard COSMA CDUs, but in future may instead be routed into a science site heat network.  
+Our immersion tank is part of a pilot project to harness supercomputer waste heat. Six servers, including five COSMA5 nodes, are fully immersed in mineral oil that removes the heat generated. At present this heat is dispersed to the standard COSMA CDUs, but in future may instead be routed into a science site heat network.  
 
 ## 5) COSMA5 Compute
 
-Once a DiRAC facility of several hundred IBM servers, COSMA5 now constitutes just eight compute nodes, each of which features two AMD Bergamo chips. Three are Dell machines in a standrad rack while the other five are Gigabyte servers located in the immersion cooling tank. They are for Durham researchers to perform small tasks, such as parameter searches and analysis of telescope data. 
+Once a DiRAC facility of several hundred IBM servers, COSMA5 now constitutes just eight compute nodes, each of which features two AMD Bergamo chips. Three are Dell machines in a standard rack while the other five are Gigabyte servers located in the immersion cooling tank. They are for Durham researchers to perform small tasks, such as parameter searches and analysis of telescope data. 
 
 ## 6) COSMA8 Compute
 
@@ -36,7 +36,7 @@ The `/cosma8` storage array is the bulk storage for jobs performed on COSMA8. It
 
 ## 9) COSMA7-IB
 
-The COSMA7 DiRAC service was installed in 2017, with approximately 448 nodes, each of which contains 2 Intel Skylake CPUs and communicate with one another over an infiniband fabric. In 2021 the service was split in half, where the half that retained the infiband fabric became COSMA7-IB.
+The COSMA7 DiRAC service was installed in 2017, with approximately 448 nodes, each of which contains 2 Intel Skylake CPUs and communicates with one another over an InfiniBand fabric. In 2021 the service was split in half, where the half that retained the InfiniBand fabric became COSMA7-IB.
 
 ## 10) COSMA7-RP
 
@@ -56,19 +56,19 @@ Cooling within rack doors is crucial for removing heat from the room. Heat is bl
 
 ## 14) GPU testbed systems
 
-LHDC hosts several testbed GPU machines, which are primarily used for training and code development purposes. These include three unified memory machines -- an AMD MI300A box plus two Nvidia Gracehoppers -- and one server that hosts eight AMD MI300X GPUs.    
+LHDC hosts several testbed GPU machines, which are primarily used for training and code development purposes. These include three unified memory machines -- an AMD MI300A box plus two NVIDIA Grace Hopper systems -- and one server that hosts eight AMD MI300X GPUs.    
 
 ## 15) IB core switches
 
-The largest jobs will use half or even the vast majority of the available COSMA8 nodes, and communication between these nodes is a major potential bottleneck. They are therefore served by a non-blocking tree infiniband (IB) fabric, with 20 HDR cosma8 core switches in this rack. In the cosma7 racks there are 12 EDR core switches. 
+The largest jobs will use half or even the vast majority of the available COSMA8 nodes, and communication between these nodes is a major potential bottleneck. They are therefore served by a non-blocking tree InfiniBand (IB) fabric, with 20 HDR COSMA8 core switches in this rack. In the COSMA7 racks there are 12 EDR core switches. 
 
 ## 16) COSMA8 login nodes
 
-Users of COSMA8 do most of their coding and analysis work on the two COSMA8 login nodes, login8a and login8b, each of which has 64 physical processors and 2Tb of memory. They are shared between all users, and it is therefore crucial that these two machines keep running at high performance as much as possible. Ironically, it is their high usage that means they are particularly susceptible to having all their resources used up, and as a result the COSMA support team monitors their usage to intercept potential crashes, such as for memory exhaustion.
+Users of COSMA8 do most of their coding and analysis work on the two COSMA8 login nodes, login8a and login8b, each of which has 64 physical cores and 2TB of memory. They are shared between all users, and it is therefore crucial that these two machines keep running at high performance as much as possible. Ironically, it is their high usage that means they are particularly susceptible to having all their resources used up, and as a result the COSMA support team monitors their usage to intercept potential crashes, such as for memory exhaustion.
 
 ## 17) CerIO
 
-The CerIO fabric links eight Intel servers, which constitute the dine2 compute partition, to two GPU chassis, one of which hosts eight NVidia A30s and the other four NVidia V100s. This is a composable system, where the COSMA team can specify how many GPUs to attach -- or 'compose' -- to each server. It is joint funded by DiRAC and SKA, therefore it supports both GPU computations and radio astronomy work.   
+The CerIO fabric links eight Intel servers, which constitute the dine2 compute partition, to two GPU chassis, one of which hosts eight NVIDIA A30s and the other four NVIDIA V100s. This is a composable system, where the COSMA team can specify how many GPUs to attach -- or 'compose' -- to each server. It is joint funded by DiRAC and SKA, therefore it supports both GPU computations and radio astronomy work.   
 
 ## 18) PDU (Power Distribution Unit)
 
@@ -76,8 +76,8 @@ The PDUs distribute power to racks and within racks, and enable us to isolate se
 
 ## 19) Power
 
-HPC systems requiring large amounts of power, including 0.5MW for cosma8. These power needs are met in part by a series of solar panels located across Durham University buildings.
+HPC systems require large amounts of power, including 0.5MW for COSMA8. These power needs are met in part by a series of solar panels located across Durham University buildings.
 
 ## 20) Tape library
 
-The COSMA storage is supported by two tape libraries, one in LHDC and a second in the Odgen Centre West building (OCW); a third is being installed in the computer science building on Upper Mountjoy. Large datasets are backed up at the user's request to free up disk storage, and homespaces are backed up automatically at regular intervals.
+The COSMA storage is supported by two tape libraries, one in LHDC and a second in the Ogden Centre West building (OCW); a third is being installed in the computer science building on Upper Mountjoy. Large datasets are backed up at the user's request to free up disk storage, and homespaces are backed up automatically at regular intervals.
