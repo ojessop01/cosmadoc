@@ -144,7 +144,7 @@ are relevant, include:
 - **where it runs**: a login node for light work, or a batch job, with the
   queue, account and resources;
 - **which node type** the code will run on, because the CPUs differ between
-  systems (see [compiling for each system](facilities.md));
+  systems (see [compiling for each system](facilities.md#compiling-for-each-system));
 - **how much to run at once** on a login node, such as the number of threads;
 - **which file system** the data is on, because Lustre behaves differently from
   home and app space (see [Lustre](lustre.md));

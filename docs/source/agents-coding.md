@@ -47,6 +47,7 @@ dest=/cosma8/data/PROJECT/USER/archive/run42
 log=$dest/copy.log
 
 mkdir -p "$dest"
+shopt -s nullglob
 for f in "$src"/snap_*.hdf5; do
     name=$(basename "$f")
     if [ -e "$dest/$name" ]; then
@@ -112,7 +113,7 @@ directory and no terminal.  A script that works when you run it can fail, or
 silently produce wrong results, when run automatically.  Ask the agent to set
 everything the script needs inside the script itself, and to test it in a
 clean environment, for example
-`env -i HOME=$HOME PATH=/usr/bin:/bin bash script.sh`.
+`env -i HOME="$HOME" PATH=/usr/bin:/bin bash script.sh`.
 
 ## Python
 
@@ -152,10 +153,12 @@ for the rules.  When an agent writes a job script, ask for:
 - the `#SBATCH` lines for account, queue, time, nodes, tasks and memory;
 - `module purge` followed by every `module load` the program needs, so the
   job does not depend on your login settings;
-- `set -euo pipefail` and absolute paths, as for any bash script;
+- `set -euo pipefail` (placed *after* `module load` and `source .../activate`,
+  which can reference unset variables) and absolute paths, as for any bash
+  script;
 - separate output and error files, named with the job ID (`%j`);
-- `export TMPDIR=/tmp`, and `OMP_NUM_THREADS` set from
-  `$SLURM_CPUS_PER_TASK`;
+- `export TMPDIR=/tmp`, and `OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK:-1}` (using
+  a default avoids errors under `set -u` if `--cpus-per-task` is omitted);
 - a short comment at the top saying what the job does.
 
 ## Tests
@@ -364,7 +367,7 @@ options until the errors stop.  An agent can work through this quickly:
 
 ### Building for different nodes
 
-COSMA's nodes have [different CPUs](facilities.md),
+COSMA's nodes have [different CPUs](facilities.md#compiling-for-each-system),
 and some have GPUs.  A program built for one may not run on another.  Agents
 are good at managing several builds of the same code:
 
@@ -386,7 +389,7 @@ common choices break on COSMA:
 - **`-march=native`.**  This builds code for the CPU of the machine you
   compile on.  Built on an AVX-512 login node, the program stops with
   `Illegal instruction` on nodes without AVX-512, such as COSMA8.  See
-  [compiling for each system](facilities.md).
+  [compiling for each system](facilities.md#compiling-for-each-system).
 - **`srun` with Open MPI.**  On COSMA, start Open MPI programs with `mpirun`.
   `srun` does not start them correctly.
 - **`TMPDIR` on a network file system.**  If `TMPDIR` points to app space or

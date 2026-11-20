@@ -12,7 +12,7 @@ needs to talk to its model.
 
 The login nodes are shared by everyone, and there is no automatic limit on how
 much CPU or memory one person can use on them.  Keep within the limits in the
-rules above, and see [using the login nodes fairly](agents-safe.md#using-the-login-nodes-fairly).
+[COSMA rules for agents](agents.md#the-cosma-rules-for-agents), and see [using the login nodes fairly](agents-safe.md#using-the-login-nodes-fairly).
 
 ### Not in batch jobs
 
@@ -29,7 +29,7 @@ in the same way as [VS Code](vscode.md).  For these:
 - Set up [connection sharing](ssh.md#reusing-ssh-connections), so the editor
   and agent reuse one login instead of asking for your password each time.
 - Connect to a fixed login node, such as `login8b`, rather than `login8`.
-- The rules on this page still apply, because the commands the agent runs
+- The [COSMA rules for agents](agents.md#the-cosma-rules-for-agents) still apply, because the commands the agent runs
   still run on COSMA as you.
 
 ### On the hardware lab nodes
@@ -38,6 +38,7 @@ Some [hardware lab](hardwarelab.md) systems can be reached by SSH only at
 certain times of day, and are used through Slurm at other times.  Check the
 access times before pointing an agent at one, and make sure it does not keep
 trying to log in when access is closed.
+
 ## Installing agents
 
 ### Install in /cosma/apps, not your home directory
@@ -148,11 +149,14 @@ Code:
 
 ```
 mkdir -p /cosma/apps/PROJECT/USER/dotfiles
+chmod 700 /cosma/apps/PROJECT/USER/dotfiles
 mv ~/.claude /cosma/apps/PROJECT/USER/dotfiles/claude
+chmod 700 /cosma/apps/PROJECT/USER/dotfiles/claude
 ln -s /cosma/apps/PROJECT/USER/dotfiles/claude ~/.claude
 ```
 
-If the folder does not exist yet, make the empty folder in app space and
+Keep these folders private (`chmod 700`), because they hold your login tokens.
+If the folder does not exist yet, make the empty folder in app space (with `chmod 700`) and
 create the link before you first run the agent.
 
 To see what is using your home quota, run `du -sh ~/.[!.]* | sort -h`.
@@ -169,6 +173,7 @@ the `CLAUDE_CONFIG_DIR` variable, and Codex from `CODEX_HOME`:
 ```
 CLAUDE_CONFIG_DIR=/cosma/apps/PROJECT/USER/dotfiles/claude-group claude
 ```
+
 ## Giving the agent the rules
 
 Each agent reads an instructions file at the start of every session.  Use
@@ -199,8 +204,9 @@ question that agents otherwise get wrong on COSMA.
 ```{admonition} Template: instructions for all your projects
 :class: note
 
-`@/etc/claude-code/AGENTS.md`  (pulls in the COSMA rules)
+@/etc/claude-code/AGENTS.md
 
+*(Keep line 1 on its own line with no backticks or extra text; remove this note when copying.)*
 
 **About me**
 
@@ -217,7 +223,9 @@ question that agents otherwise get wrong on COSMA.
   environments, installed software.
 - Data: /cosma8/data/PROJECT/USER.  Large, on Lustre, not backed up: data
   and job output.  Never put code, builds or venvs here.
-- Temporary files: /cosma/apps/PROJECT/USER/tmp.  Never /tmp or my home.
+- Temporary files: /cosma/apps/PROJECT/USER/tmp for small scratch files
+  (remember the 100GB app-space quota); put temporary files over 1GB in my
+  data space (`/cosma8/data/PROJECT/USER/tmp`).  Never /tmp or my home.
 - Use absolute paths in every command.  The working directory may change
   between commands.
 
